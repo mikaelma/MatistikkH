@@ -1,0 +1,244 @@
+-- DROPPING TABLES --
+DROP TABLE teacher_class;
+DROP TABLE test_class;
+DROP TABLE test_task;
+DROP TABLE test_student;
+DROP TABLE test_teacher;
+DROP TABLE fraction_answer;
+DROP TABLE string_answer;
+DROP TABLE drawing;
+DROP TABLE answer;
+DROP TABLE fraction_solution;
+DROP TABLE string_solution;
+DROP TABLE fraction_task;
+DROP TABLE string_task;
+DROP TABLE test;
+DROP TABLE task;
+DROP TABLE student_info;
+DROP TABLE school_class;
+DROP TABLE teacher_info;
+DROP TABLE school;
+DROP TABLE users;
+
+-- CREATING TABLES --
+
+CREATE TABLE users (
+email VARCHAR(320),
+password VARCHAR(30),
+description VARCHAR(30),
+active BOOLEAN,
+CONSTRAINT users_pk PRIMARY KEY (email));
+
+CREATE TABLE school (
+school_id INTEGER GENERATED ALWAYS AS IDENTITY,
+school_name VARCHAR (45),
+CONSTRAINT school_pk PRIMARY KEY (school_id));
+
+CREATE TABLE student_info (
+email_fk VARCHAR(320),
+age INTEGER,
+sex BOOLEAN,
+class_id INTEGER,
+CONSTRAINT student_info_pk PRIMARY KEY (email_fk));
+
+CREATE TABLE teacher_info (
+email_fk VARCHAR(320),
+firstname VARCHAR(30),
+lastname VARCHAR(30),
+school_id INTEGER,
+CONSTRAINT teacher_info_pk PRIMARY KEY (email_fk));
+
+CREATE TABLE task (
+task_id INTEGER GENERATED ALWAYS AS IDENTITY,
+task_type INTEGER,
+text VARCHAR(320),
+testable BOOLEAN NOT NULL,
+email_fk VARCHAR(320),
+CONSTRAINT task_pk PRIMARY KEY (task_id));
+
+CREATE TABLE test (
+test_id INTEGER GENERATED ALWAYS AS IDENTITY,
+email_fk VARCHAR(320),
+active BOOLEAN NOT NULL,
+testable BOOLEAN NOT NULL,
+CONSTRAINT test_pk PRIMARY KEY (test_id));
+
+CREATE TABLE test_task (
+test_id INTEGER,
+task_id INTEGER,
+CONSTRAINT test_task_pk PRIMARY KEY (test_id, task_id));
+
+
+CREATE TABLE test_class (
+test_id INTEGER,
+class_id INTEGER,
+CONSTRAINT test_class_pk PRIMARY KEY (test_id, class_id));
+
+
+CREATE TABLE test_student (
+test_id INTEGER,
+email_fk VARCHAR(320),
+completed BOOLEAN,
+progress INTEGER,
+CONSTRAINT test_student_pk PRIMARY KEY (test_id, email_fk));
+
+CREATE TABLE test_teacher (
+test_id INTEGER,
+email_fk VARCHAR(320),
+published BOOLEAN,
+CONSTRAINT test_teacher PRIMARY KEY (test_id, email_fk));
+
+CREATE TABLE fraction_task (
+fraction_task_id INTEGER GENERATED ALWAYS AS IDENTITY,
+task_id INTEGER,
+numerator INTEGER,
+denominator INTEGER,
+CONSTRAINT fraction_task_pk PRIMARY KEY (fraction_task_id));
+
+CREATE TABLE string_task (
+string_task_id INTEGER GENERATED ALWAYS AS IDENTITY,
+task_id INTEGER,
+url VARCHAR(2000),
+CONSTRAINT string_task_pk PRIMARY KEY (string_task_id));
+
+CREATE TABLE answer (
+answer_id INTEGER GENERATED ALWAYS AS IDENTITY,
+test_id INTEGER,
+task_id INTEGER,
+total_time DOUBLE,
+correct BOOLEAN,
+email_fk VARCHAR(320),
+explenation VARCHAR(320),
+CONSTRAINT answer_pk PRIMARY KEY (answer_id));
+
+CREATE TABLE fraction_answer (
+fraction_answer_id INTEGER GENERATED ALWAYS AS IDENTITY,
+answer_id INTEGER,
+numerator INTEGER,
+denominator INTEGER,
+CONSTRAINT fraction_answer_pk PRIMARY KEY (fraction_answer_id));
+
+CREATE TABLE string_answer (
+string_answer_id INTEGER GENERATED ALWAYS AS IDENTITY,
+answer_id INTEGER,
+url VARCHAR(2000),
+CONSTRAINT string_answer_pk PRIMARY KEY (string_answer_id));
+
+CREATE TABLE drawing (
+drawing_id INTEGER GENERATED ALWAYS AS IDENTITY,
+answer_id INTEGER,
+file_path VARCHAR(2000),
+CONSTRAINT drawing_pk PRIMARY KEY (drawing_id));
+
+CREATE TABLE fraction_solution (
+solution_id INTEGER GENERATED ALWAYS AS IDENTITY,
+task_id INTEGER,
+numerator INTEGER,
+denominator INTEGER,
+CONSTRAINT fraction_solution PRIMARY KEY (solution_id));
+
+CREATE TABLE string_solution (
+string_solution_id INTEGER GENERATED ALWAYS AS IDENTITY,
+task_id INTEGER,
+url VARCHAR(2000),
+CONSTRAINT string_solution_pk PRIMARY KEY (string_solution_id));
+
+CREATE TABLE school_class (
+class_id INTEGER GENERATED ALWAYS AS IDENTITY,
+class_name VARCHAR(20),
+school_id INTEGER,
+CONSTRAINT school_class_pk PRIMARY KEY (class_id));
+
+CREATE TABLE teacher_class (
+email_fk VARCHAR(320),
+class_id INTEGER,
+CONSTRAINT teacher_class_pk PRIMARY KEY (email_fk, class_id));
+
+-- ALTERING TABLES --
+
+ALTER TABLE student_info
+ADD CONSTRAINT student_info_fk1 FOREIGN KEY (email_fk) REFERENCES users (email);
+
+ALTER TABLE student_info
+ADD CONSTRAINT student_info_fk2 FOREIGN KEY (class_id) REFERENCES school_class (class_id);
+
+ALTER TABLE teacher_info
+ADD CONSTRAINT teacher_info_fk1 FOREIGN KEY (email_fk) REFERENCES users (email);
+
+ALTER TABLE teacher_info
+ADD CONSTRAINT teacher_info_fk2 FOREIGN KEY (school_id) REFERENCES school (school_id);
+
+ALTER TABLE test
+ADD CONSTRAINT test_fk FOREIGN KEY (email_fk) REFERENCES users (email);
+
+ALTER TABLE answer
+ADD CONSTRAINT answer_fk1 FOREIGN KEY (email_fk) REFERENCES users (email);
+
+ALTER TABLE answer
+ADD CONSTRAINT answer_fk2 FOREIGN KEY (task_id) REFERENCES task (task_id);
+
+ALTER TABLE answer
+ADD CONSTRAINT answer_fk3 FOREIGN KEY (test_id) REFERENCES test (test_id);
+
+ALTER TABLE fraction_answer
+ADD CONSTRAINT fraction_answer_fk FOREIGN KEY (answer_id) REFERENCES answer (answer_id);
+
+ALTER TABLE drawing
+ADD CONSTRAINT answer_fk FOREIGN KEY (answer_id) REFERENCES answer (answer_id);
+
+ALTER TABLE string_answer
+ADD CONSTRAINT string_answer_fk FOREIGN KEY (answer_id) REFERENCES answer (answer_id);
+
+ALTER TABLE fraction_task
+ADD CONSTRAINT fraction_task_fk FOREIGN KEY (task_id) REFERENCES task (task_id);
+
+ALTER TABLE string_task
+ADD CONSTRAINT string_task_fk FOREIGN KEY (task_id) REFERENCES task (task_id);
+
+ALTER TABLE fraction_solution
+ADD CONSTRAINT fraction_solution_fk FOREIGN KEY (task_id) REFERENCES task (task_id);
+
+ALTER TABLE string_solution
+ADD CONSTRAINT string_solution_fk FOREIGN KEY (task_id) REFERENCES task (task_id);
+
+ALTER TABLE test_task
+ADD CONSTRAINT test_task_fk1 FOREIGN KEY (test_id) REFERENCES test (test_id);
+
+ALTER TABLE test_task
+ADD CONSTRAINT test_task_fk2 FOREIGN KEY (task_id) REFERENCES task (task_id);
+
+
+ALTER TABLE test_class
+ADD CONSTRAINT test_class_fk1 FOREIGN KEY (test_id) REFERENCES test (test_id);
+
+ALTER TABLE test_class
+ADD CONSTRAINT test_class_fk2 FOREIGN KEY (class_id) REFERENCES school_class (class_id);
+
+ALTER TABLE test_student
+ADD CONSTRAINT test_student_fk1 FOREIGN KEY (email_fk) REFERENCES users (email);
+
+ALTER TABLE test_student
+ADD CONSTRAINT test_student_fk2 FOREIGN KEY (test_id) REFERENCES test (test_id);
+
+ALTER TABLE test_teacher
+ADD CONSTRAINT test_teacher_fk1 FOREIGN KEY (email_fk) REFERENCES users (email);
+
+ALTER TABLE test_teacher
+ADD CONSTRAINT test_teacher_fk2 FOREIGN KEY (test_id) REFERENCES test (test_id);
+
+ALTER TABLE school_class
+ADD CONSTRAINT school_class_fk FOREIGN KEY (school_id) REFERENCES school (school_id);
+
+ALTER TABLE teacher_class
+ADD CONSTRAINT teacher_class_fk1 FOREIGN KEY (email_fk) REFERENCES users (email);
+
+ALTER TABLE teacher_class
+ADD CONSTRAINT teacher_class_fk2 FOREIGN KEY (class_id) REFERENCES school_class (class_id);
+
+ALTER TABLE task
+ADD CONSTRAINT task_fk FOREIGN KEY (email_fk) REFERENCES users (email);
+
+-- TEST DATA --
+
+INSERT INTO users VALUES('hermund.a.torkildsen@ntnu.no', 'Matistikk', 'Admin', TRUE);
+INSERT INTO users VALUES('trygve.solstad@ntnu.no', 'Matistikk', 'Admin', TRUE);
