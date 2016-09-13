@@ -22,7 +22,7 @@
         <div class="container">
             <div class="jumbotron">
                 <div class="page-header">
-                    <center><h3>Velg oppgavetype</h3></center>
+                    <center><h3>Brøk - Velg oppgavetype</h3></center>
                 </div>
             </div>
             <center>
@@ -36,7 +36,7 @@
                     <a class="btn btn-default" href="numberlineview"><span style="font-size:10em;" class="glyphicon glyphicon-tasks"></span><br>Tallinje</a>
                     <a class="btn btn-default" href="figuresview"><span style="font-size:10em;" class="glyphicon glyphicon-triangle-top"></span><br>Figurer</a>
                 </div>
-            <div class="col-lg-3"><a class="btn btn-primary btn-lg" href="createtestview">Tilbake</a></div>
+            <div class="col-lg-3"><a class="btn btn-primary btn-lg" href="choosetypeview">Tilbake</a></div>
             </center>
         </div>
         

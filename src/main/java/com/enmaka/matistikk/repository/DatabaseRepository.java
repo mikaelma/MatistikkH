@@ -175,7 +175,7 @@ public class DatabaseRepository implements UserRepository {
                                                 + "LEFT JOIN SCHOOL_CLASS SC ON SI.CLASS_ID = SC.CLASS_ID INNER JOIN SCHOOL S ON SC.SCHOOL_ID = S.SCHOOL_ID "
                                                 + "LEFT JOIN TEST_STUDENT TS ON SI.EMAIL_FK = TS.EMAIL_FK WHERE SI.CLASS_ID = ? GROUP BY SI.EMAIL_FK, SI.AGE, SI.SEX, S.SCHOOL_NAME, SC.CLASS_NAME, U.ACTIVE";
     JdbcTemplate jdbcTemplate;
-    public String url = "jdbc:derby://localhost:1527/matistikk"; //[1]: Her skriver man inn adressen til databasen.
+    public String url = "jdbc:derby://localhost:1527/matistikk1"; //[1]: Her skriver man inn adressen til databasen.
     public String username = "matistikk"; //[2]: Databasens brukernavn
     public String password = "matistikk"; //[3]: Databasens passord
     Connection con;

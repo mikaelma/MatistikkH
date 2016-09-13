@@ -71,7 +71,7 @@
             
             <c:if test= "${sessionScope.user.description == 'Admin'}">
                 <div class="jumbotron">
-                    <p>Som admin har du tilgang til den fulle brukeroversikten. Den kan aksesseres ved å trykke på "Brukeroversik" under,
+                    <p>Som admin har du tilgang til den fulle brukeroversikten. Den kan aksesseres ved å trykke på "Brukeroversikt" under,
                     eller i menylinjen. Du har da muligheten til å legge til nye lærere, eller slette gamle.</p>
                     <p>Du kan ogse se hele statistikken for denne nettsidens tester. Denne statistikken kan åpnes ved å klikke "Statistikk"
                     under, eller i menylinjen.</p>

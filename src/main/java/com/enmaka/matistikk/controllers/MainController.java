@@ -477,4 +477,29 @@ public class MainController {
         backingBean.setAllTests(userService.getAllTestInfo(false, username));
         return "edittests";
     }
+    
+    @RequestMapping(value = "functionsview")
+    public String functionsView(HttpSession session) {
+        if(LoginController.validate(session, "Student")) {
+            return "redirect:/";
+        }
+        return "functions";
+    }
+    
+    @RequestMapping(value = "createfunctiontaskview")
+    public String createfunctiontaskView(HttpSession session) {
+        if(LoginController.validate(session, "Student")) {
+            return "redirect:/";
+        }
+        return "createfunctiontask";
+    }
+    
+    @RequestMapping(value = "choosetypeview")
+    public String choosetypeView(HttpSession session) {
+        if(LoginController.validate(session, "Student")) {
+            return "redirect:/";
+        }
+        return "choosetype";
+    }    
 }
+

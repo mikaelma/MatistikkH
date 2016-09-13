@@ -76,7 +76,7 @@
                 <span id="message"></span>
             </form:form>
             <center>
-                <a href="createtaskview" class="btn btn-primary btn-lg" role="button">Lag egne oppgaver</a>
+                <a href="choosetypeview" class="btn btn-primary btn-lg" role="button">Lag egne oppgaver</a>
             </center>
         </div>
         
