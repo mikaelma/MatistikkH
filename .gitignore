@@ -2,3 +2,15 @@
 target/test-classes/.netbeans_automatic_build
 
 target/classes/.netbeans_automatic_build
+
+*.war
+
+*.war
+
+target/Matistikk-1.0-SNAPSHOT/.DS_Store
+
+target/Matistikk-1.0-SNAPSHOT/WEB-INF/.DS_Store
+
+target/classes/com/enmaka/matistikk/repository/DatabaseRepository.class
+
+target/classes/com/enmaka/matistikk/controllers/AdminController.class
