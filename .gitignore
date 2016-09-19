@@ -14,7 +14,3 @@ target/Matistikk-1.0-SNAPSHOT/WEB-INF/.DS_Store
 target/classes/com/enmaka/matistikk/repository/DatabaseRepository.class
 
 target/classes/com/enmaka/matistikk/controllers/AdminController.class
-
-*.war
-
-*.properties
