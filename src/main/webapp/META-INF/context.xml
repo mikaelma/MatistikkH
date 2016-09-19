@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< Updated upstream
 <Context antiJARLocking="true" path="/matistikk">
-  <Resource auth="Container" driverClassName="org.apache.derby.jdbc.ClientDriver" maxActive="8" maxIdle="4" user="matistikk" password="matistikk" name="jdbc:derby://localhost:1527/matistikk1" type="javax.sql.DataSource" url="jdbc:derby://localhost:1527/matistikk1"/>
-=======
-<Context antiJARLocking="true" path="/Matistikk">
-  <Resource auth="Container" driverClassName="org.apache.derby.jdbc.ClientDriver" maxActive="8" maxIdle="4" name="jdbc/matistikk" password="matistikk" type="javax.sql.DataSource" url="jdbc:derby://localhost:8081" username="matistikk"/>
->>>>>>> Stashed changes
+  <Resource auth="Container" driverClassName="org.apache.derby.jdbc.ClientDriver" maxActive="8" maxIdle="4" user="matistikk" password="matistikk" name="jdbc:derby://localhost:1527/Matistikk" type="javax.sql.DataSource" url="jdbc:derby://localhost:1527/matistikk1"/>
 </Context>
