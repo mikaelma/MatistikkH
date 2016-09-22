@@ -6317,6 +6317,10 @@ button.close {
 .carousel-inner > .active.right {
   left: 100%;
 }
+
+.icon-success{
+    color: #5cb85c
+}
 .carousel-control {
   position: absolute;
   top: 0;
