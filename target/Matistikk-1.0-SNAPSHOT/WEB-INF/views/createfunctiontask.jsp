@@ -27,61 +27,19 @@
                 <div  id="questionGroup" class="panel-group">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h4 class="panel-title">                             
+                            <h4 class="panel-title">                            
                                 <a data-toggle="collapse" href="#collapseTaskText">Oppgavetekst</a>
                             </h4>
                         </div>
                         <div id="collapseTaskText" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <!--<textarea name="questionText" rows="4" cols="40" form="questionForm" ></textarea>-->
-
-
-
+                            <div class="panel-body">                              
                                 <form id ="questionForm">
-                                    <textarea id="questionText" class ='form-control'style='min-width: 100%' ></textarea>
-                                    <input type="submit" value="Lagre" id='save' disabled>
-                                    <!-- <script>
-                                         $(document).ready(function () {
-                                             $('input[type="submit"]').attr('disabled', true);
-                                             $('input[type="text"],textarea').on('keyup', function () {
-                                                 var textarea_value = $("#questionText").val();
-                                                 if (textarea_value != '') {
-                                                     $('input[type="submit"]').attr('disabled', false);
-                                                 } else {
-                                                     $('input[type="submit"]').attr('disabled', true);
-                                                 }
-                                             });
- 
-                                         });
-                                         
-                                     </script> -->
+                                    <textarea id="questionText" class ='form-control'style='min-width: 100%'></textarea>
+                                    <button type="submit" id="saveText" value="Lagre" class="btn btn-primary btn-lg">Lagre</button>                              
                                 </form>
-                                <script type='text/javascript'>
-                                    window.onload() = function(){
-                                        document.getElementById("questionText").onkeyup = checkWordCount;
-                                        checkWordCount();
-                                    }
-                                    ;
-                                    function checkWordCount(){
-                                    if (document.getElementById("questionText").value == ""){
-                                    document.getElementById("save").disabled = true;
-                                    } else{
-                                    document.getElementById("save").disabled = false;
-                                    }
-                                    /*  var textarea_value = $("#questionText").val();     
-                                     if( $('questionText').val().lenght > 0 ){
-                                     $('.save').prop('disabled', false);
-                                     else{
-                                     $('.save').prop('disabled', true);
-                                     }
-                                     });
-                                     }
-                                     */
-
-                                </script>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
@@ -90,13 +48,25 @@
                         </div>
                         <div id="collapsePicUpload" class="panel-collapse collapse">
                             <div class="panel-body">          
-                                <form>
-                                    <input type="file" id="myFile" accept=".img,.jpg,.jpeg"> <!--Restriksjoner på filtype--> 
-                                    <div class="col-sm-offset-5"><a class="btn btn-success btn-lg" href="">Last opp</a></div>
-                                    <h5>Link til bilde</h5>                                    
-                                    <input id ="picRef" type="url" name="pictureUrl" value="http://" >
-                                    <input type="submit" value="Lagre">
-                                </form>
+                                                               <form id="formAddPic" runat="server">
+                                    <input type='file' onchange="readImage(this);" accept="image/*"/>
+                                    <img id="myFile" src="#" alt="valgt bilde" />
+                                    <div><a class="btn btn-success btn-lg" href="">Last opp</a></div>        
+                            </form>
+                                <script>
+                                                    function readImage(input) {
+                                                    if (input.files && input.files[0]) {
+                                                    var reader = new FileReader();
+                                                            reader.onload = function (e) {
+                                                            $('#myFile')
+                                                                    .attr('src', e.target.result)
+                                                                    .width(150)
+                                                                    .height(200);
+                                                            };
+                                                            reader.readAsDataURL(input.files[0]);
+                                                    }
+                                                    }
+                                </script>
                             </div>
                         </div>
                     </div>                 
@@ -233,6 +203,25 @@
 
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+             <script>
+                window.onload = function () {
+                    document.getElementById("questionText").onkeyup = checkWordCount;
+                    checkWordCount();
+                };
+ 
+                function checkWordCount() {
+                    var savebtn = document.getElementById("saveText");
+                    if (document.getElementById("questionText").value == "") {
+                        savebtn.disabled = true;
+                        savebtn.style.backgroundColor = "#ff0000";
+                    } else {
+ 
+                        savebtn.disabled = false;
+                        savebtn.style.backgroundColor = "#00cc00";
+                    }
+                }
+            </script>
+
     </body>
 </html>
 
