@@ -48,25 +48,11 @@
                         </div>
                         <div id="collapsePicUpload" class="panel-collapse collapse">
                             <div class="panel-body">          
-                                                               <form id="formAddPic" runat="server">
+                                <form id="formAddPic" runat="server">
                                     <input type='file' onchange="readImage(this);" accept="image/*"/>
                                     <img id="myFile" src="#" alt="valgt bilde" />
                                     <div><a class="btn btn-success btn-lg" href="">Last opp</a></div>        
-                            </form>
-                                <script>
-                                                    function readImage(input) {
-                                                    if (input.files && input.files[0]) {
-                                                    var reader = new FileReader();
-                                                            reader.onload = function (e) {
-                                                            $('#myFile')
-                                                                    .attr('src', e.target.result)
-                                                                    .width(150)
-                                                                    .height(200);
-                                                            };
-                                                            reader.readAsDataURL(input.files[0]);
-                                                    }
-                                                    }
-                                </script>
+                                </form>
                             </div>
                         </div>
                     </div>                 
@@ -78,24 +64,11 @@
                         </div>
                         <div id="collapse2" class="panel-collapse collapse">
                             <div class="panel-body" style='max-width: 100%'>
-
-                                    <script type="text/javascript" src="https://www.geogebra.org/scripts/deployggb.js"></script>
-                                    <script type="text/javascript">
-
-                                            var parameters = {"prerelease": false, "showToolBar": true, "borderColor": null, "showMenuBar": true, "showAlgebraInput": false,
-                                                    "showResetIcon": true, "enableLabelDrags": false, "enableShiftDragZoom": true, "enableRightClick": false, "capturingThreshold": null, "showToolBarHelp": false,
-                                                    "errorDialogsActive": true, "useBrowserForJS": false};
-                                            var applet = new GGBApplet('5.0', parameters);
-                                            applet.setJavaCodebase('GeoGebra/Java/5.0');
-                                            window.onload = function () {
-                                            applet.inject('applet_container', 'preferHTML5');
-                                            }
-                                    </script>
-                                    <div id="applet_container"></div>
-                                </div>
+                                <div id="applet_container"></div>
                             </div>
                         </div>
-                    </div>                 
+                    </div>
+                </div>                 
                 <h3>Svar</h3>
                 <div  id="accordion" class="panel-group" role="tablist">                
                     <div class="panel panel-default">
@@ -161,7 +134,7 @@
                     <label>
                         <input type="checkbox">Mulighet for tegning</label>
                 </div>
-                
+
                 <div class="col-lg-1"><a class="btn btn-primary btn-lg" href="choosetypeview">Tilbake</a></div>
                 <div class="col-sm-offset-5"><a class="btn btn-success btn-lg" href="">Send inn oppgave</a></div>                            
             </div> 
@@ -189,22 +162,49 @@
 
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-             <script>
+            <script>
                 window.onload = function () {
                     document.getElementById("questionText").onkeyup = checkWordCount;
                     checkWordCount();
                 };
- 
+
                 function checkWordCount() {
                     var savebtn = document.getElementById("saveText");
                     if (document.getElementById("questionText").value == "") {
                         savebtn.disabled = true;
                         savebtn.style.backgroundColor = "#ff0000";
                     } else {
- 
+
                         savebtn.disabled = false;
                         savebtn.style.backgroundColor = "#00cc00";
                     }
+                }
+            </script>
+            <script>
+                function readImage(input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $('#myFile')
+                                    .attr('src', e.target.result)
+                                    .width(150)
+                                    .height(200);
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+            </script>
+
+            <script type="text/javascript" src="https://www.geogebra.org/scripts/deployggb.js"></script>
+            <script type="text/javascript">
+
+                var parameters = {"prerelease": false, "showToolBar": true, "borderColor": null, "showMenuBar": true, "showAlgebraInput": false,
+                    "showResetIcon": true, "enableLabelDrags": false, "enableShiftDragZoom": true, "enableRightClick": false, "capturingThreshold": null, "showToolBarHelp": false,
+                    "errorDialogsActive": true, "useBrowserForJS": false};
+                var applet = new GGBApplet('5.0', parameters);
+                applet.setJavaCodebase('GeoGebra/Java/5.0');
+                window.onload = function () {
+                    applet.inject('applet_container', 'preferHTML5');
                 }
             </script>
 
