@@ -158,8 +158,8 @@
                                         <input type="text" class="form-control" id="alternativ2" placeholder="Alternativ 2" required>
                                     </div>
 
-                                    <input type="button" id="lessFields" onclick="removeFields()" value="-" style="color:red">
-                                    <input type="button" id="moreFields" onclick="addFields()" value="+" style="color:green">
+                                    <input type="button" id="lessFields" onclick="removeFields()" value="-">
+                                    <input type="button" id="moreFields" onclick="addFields()" value="+">
                                     <br>
                                     <br>
                                     <input type="hidden" id="hidden1" name="text">
@@ -177,7 +177,21 @@
                         <div id="collapse7" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <div>
-                                    TETETET
+                                    <script type="text/javascript" src="https://www.geogebra.org/scripts/deployggb.js"></script>
+                                    <script type="text/javascript">
+
+                                        var parameters = {"prerelease": false, "showToolBar": true, "borderColor": null, "showMenuBar": true, "showAlgebraInput": false,
+                                            "showResetIcon": true, "enableLabelDrags": false, "enableShiftDragZoom": true, "enableRightClick": false, "capturingThreshold": null, "showToolBarHelp": false,
+                                            "errorDialogsActive": true, "useBrowserForJS": false};
+
+                                        var applet = new GGBApplet('5.0', parameters);
+
+                                        applet.setJavaCodebase('GeoGebra/Java/5.0');
+
+                                        window.onload = function () {
+                                            applet.inject('applet_container', 'preferHTML5');
+                                        }
+                                    </script>
                                 </div>
                             </div>
                         </div>
