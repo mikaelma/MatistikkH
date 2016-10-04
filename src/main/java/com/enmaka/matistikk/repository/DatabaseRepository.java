@@ -101,6 +101,7 @@ public class DatabaseRepository implements UserRepository {
     private final String sqlAddTask = "INSERT INTO TASK(TASK_TYPE, TEXT, TESTABLE, EMAIL_FK) VALUES (?, ?, ?, ?)";
     private final String sqlAddFractionTask = "INSERT INTO FRACTION_TASK(TASK_ID, NUMERATOR, DENOMINATOR) VALUES (?, ?, ?)";
     private final String sqlAddStringTask = "INSERT INTO STRING_TASK(TASK_ID, URL) VALUES (?, ?)";
+    private final String sqlAddFunctionTask = "INSERT INTO FUNCTION_TASK(TASK_ID, ANSWER_TYPE) VALUES (?, ?)"; ///***********///***********///***********///***********///***********///***********
     private final String sqlAddFractionSolution = "INSERT INTO FRACTION_SOLUTION(TASK_ID, NUMERATOR, DENOMINATOR) VALUES (?, ?, ?)";
     private final String sqlAddStringSolution = "INSERT INTO STRING_SOLUTION(TASK_ID, URL) VALUES (?, ?)";
     private final String sqlSelectTask = "SELECT * FROM TASK WHERE TASK.TASK_ID = ?";
@@ -562,10 +563,12 @@ public class DatabaseRepository implements UserRepository {
                     task.setId(res.getInt(1));
                 }
                   if(task.getId() == 0) return false;
-                int j = jdbcTemplate.update(sqlAddStringTask, new Object[]{task.getId(), ("Sondre")});
+                int j = jdbcTemplate.update(sqlAddFunctionTask, new Object[]{task.getId(), ((Function) task).getAnswer_Id()});
                 if(j == 0){
                     return false;
                 }
+               // int i = jdbcTemplate.update(sqlAddFunctuinsSolution, new Object[]{task.getId(), ((Figures) task).getSolutionUrl()});
+                //if(i != 0) return true;
             }
             
         }catch(Exception e){

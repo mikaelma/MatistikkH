@@ -10,13 +10,19 @@ package com.enmaka.matistikk.objects;
  * @author Mikael
  */
 public class Function extends Task {
+    private int answer_id;
     
     public Function(){
         super();
     }
     
-    public Function(int id, String text){
+    public Function(int id, String text, int answer_id){
         super(id, text);
+        this.answer_id=answer_id;
+    }
+    
+    public int getAnswer_Id(){
+        return answer_id;
     }
     
     @Override

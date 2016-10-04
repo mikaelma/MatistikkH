@@ -1,6 +1,6 @@
 <%-- 
     Document   : createtask
-    Author     : Team ENMAKA
+    Author     : Gruppe 6
 --%>
 
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
@@ -36,12 +36,10 @@
                                 <div class="panel-body">                              
                                     <form id ="questionForm">
                                         <textarea id="questionText" class ='form-control'style='min-width: 100%' name="text"></textarea>
-                                        <button type="submit" id="saveText" value="Lagre" class="btn btn-primary btn-lg">Lagre</button>                              
                                     </form>
                                 </div>
                             </div>
                         </div>
-                    </form:form>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
@@ -76,7 +74,7 @@
                     <div class="panel panel-default">
                         <div class =" panel-heading" role="tab">
                             <h4 class="panel-title">
-                                <label><input type="radio" name="optradio" data-toggle="collapse" data-parent="#accordion" data-target="#collapse5">Tekstsvar</label>
+                                <label><input type="radio" name="answer_id" value ="1" data-toggle="collapse" data-parent="#accordion" data-target="#collapse5">Tekstsvar</label>
                             </h4>
                         </div>
                         <div id="collapse5" class="panel-collapse collapse">
@@ -90,7 +88,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading" role="tab">
                             <h4 class="panel-title">
-                                <label><input type="radio" name="optradio" data-toggle="collapse" data-parent="#accordion" data-target="#collapse6">Flervalgstest</label>
+                                <label><input type="radio" name="answer_id" value ="2" data-toggle="collapse" data-parent="#accordion" data-target="#collapse6">Flervalgstest</label>
                             </h4>
                         </div>
                         <div id="collapse6" class="panel-collapse collapse">
@@ -114,7 +112,7 @@
                     <div class="panel panel-default">
                         <div class =" panel-heading" role="tab">
                             <h4 class="panel-title">
-                                <label><input type="radio" name="optradio" data-toggle="collapse" data-parent="#accordion" data-target="#collapse7">Geogebra</label>
+                                <label><input type="radio" name="answer_id" value ="3" data-toggle="collapse" data-parent="#accordion" data-target="#collapse7">Geogebra</label>
                             </h4>
                         </div>
                         <div id="collapse7" class="panel-collapse collapse">
@@ -135,9 +133,8 @@
                     </div>
 
                     <div class="col-lg-1"><a class="btn btn-primary btn-lg" href="choosetypeview">Tilbake</a></div>
-                    <div class="col-sm-offset-5"><a class="btn btn-success btn-lg" href="">Send inn oppgave</a></div>                            
+                    <div class="col-sm-offset-5"><button type="submit" class="btn btn-success">Send inn oppgave</button></div>    
                 </div> 
-
                 <script>
                     var counter = 3;
                     function addFields() {
