@@ -16,6 +16,10 @@ public class Function extends Task {
         super();
     }
     
+    public Function(int id, String text){
+        super(id, text);
+    }
+    
     public Function(int id, String text, int answer_id){
         super(id, text);
         this.answer_id=answer_id;
