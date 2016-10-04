@@ -20,12 +20,13 @@
     <body>
         <jsp:include page="/WEB-INF/views/menu.jsp"/>
         <jsp:include page="/WEB-INF/views/styling.jsp"/>
+        
+        <form:form action="addfunctiontask" method="POST" modelAttribute="function">
         <div class="container">
             <div class="jumbotron"> 
 
                 <h3>Oppgave </h3>
                 <div  id="questionGroup" class="panel-group">
-                    <form:form action="addfunctiontask" method="POST" modelAttribute="function">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">                            
@@ -133,8 +134,11 @@
                     </div>
 
                     <div class="col-lg-1"><a class="btn btn-primary btn-lg" href="choosetypeview">Tilbake</a></div>
-                    <div class="col-sm-offset-5"><button type="submit" class="btn btn-success">Send inn oppgave</button></div>    
+                    <div class="col-sm-offset-5"><button type="submit" class="btn btn-success">Send inn oppgave</button></div>  
                 </div> 
+            </div>
+        </div>
+        </form:form>
                 <script>
                     var counter = 3;
                     function addFields() {
