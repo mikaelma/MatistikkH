@@ -5,6 +5,7 @@ com/enmaka/matistikk/users/Teacher.class
 com/enmaka/matistikk/repository/UserRepository.class
 com/enmaka/matistikk/ui/TaskFormBackingBean.class
 com/enmaka/matistikk/ui/TaskStatisticsFormBackingBean.class
+com/enmaka/matistikk/objects/Function.class
 com/enmaka/matistikk/mappers/StudentMapper.class
 com/enmaka/matistikk/mappers/StudentInfoMapper.class
 com/enmaka/matistikk/objects/TeacherStatistics.class

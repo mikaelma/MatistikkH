@@ -42,6 +42,10 @@ public class TaskInfoMapper implements RowMapper<TaskInfo> {
                 case 5:
                 ti.setTaskType("Figurer");
                 break;
+                    
+                case 6:
+                ti.setTaskType("Funksjon");
+                break;
             }
             String s = res.getString("text");
             String u = res.getString("email_fk");

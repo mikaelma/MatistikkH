@@ -90,7 +90,8 @@
                     for (i = 3; i < counter; i++) {
                         var j = i-1;
                         x += ' ' + document.getElementById('options' + j).value + ' ' + document.getElementById('numerator' + i).value + '/' + document.getElementById('denominator' + i).value;
-                    }
+                    } 
+                    
                     document.getElementById('hidden').value = x + '?';
                 }
             </script>

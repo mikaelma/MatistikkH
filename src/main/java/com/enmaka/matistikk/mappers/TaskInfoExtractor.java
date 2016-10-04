@@ -52,6 +52,10 @@ public class TaskInfoExtractor implements ResultSetExtractor<List<TaskInfo>> {
                     case 5:
                     ti.setTaskType("Figurer");
                     break;
+                    
+                    case 6:
+                    ti.setTaskType("Funksjoner");
+                    break;
                 }
                 s = res.getString("text");
                 if(!(res.getString("numerator") == null && res.getString("denominator") == null)) {

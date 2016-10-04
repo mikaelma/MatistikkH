@@ -550,7 +550,24 @@ public class DatabaseRepository implements UserRepository {
                 }
                 int i = jdbcTemplate.update(sqlAddStringSolution, new Object[]{task.getId(), ((Figures) task).getSolutionUrl()});
                 if(i != 0) return true;
+                ///*****************GRUPPE 6 REDIGERER*************************//
+            }else if(task instanceof Function){
+                prep.setInt(1,6);
+                prep.setString(2, task.getText());
+                prep.setBoolean(3, type);
+                 prep.setString(4, task.getUsername());
+                prep.execute();
+                res = prep.getGeneratedKeys();
+                if(res != null && res.next()){
+                    task.setId(res.getInt(1));
+                }
+                  if(task.getId() == 0) return false;
+                int j = jdbcTemplate.update(sqlAddStringTask, new Object[]{task.getId(), ("Sondre")});
+                if(j == 0){
+                    return false;
+                }
             }
+            
         }catch(Exception e){
         }
         return false;

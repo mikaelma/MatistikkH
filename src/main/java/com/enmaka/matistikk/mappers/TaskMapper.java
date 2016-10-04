@@ -40,6 +40,10 @@ public class TaskMapper implements RowMapper<Task>{
                 case 5:
                 task = new Figures(res.getInt("task_id"), res.getString("text"));
                 break;
+                
+                case 6:
+                task = new Function(res.getInt("task_id"), res.getString("text"));
+                break;
             }
             return task;
         }catch(Exception e) {

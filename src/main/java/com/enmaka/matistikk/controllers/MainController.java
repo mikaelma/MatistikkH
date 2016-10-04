@@ -282,6 +282,28 @@ public class MainController {
         return "redirect:createtestview";
     }
     
+    
+    //*************************************//
+    @RequestMapping(value = "addfunctiontask", method = RequestMethod.POST)
+    public String addFunction(@ModelAttribute("function") Function function, HttpSession session, BindingResult error) {
+        if(LoginController.validate(session, "Student")) {
+            return "redirect:/";
+        }
+        if(error.hasErrors()){
+            return "redirect:/";
+        }
+        String a = ((User)session.getAttribute("user")).getDescription();
+        boolean type = false;
+        if(a.equals("Admin")) type = true;
+        //arithmetic.setSolution(fraction);
+        function.setUsername(((User)session.getAttribute("user")).getUsername());
+        userService.addTask(function, type);
+        
+        return "redirect:createtestview";
+    }
+    
+    
+    
     @RequestMapping(value = "addsinglechoicetask", method = RequestMethod.POST)
     public String addSingleChoice(@ModelAttribute("singleChoice") SingleChoice singleChoice, Fraction fraction, HttpServletRequest request, HttpSession session, BindingResult error) {
         if(LoginController.validate(session, "Student")) {
