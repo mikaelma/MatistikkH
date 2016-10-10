@@ -53,8 +53,8 @@
                             <div id="collapsePicUpload" class="panel-collapse collapse">
                                 <div class="panel-body">    
                                     <form id="UploadForm" action="upload" method="post" enctype="multipart/form-data" runat="server">
-                                        <input type="file" onchange="readImage(this);" accept="image/*"/>                                          
-                                        <img id="myFile" src="#" alt="valgt bilde"/>
+                                        <input type="file" id="myFile" name="photo" onchange="readImage(this);" accept="image/*"/>                                          
+                                        <img id="myFilePreview" src="#" alt="valgt bilde"/>
                                         <input class="btn btn-success btn-lg" type="submit" value="Last opp fil" />
                                     </form>                                                              
                                 </div>
@@ -221,7 +221,7 @@
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
                     reader.onload = function (e) {
-                        $('#myFile')
+                        $('#myFilePreview')
                                 .attr('src', e.target.result)
                                 .width(150)
                                 .height(200);

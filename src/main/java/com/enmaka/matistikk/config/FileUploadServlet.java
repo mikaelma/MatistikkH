@@ -26,7 +26,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  */
 public class FileUploadServlet extends HttpServlet {
 
-    private final String UPLOAD_DIRECTORY = "/Users/Mikael/Desktop/Matistikk/src/main/webapp/uploads";
+    private final String UPLOAD_DIRECTORY = "C:/syspro/Matistikk/Matistikk/src/main/webapp/uploads";
 
     private String bildeurl = "";
     // "jdbc:derby://localhost:1527/myDB;create=true;user=me;password=mine";
@@ -98,6 +98,7 @@ public class FileUploadServlet extends HttpServlet {
                     if (!item.isFormField()) {
                         fname = new File(item.getName()).getName();
                         bildeurl = UPLOAD_DIRECTORY + File.separator + fname;
+                        System.out.println(bildeurl);
                         item.write(new File(bildeurl));
                         System.out.println("Lagret bilde til disk, prøver metodekall");
                     }
