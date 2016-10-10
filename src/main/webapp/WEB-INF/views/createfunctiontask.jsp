@@ -21,7 +21,7 @@
         <jsp:include page="/WEB-INF/views/menu.jsp"/>
         <jsp:include page="/WEB-INF/views/styling.jsp"/>
 
-        <form:form action="addfunctiontask" method="POST" modelAttribute="function">
+        <form:form action="addfunctiontask" method="POST" modelAttribute="function" onsubmit ="validateButtons()">
             <div class="container">
                 <div class="jumbotron"> 
 
@@ -63,7 +63,6 @@
                         <div class="panel panel-default">
                             <div class =" panel-heading">
                                 <a data-toggle="collapse" href="#collapse2">Legg til GeoGebra</a>
-                                </h4>
                             </div>
                             <div id="collapse2" class="panel-collapse collapse">
                                 <div class="panel-body" style='max-width: 100%'>
@@ -83,7 +82,6 @@
                             </div>
                             <div id="collapse5" class="panel-collapse collapse">
                                 <div class="panel-body">
-                                    <h4 class="panel-title">
                                         <div>
                                             Hvis dette alternativet velges, vil eleven kunne gi et tekstlig svar 
                                         </div>
@@ -163,6 +161,22 @@
                     reader.readAsDataURL(input.files[0]);
                 }
             }
+        </script>
+        <script>
+            function validateButtons(){
+                var r = document.getElementsByName("answer_type");
+                var c = -1;
+                
+                for(var i = 0; i<r.length; i++){
+                    if(r[i].checked){
+                        c=i;
+                    }
+                }
+                if(c === -1){
+                    alert ("Velg et svaralternativ");
+                    location.reload();
+            }
+        }
         </script>
 
         <script>
