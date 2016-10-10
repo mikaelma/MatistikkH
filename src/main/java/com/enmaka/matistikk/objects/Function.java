@@ -10,8 +10,12 @@ package com.enmaka.matistikk.objects;
  * @author Mikael
  */
 public class Function extends Task {
-    private int answer_id;
+    private int answer_type;
     
+    
+    public Function(int answer_type){
+        this.answer_type=answer_type;
+    }
     public Function(){
         super();
     }
@@ -20,15 +24,17 @@ public class Function extends Task {
         super(id, text);
     }
     
-    public Function(int id, String text, int answer_id){
+    public Function(int id, String text, int answer_type){
         super(id, text);
-        this.answer_id=answer_id;
+        this.answer_type=answer_type;
     }
     
-    public int getAnswer_Id(){
-        return answer_id;
+    public int getAnswerType(){ 
+        return answer_type;
     }
-    
+    public void setAnswerType(int nyId){
+        this.answer_type=nyId;
+    }
     @Override
     public String toString(){
         return text;

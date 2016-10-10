@@ -16,3 +16,4 @@ target/classes/com/enmaka/matistikk/repository/DatabaseRepository.class
 target/classes/com/enmaka/matistikk/controllers/AdminController.class
 
 target/maven-archiver/pom.properties
+/target/

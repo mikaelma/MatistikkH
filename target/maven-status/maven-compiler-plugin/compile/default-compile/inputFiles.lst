@@ -51,6 +51,7 @@
 /Users/Mikael/Desktop/Matistikk/src/main/java/com/enmaka/matistikk/objects/ClassInfo.java
 /Users/Mikael/Desktop/Matistikk/src/main/java/com/enmaka/matistikk/objects/TaskSolution.java
 /Users/Mikael/Desktop/Matistikk/src/main/java/com/enmaka/matistikk/controllers/LoginController.java
+/Users/Mikael/Desktop/Matistikk/src/main/java/com/enmaka/matistikk/config/FileUploadServlet.java
 /Users/Mikael/Desktop/Matistikk/src/main/java/com/enmaka/matistikk/service/UserServiceImpl.java
 /Users/Mikael/Desktop/Matistikk/src/main/java/com/enmaka/matistikk/users/Teacher.java
 /Users/Mikael/Desktop/Matistikk/src/main/java/com/enmaka/matistikk/objects/Answer.java
@@ -72,4 +73,5 @@
 /Users/Mikael/Desktop/Matistikk/src/main/java/com/enmaka/matistikk/mappers/TaskMapper.java
 /Users/Mikael/Desktop/Matistikk/src/main/java/com/enmaka/matistikk/objects/TestStatistics.java
 /Users/Mikael/Desktop/Matistikk/src/main/java/com/enmaka/matistikk/mappers/TaskInfoMapper.java
+/Users/Mikael/Desktop/Matistikk/src/main/java/com/enmaka/matistikk/mappers/FunctionMapper.java
 /Users/Mikael/Desktop/Matistikk/src/main/java/com/enmaka/matistikk/ui/TaskFormBackingBean.java

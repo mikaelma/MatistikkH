@@ -36,6 +36,7 @@ com/enmaka/matistikk/ui/TeacherStatisticsFormBackingBean.class
 com/enmaka/matistikk/mappers/TestInfoExtractor.class
 com/enmaka/matistikk/objects/Sort.class
 com/enmaka/matistikk/mappers/TestMapper.class
+com/enmaka/matistikk/config/FileUploadServlet.class
 com/enmaka/matistikk/objects/SortAscOrder.class
 com/enmaka/matistikk/mappers/TaskSolutionExtractor.class
 com/enmaka/matistikk/mappers/UserMapper.class
@@ -56,6 +57,7 @@ com/enmaka/matistikk/ui/SchoolInfoFormBackingBean.class
 com/enmaka/matistikk/objects/SortDescOrder.class
 com/enmaka/matistikk/ui/TestFormBackingBean.class
 com/enmaka/matistikk/objects/StudentInfo.class
+com/enmaka/matistikk/mappers/FunctionMapper.class
 com/enmaka/matistikk/mappers/TaskStatisticsMapper.class
 com/enmaka/matistikk/objects/ChangePassword.class
 com/enmaka/matistikk/mappers/TeacherInfoMapper.class
