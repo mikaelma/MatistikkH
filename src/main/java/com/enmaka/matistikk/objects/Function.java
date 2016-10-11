@@ -42,6 +42,6 @@ public class Function extends Task {
 
     @Override
     public boolean isCorrect() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return true; //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -57,6 +57,7 @@ public class StudentController {
         test = userService.getTest(Integer.parseInt(s), ((Student) session.getAttribute("user")).getUsername());
         model.addAttribute("test", test);
         test.getCurrentTask().startTime();
+
         if (test.getCurrentTask() instanceof Arithmetic) {
             return "arithmetictask";
         } else if (test.getCurrentTask() instanceof SingleChoice) {
@@ -67,7 +68,12 @@ public class StudentController {
             return "numberlinetask";
         } else if (test.getCurrentTask() instanceof Figures) {
             return "figurestask";
-        } else if (test.getCurrentTask() instanceof Function) {
+        } 
+        /********** GRUPPE 6 ********/
+        else if (test.getCurrentTask() instanceof Function) {
+            Task task = test.getCurrentTask();
+            int answertype = ((Function) task).getAnswerType();
+            model.addAttribute("answertype", answertype);
             return "functiontask";
         } else {
             return "tests";
@@ -144,11 +150,19 @@ public class StudentController {
             amf.setCoordinates(cords);
             amf.setTime(test.getCurrentTask().getTime());
             test.setAnswer(amf);
-        } else if (test.getCurrentTask() instanceof Figures || test.getCurrentTask() instanceof Function) {
+        } else if (test.getCurrentTask() instanceof Figures) {
             Answer as = new AnswerString(d, ((Student) session.getAttribute("user")).getUsername(), (Integer) test.getCurrentTask().getId(), s);
             as.setCoordinates(cords);
             as.setTime(test.getCurrentTask().getTime());
             test.setAnswer(as);
+        }
+        /********* GRUPPE 6 ************/
+        else if(test.getCurrentTask() instanceof Function){
+            Answer as = new AnswerFunction(d, ((Student) session.getAttribute("user")).getUsername(), (Integer) test.getCurrentTask().getId(), s);
+            as.setCoordinates(cords);
+            as.setTime(test.getCurrentTask().getTime());
+            test.setAnswer(as);
+            
         }
         if (button.equals("next")) {
             userService.addAnswer(test);
@@ -171,7 +185,12 @@ public class StudentController {
             return "numberlinetask";
         } else if (test.getCurrentTask() instanceof Figures) {
             return "figurestask";
-        } else if (test.getCurrentTask() instanceof Function) {
+        } 
+        /******* GRUPPE 6 *********/
+        else if (test.getCurrentTask() instanceof Function) {
+            Task task = test.getCurrentTask();
+            int answertype = ((Function) task).getAnswerType();
+            model.addAttribute("answertype", answertype);
             return "functiontask";
         }
         return "tests";

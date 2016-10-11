@@ -34,11 +34,11 @@
                                     <a data-toggle="collapse" href="#collapseTaskText">Oppgavetekst</a>
                                 </h4>
                             </div>
-                            <div id="collapseTaskText" class="panel-collapse collapse">
+                            <div id="collapseTaskText" class="panel-collapse collapse in">
                                 <div class="panel-body">   
 
                                     <form id ="questionForm">
-                                        <textarea id="questionText" class ='form-control'style='min-width: 100%' name="text"></textarea>
+                                        <textarea id="questionText" class ='form-control' style='min-width: 100%' name="text" required></textarea>
                                     </form>
 
                                 </div>
@@ -54,7 +54,7 @@
                                 <div class="panel-body">    
                                     <form id="UploadForm" action="upload" method="post" enctype="multipart/form-data" runat="server">
                                         <input type="file" id="myFile" name="photo" onchange="readImage(this);" accept="image/*"/>                                          
-                                        <img id="myFilePreview" src="#" alt="valgt bilde"/>
+                                        <img id="myFilePreview" src="#" alt="valgt bilde"/><br>
                                         <input class="btn btn-success btn-lg" type="submit" value="Last opp fil" />
                                     </form>                                                              
                                 </div>
@@ -63,7 +63,6 @@
                         <div class="panel panel-default">
                             <div class =" panel-heading">
                                 <a data-toggle="collapse" href="#collapse2">Legg til GeoGebra</a>
-                                </h4>
                             </div>
                             <div id="collapse2" class="panel-collapse collapse">
                                 <div class="panel-body" style='max-width: 100%'>
@@ -78,15 +77,15 @@
                         <div class="panel panel-default">
                             <div class =" panel-heading" role="tab">
                                 <h4 class="panel-title">
-                                    <label><input type="radio" name="answer_type" value ="1" data-toggle="collapse" data-parent="#accordion" data-target="#collapse5">Tekstsvar</label>
+                                    <label><input type="radio" name="answer_type" value ="1" data-toggle="collapse" data-parent="#accordion" data-target="#collapse5" required>Tekstsvar</label>
                                 </h4>
                             </div>
                             <div id="collapse5" class="panel-collapse collapse">
                                 <div class="panel-body">
-                                    <h4 class="panel-title">
-                                        <div>
-                                            Hvis dette alternativet velges, vil eleven kunne gi et tekstlig svar 
-                                        </div>
+
+                                    <div>
+                                        Hvis dette alternativet velges, vil eleven kunne gi et tekstlig svar 
+                                    </div>
                                 </div>
                             </div>
                         </div>                 
@@ -110,6 +109,11 @@
                                     <input type="button" id="lessFields" onclick="removeFields()" value="-">
                                     <input type="button" id="moreFields" onclick="addFields()" value="+">
                                     <br>
+                                    <br>
+                                    <select id="dropdown">
+                                        <option value="alternativ1">Alternativ 1</option> 
+                                        <option value="alternativ2">Alternativ 2</option>
+                                    </select>
                                     <br>
                                     <input type="hidden" id="hidden1" name="text">
                                     <input type="hidden" id="hidden2" name="fractionsString">
@@ -142,9 +146,11 @@
                                 <input type="checkbox">Mulighet for tegning</label>
                         </div>
 
-                        <div class="col-lg-1"><a class="btn btn-primary btn-lg" href="choosetypeview">Tilbake</a></div>
-                        <div class="col-sm-offset-5"><button type="submit" class="btn btn-success">Send inn oppgave</button></div> 
-                    </form:form> 
+                        <div class="btn-group"><a class="btn btn-primary" href="choosetypeview">Tilbake</a>
+                            <button class="btn btn-warning"><span class="glyphicon glyphicon-eye-open"></span> Forhåndsvisning</button>
+                            <button type="submit" class="btn btn-success">Send inn oppgave</button>
+                        </div>
+                        </form:form> 
                 </div> 
 
             </div>
@@ -168,16 +174,32 @@
         <script>
             var counter = 3;
             function addFields() {
+                document.getElementById('dropdown').innerHTML = "";
+                
                 document.getElementById('fields').innerHTML += '<label id="label' + counter + '">Alternativ ' + counter +
                         '</label> <input type="text" class="form-control" id="alternativ' + counter + '" placeholder="Alternativ ' + counter + ' " required>';
+                
+                
+                for(var i=0; i<counter; i++){
+                   document.getElementById('dropdown').innerHTML += '<option value="alternativ' + (i+1) + '">Alternativ ' + (i+1) + '</option>'; 
+                }
+                
                 counter++;
+                
             }
 
             function removeFields() {
+                document.getElementById('dropdown').innerHTML = "";
                 var something = (counter - 1);
                 if (something == 2) {
+                    document.getElementById('dropdown').innerHTML += '<option value="alternativ1">Alternativ 1</option> <option value="alternativ2">Alternativ 2</option>';
                     return false;
                 }
+                
+                for(var i=0; i<(something-1); i++){
+                   document.getElementById('dropdown').innerHTML += '<option value="alternativ' + (i+1) + '">Alternativ ' + (i+1) + '</option>'; 
+                }
+                
                 counter--;
                 var element2 = document.getElementById('label' + counter);
                 element2.parentNode.removeChild(element2);
@@ -245,6 +267,5 @@
 
 
         </script>
-
     </body>
 </html>

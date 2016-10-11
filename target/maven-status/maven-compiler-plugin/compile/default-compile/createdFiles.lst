@@ -61,6 +61,7 @@ com\enmaka\matistikk\controllers\StudentController.class
 com\enmaka\matistikk\objects\SortDescOrder.class
 com\enmaka\matistikk\mappers\SchoolInfoMapper.class
 com\enmaka\matistikk\objects\TestStatistics.class
+com\enmaka\matistikk\objects\AnswerFunction.class
 com\enmaka\matistikk\users\Student.class
 com\enmaka\matistikk\controllers\AdminController.class
 com\enmaka\matistikk\controllers\LoginController.class

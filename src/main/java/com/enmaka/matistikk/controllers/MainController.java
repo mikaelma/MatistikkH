@@ -168,13 +168,16 @@ public class MainController {
         if (LoginController.validate(session, "Student")) {
             return "redirect:/";
         }
+        
         String s = request.getParameter("taskId");
         String t = request.getParameter("testId");
         String email = request.getParameter("email");
         int taskId = Integer.parseInt(s);
         int testId = Integer.parseInt(t);
         Answer answer = userService.getAnswer(email, testId, taskId);
-        List<Double> cords = userService.getCoordinates(answer.getId());
+        String functionAnswer = ((AnswerFunction)answer).getValue();
+        List<Double> cords = userService.getCoordinates(answer.getId()); 
+        model.addAttribute("functionAnswer", functionAnswer);
         model.addAttribute("answer", answer);
         model.addAttribute("testId", testId);
         model.addAttribute("cords", cords);
@@ -189,7 +192,10 @@ public class MainController {
             return "singlechoicestatistics";
         } else if (task instanceof Sort) {
             return "sortstatistics";
-        } else {
+        } else if (task instanceof Function){
+            return "functionstatistics";
+        }
+        else {
             return "taskstatistics";
         }
     }
@@ -303,15 +309,20 @@ public class MainController {
         if (a.equals("Admin")) {
             type = true;
         }
-        String rb = request.getParameter("answer_type");     //Her er jeg usikker. Settes det ikke bare en int-verdi uten å ta noe valg..? Må evt taes senere?
-        if (rb.equals("1")) {
-            function.setAnswerType(1);
-        } else if (rb.equals("2")) {
-            function.setAnswerType(2);
-        } else if (rb.equals("3")) {
-            function.setAnswerType(3);
-        }else{
-            function.setAnswerType(0);
+           String rb = request.getParameter("answer_type");     //Her er jeg usikker. 
+        switch (rb) {
+            case "1":
+                function.setAnswerType(1);
+                break;
+            case "2":
+                function.setAnswerType(2);
+                break;
+            case "3":
+                function.setAnswerType(3);
+                break;
+            default:
+                function.setAnswerType(0);
+                break;
         }
         System.out.println(function.getAnswerType());
 

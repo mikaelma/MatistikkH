@@ -26,7 +26,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  */
 public class FileUploadServlet extends HttpServlet {
 
-    private final String UPLOAD_DIRECTORY = "C:/syspro/Matistikk/Matistikk/src/main/webapp/uploads";
+    private final String UPLOAD_DIRECTORY = "C:\\Users\\Sondre\\Documents\\NetBeansProjects\\Matistikk2\\src\\main\\webapp\\uploads";
 
     private String bildeurl = "";
     // "jdbc:derby://localhost:1527/myDB;create=true;user=me;password=mine";
