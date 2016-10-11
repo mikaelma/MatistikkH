@@ -82,10 +82,9 @@
                             </div>
                             <div id="collapse5" class="panel-collapse collapse">
                                 <div class="panel-body">
-
-                                    <div>
-                                        Hvis dette alternativet velges, vil eleven kunne gi et tekstlig svar 
-                                    </div>
+                                        <div>
+                                            Hvis dette alternativet velges, vil eleven kunne gi et tekstlig svar 
+                                        </div>
                                 </div>
                             </div>
                         </div>                 

@@ -21,7 +21,7 @@
         <jsp:include page="/WEB-INF/views/menu.jsp"/>
         <jsp:include page="/WEB-INF/views/styling.jsp"/>
 
-        <form:form action="addfunctiontask" method="POST" modelAttribute="function">
+        <form:form action="addfunctiontask" method="POST" modelAttribute="function" onsubmit ="validateButtons()">
             <div class="container">
                 <div class="jumbotron"> 
 
@@ -82,10 +82,9 @@
                             </div>
                             <div id="collapse5" class="panel-collapse collapse">
                                 <div class="panel-body">
-
-                                    <div>
-                                        Hvis dette alternativet velges, vil eleven kunne gi et tekstlig svar 
-                                    </div>
+                                        <div>
+                                            Hvis dette alternativet velges, vil eleven kunne gi et tekstlig svar 
+                                        </div>
                                 </div>
                             </div>
                         </div>                 
@@ -169,6 +168,22 @@
                     reader.readAsDataURL(input.files[0]);
                 }
             }
+        </script>
+        <script>
+            function validateButtons(){
+                var r = document.getElementsByName("answer_type");
+                var c = -1;
+                
+                for(var i = 0; i<r.length; i++){
+                    if(r[i].checked){
+                        c=i;
+                    }
+                }
+                if(c === -1){
+                    alert ("Velg et svaralternativ");
+                    location.reload();
+            }
+        }
         </script>
 
         <script>
