@@ -73,7 +73,15 @@ public class StudentController {
         else if (test.getCurrentTask() instanceof Function) {
             Task task = test.getCurrentTask();
             int answertype = ((Function) task).getAnswerType();
+            int amount = ((Function) task).getChoices().size();
+            
+            for(int i = 0; i<((Function) task).getChoices().size(); i++){
+                String option = "option" + (i+1);
+                model.addAttribute(option, ((Function) task).getChoices().get(i));
+            }
+            
             model.addAttribute("answertype", answertype);
+            model.addAttribute("amount", amount);
             return "functiontask";
         } else {
             return "tests";

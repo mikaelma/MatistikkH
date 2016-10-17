@@ -110,12 +110,12 @@
                                     <br>
                                     <br>
                                     <select id="dropdown">
-                                        <option value="alternativ1">Alternativ 1</option> 
-                                        <option value="alternativ2">Alternativ 2</option>
+                                        <option id="dropdown1">Alternativ 1</option> 
+                                        <option id="dropdown2">Alternativ 2</option>
                                     </select>
                                     <br>
-                                    <input type="hidden" id="hidden1" name="text">
-                                    <input type="hidden" id="hidden2" name="fractionsString">
+                                    <input type="hidden" id="hidden1" name="solution">
+                                    <input type="hidden" id="hidden2" name="functionString">
                                 </div>
                             </div>
                         </div>
@@ -147,7 +147,7 @@
 
                         <div class="btn-group"><a class="btn btn-primary" href="choosetypeview">Tilbake</a>
                             <button class="btn btn-warning"><span class="glyphicon glyphicon-eye-open"></span> Forhåndsvisning</button>
-                            <button type="submit" class="btn btn-success">Send inn oppgave</button>
+                            <button type="submit" class="btn btn-success" onclick="setText()">Send inn oppgave</button>
                         </div>
                         </form:form> 
                 </div> 
@@ -169,22 +169,6 @@
                 }
             }
         </script>
-        <script>
-            function validateButtons(){
-                var r = document.getElementsByName("answer_type");
-                var c = -1;
-                
-                for(var i = 0; i<r.length; i++){
-                    if(r[i].checked){
-                        c=i;
-                    }
-                }
-                if(c === -1){
-                    alert ("Velg et svaralternativ");
-                    location.reload();
-            }
-        }
-        </script>
 
         <script>
             var counter = 3;
@@ -196,7 +180,7 @@
                 
                 
                 for(var i=0; i<counter; i++){
-                   document.getElementById('dropdown').innerHTML += '<option value="alternativ' + (i+1) + '">Alternativ ' + (i+1) + '</option>'; 
+                   document.getElementById('dropdown').innerHTML += '<option id="dropdown' + (i+1) + '">Alternativ ' + (i+1) + '</option>'; 
                 }
                 
                 counter++;
@@ -207,12 +191,12 @@
                 document.getElementById('dropdown').innerHTML = "";
                 var something = (counter - 1);
                 if (something == 2) {
-                    document.getElementById('dropdown').innerHTML += '<option value="alternativ1">Alternativ 1</option> <option value="alternativ2">Alternativ 2</option>';
+                    document.getElementById('dropdown').innerHTML += '<option id="dropdown1">Alternativ 1</option> <option id="dropdown2">Alternativ 2</option>';
                     return false;
                 }
                 
                 for(var i=0; i<(something-1); i++){
-                   document.getElementById('dropdown').innerHTML += '<option value="alternativ' + (i+1) + '">Alternativ ' + (i+1) + '</option>'; 
+                   document.getElementById('dropdown').innerHTML += '<option id="dropdown' + (i+1) + '">Alternativ ' + (i+1) + '</option>'; 
                 }
                 
                 counter--;
@@ -222,13 +206,12 @@
                 element3.parentNode.removeChild(element3);
             }
             function setText() {
-                var x = document.getElementById('question').value + ' ' + document.getElementById('numerator1').value + '/' + document.getElementById('denominator1').value + ' ' + document.getElementById('options1').value + ' ' + document.getElementById('numerator2').value + '/' + document.getElementById('denominator2').value;
+                document.getElementById("hidden2").value = document.getElementById("alternativ1").value + "|||" + document.getElementById("alternativ2").value;
                 for (i = 3; i < counter; i++) {
-                    var j = i - 1;
-                    x += ' ' + document.getElementById('options' + j).value + ' ' + document.getElementById('numerator' + i).value + '/' + document.getElementById('denominator' + i).value;
+                    document.getElementById("hidden2").value += '|||' + document.getElementById('alternativ' + i).value;
                 }
-
-                document.getElementById('hidden').value = x + '?';
+                
+                document.getElementById("hidden1").value = document.getElementById("dropdown").value;
             }
         </script>
 

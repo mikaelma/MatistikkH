@@ -101,7 +101,6 @@ public class DatabaseRepository implements UserRepository {
     private final String sqlAddTask = "INSERT INTO TASK(TASK_TYPE, TEXT, TESTABLE, EMAIL_FK) VALUES (?, ?, ?, ?)";
     private final String sqlAddFractionTask = "INSERT INTO FRACTION_TASK(TASK_ID, NUMERATOR, DENOMINATOR) VALUES (?, ?, ?)";
     private final String sqlAddStringTask = "INSERT INTO STRING_TASK(TASK_ID, URL) VALUES (?, ?)";
-    private final String sqlAddFunctionTask = "INSERT INTO FUNCTION_TASK(TASK_ID, ANSWER_TYPE) VALUES (?, ?)"; ///***********
     private final String sqlAddFractionSolution = "INSERT INTO FRACTION_SOLUTION(TASK_ID, NUMERATOR, DENOMINATOR) VALUES (?, ?, ?)";
     private final String sqlAddStringSolution = "INSERT INTO STRING_SOLUTION(TASK_ID, URL) VALUES (?, ?)";
     private final String sqlSelectTask = "SELECT * FROM TASK WHERE TASK.TASK_ID = ?";
@@ -182,6 +181,9 @@ public class DatabaseRepository implements UserRepository {
     private final String sqlAddFunctionAnswer = "INSERT INTO FUNCTION_ANSWER(FUNCTION_ANSWER_ID, ANSWER_ID, ANSWER_TEXT) VALUES (DEFAULT,?, ?)";
     private final String sqlUpdateFunctionAnswer = "UPDATE FUNCTION_ANSWER SET ANSWER_TEXT = ? WHERE ANSWER_ID = ?";
     private final String sqlSelectFunctionAnswer = "SELECT ANSWER_TEXT FROM FUNCTION_ANSWER WHERE ANSWER_ID = ?";
+    private final String sqlAddFunctionSolution = "INSERT INTO FUNCTION_SOLUTION(FUNCTION_SOLUTION_ID, TASK_ID, SOLUTION) VALUES(DEFAULT, ?, ?)"; 
+    private final String sqlAddFunctionTask = "INSERT INTO FUNCTION_TASK(TASK_ID, ANSWER_TYPE, FUNCTION_OPTIONS) VALUES (?, ?, ?)";
+    private final String sqlSelectFunctionOptions = "SELECT FUNCTION_OPTIONS FROM FUNCTION_TASK WHERE TASK_ID = ?";
 
     JdbcTemplate jdbcTemplate;
     public String url = "jdbc:derby://localhost:1527/Matistikk"; //[1]: Her skriver man inn adressen til databasen.
@@ -640,12 +642,25 @@ public class DatabaseRepository implements UserRepository {
                 if (task.getId() == 0) {
                     return false;
                 }
-                int j = jdbcTemplate.update(sqlAddFunctionTask, new Object[]{task.getId(), ((Function) task).getAnswerType()});
-                if (j == 0) {
-                    return false;
+                if (((Function) task).getAnswerType() == 2) {
+                    for (int i = 0; i < ((Function) task).getChoices().size(); i++) {
+
+                        int j = jdbcTemplate.update(sqlAddFunctionTask, new Object[]{task.getId(), ((Function) task).getAnswerType(), ((Function) task).getChoices().get(i)});
+                        if (j == 0) {
+                            return false;
+                        }
+                    }
+                } else {
+                    int j = jdbcTemplate.update(sqlAddFunctionTask, new Object[]{task.getId(), ((Function) task).getAnswerType(), null});
+                    if (j == 0) {
+                        return false;
+                    }
                 }
-                // int i = jdbcTemplate.update(sqlAddFunctuinsSolution, new Object[]{task.getId(), ((Figures) task).getSolutionUrl()});
-                //if(i != 0) return true;
+
+                int i = jdbcTemplate.update(sqlAddFunctionSolution, new Object[]{task.getId(), ((Function) task).getSolution()});
+                if (i != 0) {
+                    return true;
+                }
             }
 
         } catch (Exception e) {
@@ -726,6 +741,12 @@ public class DatabaseRepository implements UserRepository {
                 while (srs.next()) {
                     ((Function) task).setAnswerType(srs.getInt("answer_type"));
                 }
+                ArrayList<String> list = new ArrayList<>();
+                srs = jdbcTemplate.queryForRowSet(sqlSelectFunctionOptions, new Object[]{id});
+                while (srs.next()){
+                    list.add(srs.getString("function_options"));
+                }
+                ((Function) task).setChoices(list);
             }
         } catch (Exception e) {
         }

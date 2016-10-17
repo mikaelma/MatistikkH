@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -324,8 +325,21 @@ public class MainController {
                 function.setAnswerType(0);
                 break;
         }
-        System.out.println(function.getAnswerType());
-
+        
+        ArrayList<String> temp = new ArrayList<>();
+        String dd = request.getParameter("functionString");
+        String[] deler = dd.split(Pattern.quote("|||"));
+        
+        for(int i = 0; i<deler.length; i++){
+            temp.add(deler[i]);
+        }
+        
+        String solution1 = request.getParameter("solution");
+        int number = Character.getNumericValue(solution1.charAt(11));        
+        String solution = temp.get(number-1);
+        
+        function.setSolution(solution);
+        function.setChoices(temp);
         function.setUsername(((User) session.getAttribute("user")).getUsername());
         userService.addTask(function, type);
 
