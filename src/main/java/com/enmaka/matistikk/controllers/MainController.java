@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -168,15 +169,15 @@ public class MainController {
         if (LoginController.validate(session, "Student")) {
             return "redirect:/";
         }
-        
+
         String s = request.getParameter("taskId");
         String t = request.getParameter("testId");
         String email = request.getParameter("email");
         int taskId = Integer.parseInt(s);
         int testId = Integer.parseInt(t);
         Answer answer = userService.getAnswer(email, testId, taskId);
-        String functionAnswer = ((AnswerFunction)answer).getValue();
-        List<Double> cords = userService.getCoordinates(answer.getId()); 
+        String functionAnswer = ((AnswerFunction) answer).getValue();
+        List<Double> cords = userService.getCoordinates(answer.getId());
         model.addAttribute("functionAnswer", functionAnswer);
         model.addAttribute("answer", answer);
         model.addAttribute("testId", testId);
@@ -192,10 +193,9 @@ public class MainController {
             return "singlechoicestatistics";
         } else if (task instanceof Sort) {
             return "sortstatistics";
-        } else if (task instanceof Function){
+        } else if (task instanceof Function) {
             return "functionstatistics";
-        }
-        else {
+        } else {
             return "taskstatistics";
         }
     }
@@ -309,13 +309,30 @@ public class MainController {
         if (a.equals("Admin")) {
             type = true;
         }
-           String rb = request.getParameter("answer_type");     //Her er jeg usikker. 
+        //SJEKKER VALGALTERATIV FOR SVAR
+        String rb = request.getParameter("answer_type");     //Her er jeg usikker. 
         switch (rb) {
             case "1":
                 function.setAnswerType(1);
                 break;
             case "2":
                 function.setAnswerType(2);
+
+                ArrayList<String> temp = new ArrayList<>();
+                String dd = request.getParameter("functionString");
+                String[] deler = dd.split(Pattern.quote("|||"));
+
+                for (int i = 0; i < deler.length; i++) {
+                    temp.add(deler[i]);
+                }
+
+                String solution1 = request.getParameter("solution");
+                int number = Character.getNumericValue(solution1.charAt(11));
+                String solution = temp.get(number - 1);
+
+                function.setSolution(solution);
+                function.setChoices(temp);
+
                 break;
             case "3":
                 function.setAnswerType(3);
@@ -324,8 +341,24 @@ public class MainController {
                 function.setAnswerType(0);
                 break;
         }
-        System.out.println(function.getAnswerType());
-
+        //SJEKKER FOR CHECKBOX
+        String cb1 = request.getParameter("explanation");
+        if (cb1!=null) {
+            function.setExplanationChecked();
+        } else{
+            function.setExplanationUnchecked();
+        }
+        String cb2 = request.getParameter("drawing");
+        if (cb2!=null) {
+            function.setDrawingChecked();
+        } else{
+            function.setDrawingUnchecked();
+        }
+        
+        //LEGGER URL I FUNCTION-OBJ
+        String s = request.getParameter("url");
+        function.setUrl(s);
+        
         function.setUsername(((User) session.getAttribute("user")).getUsername());
         userService.addTask(function, type);
 
@@ -552,6 +585,14 @@ public class MainController {
             return "redirect:/";
         }
         return "createfunctiontask";
+    }
+
+    @RequestMapping(value = "creategeometrytaskview")
+    public String creategeometrytaskView(HttpSession session) {
+        if (LoginController.validate(session, "Student")) {
+            return "redirect:/";
+        }
+        return "creategeometrytask";
     }
 
     @RequestMapping(value = "choosetypeview")

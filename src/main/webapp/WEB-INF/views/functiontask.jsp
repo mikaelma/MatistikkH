@@ -1,5 +1,4 @@
-
-<%-- 
+<%--
     Document   : functiontask
     Author     : Team 6
 --%>
@@ -14,7 +13,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width= device-witdh, initial-scale = 1">
-        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> 
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <title>Oppgave <c:out value = "${test.counter + 1}"/></title>
         <style>
 
@@ -29,7 +28,7 @@
             }
         </style>
     </head>
-    <body onload="init()">
+    <body onload="fillOptions(), init()">
         <jsp:include page="/WEB-INF/views/menu.jsp"/>
         <jsp:include page="/WEB-INF/views/styling.jsp"/>
         <div class="container">
@@ -38,62 +37,125 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Oppgave <c:out value = "${test.counter + 1} av ${test.length}"/></div>
                     <div class="panel-body">
-                        Answertype:
+
                         <c:if test = "${answertype == 1}">
-                            <p>TEKSTOPPGAVE</p>
+                            Oppgavetekst:<br>
+                            <c:out value = "${test.currentTask}"/><br><br>
+                            Svar: 
+                           <br>
+                            <textarea class="form-control" rows="4" name="answer" id="tt" autofocus required></textarea>
                         </c:if>
+
                         <c:if test = "${answertype == 2}">
-                            <p>FLERVALGSOPPGAVE</p>
+                            Oppgavetekst:<br>
+                            <c:out value = "${test.currentTask}"/><br><br>
+                            <input type="hidden" id="hidden1" name="antall" value="${amount}">
+                            <div id="options">
+                                <input type="radio" name="options" onClick="setText(this)" value="${option1}">${option1}<br> 
+                                <input type="radio" name="options" onClick="setText(this)" value="${option2}">${option2}<br>
+                            </div>
+                            <input type="hidden" id="hidden2" name="optionAnswer">
+
                         </c:if>
                         <c:if test = "${answertype == 3}">
                             <p>GEOGEBRA</p>
                         </c:if>
                         <br>
-                        Oppgavetekst: <c:out value = "${test.currentTask}"/>
                         <hr>
-                        Svar:
+
+                        <c:if test="${checkExplanation}">
+                            Begrunnelse: <br>
+                            <textarea class="form-control" rows="4" id="comment" name="description" required=""></textarea>
+                        </c:if>
+
                         <br>
-                        <textarea class="form-control" rows="4" name="answer" id="tt" autofocus required></textarea> 
-                        
-                        <hr>
-                        Begrunnelse:
-                        <textarea class="form-control" rows="4" id="comment" name="description" required=""><c:out value="${test.currentTask.answer.explenation}"/></textarea>
-                        <hr>
-                        Tegning:
-                        <br>
-                        <canvas id="can" width="600" height="300" style="border:1px solid #aaaaaa; background-color: white;"></canvas>
-                        </br>
-                        <button type="button" class = "btn btn-primary" name = "clear" id="clr" size="23" onclick="erase()">Blankt</button>
-                        
-                        </div>
+
+                        <c:if test="${checkDrawing}">
+                            Tegning: <br>
+                            <br>
+                            <canvas id="can" width="600" height="300" style="border:1px solid #aaaaaa; background-color: white;"></canvas>
+                            <br>
+                            <button type="button" class = "btn btn-primary" name = "clear" id="clr" size="23" onclick="erase()">Blankt</button>
+                        </c:if>
+
+                    </div>
                     <div class="panel-footer">
                         <nav>
                             <ul class="pager">
                                 <c:if test = "${test.counter > 0}"><button type="submit" name="button" class="btn btn-default" id="prevTask" value="previous" onclick="previousTask()">Forrige</button></c:if>
-                                <button type="submit" name="button" class="btn btn-success" id="submitAnswer" onclick="setAnswer()" value="next">Neste</button>
-                                
-                                <input type="hidden" id="coordinates" name="drawCords">
-                            </ul>
-                        </nav>
+                                    <button type="submit" name="button" class="btn btn-success" onclick="setText()" id="submitAnswer" value="next">Neste</button>
+
+                                    <input type="hidden" id="coordinates" name="drawCords">
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
-                </div>
             </form:form>
-            
+
         </div>
+        
+                <script type="text/javascript">
+            function fillOptions() {
+                var amount = document.getElementById("hidden1").value;
+
+                if (amount == 3) {
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
+                }
+                if (amount == 4) {
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
+                }
+                if (amount == 5) {
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option5}">${option5}<br>';
+                }
+                if (amount == 6) {
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option5}">${option5}<br>';
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option6}">${option6}<br>';
+                }
+                if (amount == 7) {
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option5}">${option5}<br>';
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option6}">${option6}<br>';
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option7}">${option7}<br>';
+                }
+                if (amount == 8) {
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option5}">${option5}<br>';
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option6}">${option6}<br>';
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option7}">${option7}<br>';
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option8}">${option8}<br>';
+                }
+                if (amount == 9) {
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option5}">${option5}<br>';
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option6}">${option6}<br>';
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option7}">${option7}<br>';
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option8}">${option8}<br>';
+                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option9}">${option9}<br>';
+                }
+            }
+        </script>
         <script type="text/javascript">
             var canvas, ctx, flag = false,
-                prevX = 0,
-                currX = 0,
-                prevY = 0,
-                currY = 0,
-                dot_flag = false;
+                    prevX = 0,
+                    currX = 0,
+                    prevY = 0,
+                    currY = 0,
+                    dot_flag = false;
             var cords = [];
             var x = "black",
-                y = 4;
-        
-                var tempX, tempY = 0;
+                    y = 4;
 
-            function init(){
+            var tempX, tempY = 0;
+
+            function init() {
                 canvas = document.getElementById('can');
                 ctx = canvas.getContext("2d");
                 w = canvas.width;
@@ -134,7 +196,7 @@
                     currY = e.clientY - canvas.offsetTop;
                     tempX = currX;
                     tempY = currY;
-                    if(Math.abs(currX-prevX) >= 4.0 || Math.abs(currY-prevY) >= 4.0 ){
+                    if (Math.abs(currX - prevX) >= 4.0 || Math.abs(currY - prevY) >= 4.0) {
                         cords.push(currX + ',' + currY);
                     }
                     flag = true;
@@ -148,10 +210,10 @@
                     }
                 }
                 if (res == 'up' || res == 'out') {
-                    if(tempX != -1.0 && tempY != -1.0){
-                        tempX = e.clientX-canvas.offsetLeft;
-                        tempY = e.clientY-canvas.offsetTop;
-                        if(tempX >= 0 && tempX <= 600 && tempY >= 0 && tempY <= 300 && prevX){
+                    if (tempX != -1.0 && tempY != -1.0) {
+                        tempX = e.clientX - canvas.offsetLeft;
+                        tempY = e.clientY - canvas.offsetTop;
+                        if (tempX >= 0 && tempX <= 600 && tempY >= 0 && tempY <= 300 && prevX) {
                             cords.push("-1.0,-1.0");
                             document.getElementById("coordinates").value = cords;
                             tempX = -1.0;
@@ -171,19 +233,23 @@
                     }
                 }
             }
-            
-     
-            function previousTask(){
+
+
+            function previousTask() {
                 document.getElementById("numerator").removeAttribute("required");
                 document.getElementById("denominator").removeAttribute("required");
                 document.getElementById("comment").removeAttribute("required");
             }
-            
-            if(${test.counter == test.length-1}){
+
+            if (${test.counter == test.length-1}) {
                 document.getElementById("submitAnswer").innerHTML = "Fullfør";
             }
         </script>
-            
+        <script>
+            function setText(obj){
+                document.getElementById('hidden2').value = obj.value;
+            }
+        </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     </body>

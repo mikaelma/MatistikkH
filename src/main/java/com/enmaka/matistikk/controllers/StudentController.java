@@ -68,12 +68,26 @@ public class StudentController {
             return "numberlinetask";
         } else if (test.getCurrentTask() instanceof Figures) {
             return "figurestask";
-        } 
-        /********** GRUPPE 6 ********/
+        } /**
+         * ******** GRUPPE 6 *******
+         */
         else if (test.getCurrentTask() instanceof Function) {
             Task task = test.getCurrentTask();
             int answertype = ((Function) task).getAnswerType();
+            int amount = ((Function) task).getChoices().size();
+
+            boolean checkExplanation = ((Function) task).isChecked1();
+            boolean checkDrawing = ((Function) task).isChecked2();
+
+            for (int i = 0; i < ((Function) task).getChoices().size(); i++) {
+                String option = "option" + (i + 1);
+                model.addAttribute(option, ((Function) task).getChoices().get(i));
+            }
+
             model.addAttribute("answertype", answertype);
+            model.addAttribute("amount", amount);
+            model.addAttribute("checkExplanation", checkExplanation);
+            model.addAttribute("checkDrawing", checkDrawing);
             return "functiontask";
         } else {
             return "tests";
@@ -123,7 +137,9 @@ public class StudentController {
             cords.add(Double.parseDouble(st.nextToken()));
         }
         String s = request.getParameter("answer");
+        String v = request.getParameter("optionAnswer");
         String d = request.getParameter("description");
+        System.out.println("*************" + v);
         if (button.equals("previous")) {
             test.previousTask();
         } else if (test.getCurrentTask() instanceof Arithmetic || test.getCurrentTask() instanceof SingleChoice || test.getCurrentTask() instanceof NumberLine) {
@@ -155,14 +171,25 @@ public class StudentController {
             as.setCoordinates(cords);
             as.setTime(test.getCurrentTask().getTime());
             test.setAnswer(as);
-        }
-        /********* GRUPPE 6 ************/
-        else if(test.getCurrentTask() instanceof Function){
-            Answer as = new AnswerFunction(d, ((Student) session.getAttribute("user")).getUsername(), (Integer) test.getCurrentTask().getId(), s);
-            as.setCoordinates(cords);
-            as.setTime(test.getCurrentTask().getTime());
-            test.setAnswer(as);
-            
+        } /**
+         * ******* GRUPPE 6 ***********
+         */
+        else if (test.getCurrentTask() instanceof Function) {
+
+            if (s != null) {
+                Answer as = new AnswerFunction(d, ((Student) session.getAttribute("user")).getUsername(), (Integer) test.getCurrentTask().getId(), s);
+                as.setCoordinates(cords);
+                as.setTime(test.getCurrentTask().getTime());
+                test.setAnswer(as);
+            } else {
+                System.out.println("**** INNE I IF-TEST ****");
+
+                Answer as = new AnswerFunction(d, ((Student) session.getAttribute("user")).getUsername(), (Integer) test.getCurrentTask().getId(), v);
+                as.setCoordinates(cords);
+                as.setTime(test.getCurrentTask().getTime());
+                test.setAnswer(as);
+            }
+
         }
         if (button.equals("next")) {
             userService.addAnswer(test);
@@ -185,14 +212,30 @@ public class StudentController {
             return "numberlinetask";
         } else if (test.getCurrentTask() instanceof Figures) {
             return "figurestask";
-        } 
-        /******* GRUPPE 6 *********/
+        } /**
+         * ***** GRUPPE 6 ********
+         */
         else if (test.getCurrentTask() instanceof Function) {
             Task task = test.getCurrentTask();
             int answertype = ((Function) task).getAnswerType();
+            int amount = ((Function) task).getChoices().size();
+
+            boolean checkExplanation = ((Function) task).isChecked1();
+            boolean checkDrawing = ((Function) task).isChecked2();
+
+            for (int i = 0; i < ((Function) task).getChoices().size(); i++) {
+                String option = "option" + (i + 1);
+                model.addAttribute(option, ((Function) task).getChoices().get(i));
+            }
+
             model.addAttribute("answertype", answertype);
+            model.addAttribute("amount", amount);
+            model.addAttribute("checkExplanation", checkExplanation);
+            model.addAttribute("checkDrawing", checkDrawing);
             return "functiontask";
-        }
+        } 
         return "tests";
     }
 }
+
+//test

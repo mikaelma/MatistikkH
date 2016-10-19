@@ -101,7 +101,6 @@ public class DatabaseRepository implements UserRepository {
     private final String sqlAddTask = "INSERT INTO TASK(TASK_TYPE, TEXT, TESTABLE, EMAIL_FK) VALUES (?, ?, ?, ?)";
     private final String sqlAddFractionTask = "INSERT INTO FRACTION_TASK(TASK_ID, NUMERATOR, DENOMINATOR) VALUES (?, ?, ?)";
     private final String sqlAddStringTask = "INSERT INTO STRING_TASK(TASK_ID, URL) VALUES (?, ?)";
-    private final String sqlAddFunctionTask = "INSERT INTO FUNCTION_TASK(TASK_ID, ANSWER_TYPE) VALUES (?, ?)"; ///***********
     private final String sqlAddFractionSolution = "INSERT INTO FRACTION_SOLUTION(TASK_ID, NUMERATOR, DENOMINATOR) VALUES (?, ?, ?)";
     private final String sqlAddStringSolution = "INSERT INTO STRING_SOLUTION(TASK_ID, URL) VALUES (?, ?)";
     private final String sqlSelectTask = "SELECT * FROM TASK WHERE TASK.TASK_ID = ?";
@@ -182,6 +181,10 @@ public class DatabaseRepository implements UserRepository {
     private final String sqlAddFunctionAnswer = "INSERT INTO FUNCTION_ANSWER(FUNCTION_ANSWER_ID, ANSWER_ID, ANSWER_TEXT) VALUES (DEFAULT,?, ?)";
     private final String sqlUpdateFunctionAnswer = "UPDATE FUNCTION_ANSWER SET ANSWER_TEXT = ? WHERE ANSWER_ID = ?";
     private final String sqlSelectFunctionAnswer = "SELECT ANSWER_TEXT FROM FUNCTION_ANSWER WHERE ANSWER_ID = ?";
+    private final String sqlAddFunctionSolution = "INSERT INTO FUNCTION_SOLUTION(FUNCTION_SOLUTION_ID, TASK_ID, SOLUTION) VALUES(DEFAULT, ?, ?)";
+    private final String sqlAddFunctionTask = "INSERT INTO FUNCTION_TASK(FUNCTION_TASK_ID, TASK_ID, ANSWER_TYPE, FUNCTION_OPTIONS, CHECKBOX_EXPLANATION, CHECKBOX_DRAWING, URL) VALUES (DEFAULT, ?, ?, ?, ?, ?, ?)";
+    private final String sqlSelectFunctionOptions = "SELECT FUNCTION_OPTIONS FROM FUNCTION_TASK WHERE TASK_ID = ?";
+    private final String sqlSelectFunctionCheckboxes = "SELECT CHECKBOX_EXPLANATION, CHECKBOX_DRAWING FROM FUNCTION_TASK WHERE TASK_ID = ?";
 
     JdbcTemplate jdbcTemplate;
     public String url = "jdbc:derby://localhost:1527/Matistikk"; //[1]: Her skriver man inn adressen til databasen.
@@ -640,12 +643,28 @@ public class DatabaseRepository implements UserRepository {
                 if (task.getId() == 0) {
                     return false;
                 }
-                int j = jdbcTemplate.update(sqlAddFunctionTask, new Object[]{task.getId(), ((Function) task).getAnswerType()});
-                if (j == 0) {
-                    return false;
+                if (((Function) task).getAnswerType() == 2) {
+                    for (int i = 0; i < ((Function) task).getChoices().size(); i++) {
+
+                        int j = jdbcTemplate.update(sqlAddFunctionTask, new Object[]{task.getId(), ((Function) task).getAnswerType(), ((Function) task).getChoices().get(i),
+                            ((Function) task).isChecked1(), ((Function) task).isChecked2(), ((Function) task).getUrl()});
+
+                        if (j == 0) {
+                            return false;
+                        }
+                    }
+                } else {
+                    int j = jdbcTemplate.update(sqlAddFunctionTask, new Object[]{task.getId(), ((Function) task).getAnswerType(), null,
+                        ((Function) task).isChecked1(), ((Function) task).isChecked2(), ((Function) task).getUrl()});
+                    if (j == 0) {
+                        return false;
+                    }
                 }
-                // int i = jdbcTemplate.update(sqlAddFunctuinsSolution, new Object[]{task.getId(), ((Figures) task).getSolutionUrl()});
-                //if(i != 0) return true;
+
+                int i = jdbcTemplate.update(sqlAddFunctionSolution, new Object[]{task.getId(), ((Function) task).getSolution()});
+                if (i != 0) {
+                    return true;
+                }
             }
 
         } catch (Exception e) {
@@ -726,6 +745,30 @@ public class DatabaseRepository implements UserRepository {
                 while (srs.next()) {
                     ((Function) task).setAnswerType(srs.getInt("answer_type"));
                 }
+                srs = jdbcTemplate.queryForRowSet(sqlSelectFunctionCheckboxes, new Object[]{id});
+                while (srs.next()) {
+                    boolean b = srs.getBoolean("checkbox_explanation");
+                    if (b){
+                        ((Function) task).setExplanationChecked();
+                    }
+                    else{
+                        ((Function) task).setExplanationUnchecked();
+                    }
+                    
+                    boolean b1 = srs.getBoolean("checkbox_drawing");
+                    if (b1){
+                        ((Function) task).setDrawingChecked();
+                    }
+                    else{
+                        ((Function) task).setDrawingUnchecked();
+                    }
+                }
+                ArrayList<String> list = new ArrayList<>();
+                srs = jdbcTemplate.queryForRowSet(sqlSelectFunctionOptions, new Object[]{id});
+                while (srs.next()) {
+                    list.add(srs.getString("function_options"));
+                }
+                ((Function) task).setChoices(list);
             }
         } catch (Exception e) {
         }
@@ -947,9 +990,9 @@ public class DatabaseRepository implements UserRepository {
     }
 
     /*
-    Denne metoden tar seg av zippingen av valgte tester.
+     Denne metoden tar seg av zippingen av valgte tester.
     
-    Koden tar i bruk biblioteket ZeroTurnaround ZIP Library som man finner på: https://github.com/zeroturnaround/zt-zip [Besøkt 23.05.16]
+     Koden tar i bruk biblioteket ZeroTurnaround ZIP Library som man finner på: https://github.com/zeroturnaround/zt-zip [Besøkt 23.05.16]
      */
     @Override
     public String zipTests(List<Integer> testIds) {
@@ -978,9 +1021,9 @@ public class DatabaseRepository implements UserRepository {
     }
 
     /*
-    Denne metoden er en hjelpemetode for zipping av statistikk.
+     Denne metoden er en hjelpemetode for zipping av statistikk.
     
-    Hentet fra: http://www.mkyong.com/java/how-to-copy-directory-in-java/ [Besøkt: 23.05.15]
+     Hentet fra: http://www.mkyong.com/java/how-to-copy-directory-in-java/ [Besøkt: 23.05.15]
      */
     static void copyFolder(File src, File dest) throws IOException {
         if (src.isDirectory()) {
