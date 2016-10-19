@@ -41,6 +41,7 @@ public class Function extends Task {
     }
 
     public Function(int id, String text, int answer_type, boolean explanation, boolean drawing, String url) {
+
         super(id, text);
         this.answer_type = answer_type;
         this.explanation = explanation;

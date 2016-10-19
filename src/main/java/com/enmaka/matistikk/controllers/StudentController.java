@@ -88,6 +88,7 @@ public class StudentController {
             model.addAttribute("amount", amount);
             model.addAttribute("checkExplanation", checkExplanation);
             model.addAttribute("checkDrawing", checkDrawing);
+
             return "functiontask";
         } else {
             return "tests";

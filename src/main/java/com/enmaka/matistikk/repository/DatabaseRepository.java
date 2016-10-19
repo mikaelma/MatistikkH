@@ -186,6 +186,7 @@ public class DatabaseRepository implements UserRepository {
     private final String sqlSelectFunctionOptions = "SELECT FUNCTION_OPTIONS FROM FUNCTION_TASK WHERE TASK_ID = ?";
     private final String sqlSelectFunctionCheckboxes = "SELECT CHECKBOX_EXPLANATION, CHECKBOX_DRAWING FROM FUNCTION_TASK WHERE TASK_ID = ?";
 
+
     JdbcTemplate jdbcTemplate;
     public String url = "jdbc:derby://localhost:1527/Matistikk"; //[1]: Her skriver man inn adressen til databasen.
     public String username = "matistikk"; //[2]: Databasens brukernavn
@@ -649,6 +650,7 @@ public class DatabaseRepository implements UserRepository {
                         int j = jdbcTemplate.update(sqlAddFunctionTask, new Object[]{task.getId(), ((Function) task).getAnswerType(), ((Function) task).getChoices().get(i),
                             ((Function) task).isChecked1(), ((Function) task).isChecked2(), ((Function) task).getUrl()});
 
+
                         if (j == 0) {
                             return false;
                         }
@@ -656,6 +658,7 @@ public class DatabaseRepository implements UserRepository {
                 } else {
                     int j = jdbcTemplate.update(sqlAddFunctionTask, new Object[]{task.getId(), ((Function) task).getAnswerType(), null,
                         ((Function) task).isChecked1(), ((Function) task).isChecked2(), ((Function) task).getUrl()});
+
                     if (j == 0) {
                         return false;
                     }
@@ -766,6 +769,7 @@ public class DatabaseRepository implements UserRepository {
                 ArrayList<String> list = new ArrayList<>();
                 srs = jdbcTemplate.queryForRowSet(sqlSelectFunctionOptions, new Object[]{id});
                 while (srs.next()) {
+
                     list.add(srs.getString("function_options"));
                 }
                 ((Function) task).setChoices(list);
@@ -1329,3 +1333,4 @@ public class DatabaseRepository implements UserRepository {
         return jdbcTemplate.query(sqlSelectStudentsClass, new Object[]{classId}, new StudentInfoMapper());
     }
 }
+ 

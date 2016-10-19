@@ -359,6 +359,7 @@ public class MainController {
         String s = request.getParameter("url");
         function.setUrl(s);
         
+
         function.setUsername(((User) session.getAttribute("user")).getUsername());
         userService.addTask(function, type);
 

@@ -123,7 +123,7 @@
                 settings.onComplete.apply(element, [{
                         status: true,
                         message: 'Fil er blitt lastet opp!',
-                        pictureurl:response.replace("/Users/Mikael/Desktop/Matistikk-master2/src/main/webapp/", "www.testurl.no")                   
+                        pictureurl:response.replace("/Users/Mikael/Desktop/Gamle versjona/Matistikk/src/main/webapp", "www.testurl.no")                   
                     }, settings.params]);
             };
 

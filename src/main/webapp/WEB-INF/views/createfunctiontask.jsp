@@ -100,14 +100,14 @@
                             </div>
                         </div>
                     </div>                
-
-
+                    
                     <div class="panel panel-default">
                         <div class="panel-heading" role="tab">
                             <h4 class="panel-title">
                                 <label><input type="radio" name="answer_type" value ="2" data-toggle="collapse" data-parent="#accordion" data-target="#collapse6">Flervalgstest</label>
                                 <span class="glyphicon glyphicon-question-sign" onclick="showflervalg()" style="color:blue; float:right; cursor: pointer"></span>
                             </h4>
+
                         </div>
                         <div id="collapse6" class="panel-collapse collapse">
                             <div class="panel-body">
@@ -151,7 +151,6 @@
                             </div>
                         </div>
                     </div>
-
 
                     <div class="checkbox1 col-sm-offset-0" >
                         <input type="checkbox" name="explanation" id="explanation" value="1">
@@ -234,15 +233,16 @@
                 alert('Du kan maks ha 9 svaralternativer');
             }
 
+
             if (counter < 10) {
                 document.getElementById('dropdown').innerHTML = "";
 
                 document.getElementById('fields').innerHTML += '<label id="label' + counter + '">Alternativ ' + counter +
                         '</label> <input type="text" class="form-control" id="alternativ' + counter + '" placeholder="Alternativ ' + counter + ' " required>';
 
-
                 for (var i = 0; i < counter; i++) {
                     document.getElementById('dropdown').innerHTML += '<option id="dropdown' + (i + 1) + '">Alternativ ' + (i + 1) + '</option>';
+
                 }
 
                 counter++;
@@ -259,6 +259,7 @@
 
             for (var i = 0; i < (something - 1); i++) {
                 document.getElementById('dropdown').innerHTML += '<option id="dropdown' + (i + 1) + '">Alternativ ' + (i + 1) + '</option>';
+
             }
 
             counter--;
@@ -561,7 +562,7 @@
                 'onComplete': function (response) {
                     $('#upload').hide();
                     $('#message').show();
-
+                    $('#url').show();
                     var statusVal = JSON.stringify(response.status);
 
                     if (statusVal == "false")

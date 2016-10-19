@@ -29,6 +29,7 @@
         </style>
     </head>
     <body onload="fillOptions(), init()">
+
         <jsp:include page="/WEB-INF/views/menu.jsp"/>
         <jsp:include page="/WEB-INF/views/styling.jsp"/>
         <div class="container">
@@ -44,6 +45,7 @@
                             Svar: 
                            <br>
                             <textarea class="form-control" rows="4" name="answer" id="tt" autofocus required></textarea>
+
                         </c:if>
 
                         <c:if test = "${answertype == 2}">
@@ -55,6 +57,7 @@
                                 <input type="radio" name="options" onClick="setText(this)" value="${option2}">${option2}<br>
                             </div>
                             <input type="hidden" id="hidden2" name="optionAnswer">
+
 
                         </c:if>
                         <c:if test = "${answertype == 3}">
@@ -78,12 +81,14 @@
                             <button type="button" class = "btn btn-primary" name = "clear" id="clr" size="23" onclick="erase()">Blankt</button>
                         </c:if>
 
+
                     </div>
                     <div class="panel-footer">
                         <nav>
                             <ul class="pager">
                                 <c:if test = "${test.counter > 0}"><button type="submit" name="button" class="btn btn-default" id="prevTask" value="previous" onclick="previousTask()">Forrige</button></c:if>
                                     <button type="submit" name="button" class="btn btn-success" onclick="setText()" id="submitAnswer" value="next">Neste</button>
+
 
                                     <input type="hidden" id="coordinates" name="drawCords">
                                 </ul>
@@ -142,6 +147,7 @@
                 }
             }
         </script>
+        
         <script type="text/javascript">
             var canvas, ctx, flag = false,
                     prevX = 0,
@@ -250,6 +256,7 @@
                 document.getElementById('hidden2').value = obj.value;
             }
         </script>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     </body>
