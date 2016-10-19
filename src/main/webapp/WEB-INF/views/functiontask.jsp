@@ -40,17 +40,19 @@
                     <div class="panel-body">
 
                         <c:if test = "${answertype == 1}">
-                            Oppgavetekst:<br>
-                            <c:out value = "${test.currentTask}"/><br><br>
-                            Svar: 
+                            <label>Oppgavetekst:</label><br>
+                            <c:out value = "${test.currentTask}"/><br>
+                            <img id="bilde" src="${url}" alt=""/><br><br>
+                            <label>Svar:</label> 
                            <br>
                             <textarea class="form-control" rows="4" name="answer" id="tt" autofocus required></textarea>
 
                         </c:if>
 
                         <c:if test = "${answertype == 2}">
-                            Oppgavetekst:<br>
-                            <c:out value = "${test.currentTask}"/><br><br>
+                            <label>Oppgavetekst:</label><br>
+                            <c:out value = "${test.currentTask}"/><br>
+                            <img id="bilde1" src="${url}" alt=""/><br><br>
                             <input type="hidden" id="hidden1" name="antall" value="${amount}">
                             <div id="options">
                                 <input type="radio" name="options" onClick="setText(this)" value="${option1}">${option1}<br> 

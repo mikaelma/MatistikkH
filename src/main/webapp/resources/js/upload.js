@@ -123,7 +123,7 @@
                 settings.onComplete.apply(element, [{
                         status: true,
                         message: 'Fil er blitt lastet opp!',
-                        pictureurl:response.replace("/Users/Mikael/Desktop/Gamle versjona/Matistikk/src/main/webapp", "www.testurl.no")                   
+                        pictureurl:response.replace("C:/", "http://158.38.54.187/"+"")                   
                     }, settings.params]);
             };
 

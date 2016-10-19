@@ -75,6 +75,11 @@ public class StudentController {
             Task task = test.getCurrentTask();
             int answertype = ((Function) task).getAnswerType();
             int amount = ((Function) task).getChoices().size();
+            String url = ((Function) task).getUrl();
+            String sendurl = "";
+            if (!url.isEmpty()) {
+                sendurl = url.substring(1, url.length() - 1);
+            }
 
             boolean checkExplanation = ((Function) task).isChecked1();
             boolean checkDrawing = ((Function) task).isChecked2();
@@ -88,6 +93,7 @@ public class StudentController {
             model.addAttribute("amount", amount);
             model.addAttribute("checkExplanation", checkExplanation);
             model.addAttribute("checkDrawing", checkDrawing);
+            model.addAttribute("url", sendurl);
 
             return "functiontask";
         } else {
@@ -220,6 +226,11 @@ public class StudentController {
             Task task = test.getCurrentTask();
             int answertype = ((Function) task).getAnswerType();
             int amount = ((Function) task).getChoices().size();
+            String url = ((Function) task).getUrl();
+            String sendurl = "";
+            if (!url.isEmpty()) {
+                sendurl = url.substring(1, url.length() - 1);
+            }
 
             boolean checkExplanation = ((Function) task).isChecked1();
             boolean checkDrawing = ((Function) task).isChecked2();
@@ -233,8 +244,9 @@ public class StudentController {
             model.addAttribute("amount", amount);
             model.addAttribute("checkExplanation", checkExplanation);
             model.addAttribute("checkDrawing", checkDrawing);
+            model.addAttribute("url", sendurl);
             return "functiontask";
-        } 
+        }
         return "tests";
     }
 }

@@ -26,7 +26,7 @@ public class UploadFile extends HttpServlet {
  
     private UserService userService;
     private static final long serialVersionUID = 1L;
-    private final String UPLOAD_DIRECTORY = "/Users/Mikael/Desktop/Gamle versjona/Matistikk/src/main/webapp/uploads";
+    private final String UPLOAD_DIRECTORY = "C:/uploadtemp/";
  
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
@@ -46,7 +46,7 @@ public class UploadFile extends HttpServlet {
                 for (FileItem item : multiparts) {
                     if (!item.isFormField()) {
                         String name = new File(item.getName()).getName();
-                        String path = UPLOAD_DIRECTORY + File.separator + name;
+                        String path = UPLOAD_DIRECTORY + name;
                         item.write(new File(path));
                         response.getWriter().write(path);
                     }

@@ -185,6 +185,7 @@ public class DatabaseRepository implements UserRepository {
     private final String sqlAddFunctionTask = "INSERT INTO FUNCTION_TASK(FUNCTION_TASK_ID, TASK_ID, ANSWER_TYPE, FUNCTION_OPTIONS, CHECKBOX_EXPLANATION, CHECKBOX_DRAWING, URL) VALUES (DEFAULT, ?, ?, ?, ?, ?, ?)";
     private final String sqlSelectFunctionOptions = "SELECT FUNCTION_OPTIONS FROM FUNCTION_TASK WHERE TASK_ID = ?";
     private final String sqlSelectFunctionCheckboxes = "SELECT CHECKBOX_EXPLANATION, CHECKBOX_DRAWING FROM FUNCTION_TASK WHERE TASK_ID = ?";
+    private final String sqlSelectFunctionUrl = "SELECT URL FROM FUNCTION_TASK WHERE TASK_ID = ?";
 
 
     JdbcTemplate jdbcTemplate;
@@ -773,6 +774,11 @@ public class DatabaseRepository implements UserRepository {
                     list.add(srs.getString("function_options"));
                 }
                 ((Function) task).setChoices(list);
+                
+                srs = jdbcTemplate.queryForRowSet(sqlSelectFunctionUrl, new Object[]{id});
+                while (srs.next()) {
+                    ((Function) task).setUrl(srs.getString("url"));
+                }
             }
         } catch (Exception e) {
         }
