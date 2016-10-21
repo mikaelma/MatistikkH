@@ -26,7 +26,7 @@ public class UploadFile extends HttpServlet {
  
     private UserService userService;
     private static final long serialVersionUID = 1L;
-    private final String UPLOAD_DIRECTORY = "/Users/Mikael/Desktop/Gamle versjona/Matistikk/src/main/webapp/uploads";
+    private final String UPLOAD_DIRECTORY = "C:/uploadtemp/";
  
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
