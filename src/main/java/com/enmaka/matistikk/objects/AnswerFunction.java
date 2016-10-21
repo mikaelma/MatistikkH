@@ -12,6 +12,7 @@ package com.enmaka.matistikk.objects;
 public class AnswerFunction extends Answer {
 
     private String answerText;
+    private String geoBase64;
 
     public AnswerFunction() {
         super();
@@ -20,6 +21,11 @@ public class AnswerFunction extends Answer {
     public AnswerFunction(String explenation, String email, Function function, String answerText) {
         super(explenation, email);
         this.answerText = answerText;
+    }
+
+    public AnswerFunction(String explenation, String email, String geoBase64, int taskId) {
+        super(explenation, email, taskId);
+        this.geoBase64 = geoBase64;
     }
 
     public AnswerFunction(String explenation, String email) {
@@ -42,5 +48,13 @@ public class AnswerFunction extends Answer {
 
     public void setValue(String answerText) {
         this.answerText = answerText;
+    }
+
+    public String getGeoBase64() {
+        return geoBase64;
+    }
+
+    public void setGeoBase64(String geoBase64) {
+        this.geoBase64 = geoBase64;
     }
 }

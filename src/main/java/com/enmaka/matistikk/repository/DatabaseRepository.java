@@ -178,14 +178,15 @@ public class DatabaseRepository implements UserRepository {
      * ******** GRUPPE 6**********
      */
     private final String sqlSelectFunctionAnswerType = "SELECT ANSWER_TYPE FROM FUNCTION_TASK WHERE TASK_ID = ?";
-    private final String sqlAddFunctionAnswer = "INSERT INTO FUNCTION_ANSWER(FUNCTION_ANSWER_ID, ANSWER_ID, ANSWER_TEXT) VALUES (DEFAULT,?, ?)";
+    private final String sqlAddFunctionAnswer = "INSERT INTO FUNCTION_ANSWER(FUNCTION_ANSWER_ID, ANSWER_ID, ANSWER_TEXT, ANSWER_BASE64) VALUES (DEFAULT,?, ?, ?)";
     private final String sqlUpdateFunctionAnswer = "UPDATE FUNCTION_ANSWER SET ANSWER_TEXT = ? WHERE ANSWER_ID = ?";
-    private final String sqlSelectFunctionAnswer = "SELECT ANSWER_TEXT FROM FUNCTION_ANSWER WHERE ANSWER_ID = ?";
+    private final String sqlSelectFunctionAnswer = "SELECT ANSWER_TEXT, ANSWER_BASE64 FROM FUNCTION_ANSWER WHERE ANSWER_ID = ?";
     private final String sqlAddFunctionSolution = "INSERT INTO FUNCTION_SOLUTION(FUNCTION_SOLUTION_ID, TASK_ID, SOLUTION) VALUES(DEFAULT, ?, ?)";
-    private final String sqlAddFunctionTask = "INSERT INTO FUNCTION_TASK(FUNCTION_TASK_ID, TASK_ID, ANSWER_TYPE, FUNCTION_OPTIONS, CHECKBOX_EXPLANATION, CHECKBOX_DRAWING, URL) VALUES (DEFAULT, ?, ?, ?, ?, ?, ?)";
+    private final String sqlAddFunctionTask = "INSERT INTO FUNCTION_TASK(FUNCTION_TASK_ID, TASK_ID, ANSWER_TYPE, FUNCTION_OPTIONS, CHECKBOX_EXPLANATION, CHECKBOX_DRAWING, URL, FUNCTION_STRING) VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?)";
     private final String sqlSelectFunctionOptions = "SELECT FUNCTION_OPTIONS FROM FUNCTION_TASK WHERE TASK_ID = ?";
     private final String sqlSelectFunctionCheckboxes = "SELECT CHECKBOX_EXPLANATION, CHECKBOX_DRAWING FROM FUNCTION_TASK WHERE TASK_ID = ?";
     private final String sqlSelectFunctionUrl = "SELECT URL FROM FUNCTION_TASK WHERE TASK_ID = ?";
+    private final String sqlSelectFunctionString = "SELECT FUNCTION_STRING FROM FUNCTION_TASK WHERE TASK_ID = ?";
 
 
     JdbcTemplate jdbcTemplate;
@@ -437,7 +438,7 @@ public class DatabaseRepository implements UserRepository {
                         return false;
                     }
                 } else if (answer instanceof AnswerFunction) {
-                    int i = jdbcTemplate.update(sqlAddFunctionAnswer, new Object[]{answer.getId(), ((AnswerFunction) answer).getValue()});
+                    int i = jdbcTemplate.update(sqlAddFunctionAnswer, new Object[]{answer.getId(), ((AnswerFunction) answer).getValue(), ((AnswerFunction) answer).getGeoBase64()});
                     if (i == 0) {
                         return false;
                     }
@@ -502,11 +503,14 @@ public class DatabaseRepository implements UserRepository {
              */
             else if (answer instanceof AnswerFunction) {
                 String s = null;
+                String a = null;
                 srs = jdbcTemplate.queryForRowSet(sqlSelectFunctionAnswer, new Object[]{answer.getId()});
                 while (srs.next()) {
                     s = srs.getString("answer_text");
+                    a = srs.getString("answer_base64");
                 }
                 ((AnswerFunction) answer).setValue(s);
+                ((AnswerFunction) answer).setGeoBase64(a);
             }
 
         } catch (Exception e) {
@@ -649,7 +653,7 @@ public class DatabaseRepository implements UserRepository {
                     for (int i = 0; i < ((Function) task).getChoices().size(); i++) {
 
                         int j = jdbcTemplate.update(sqlAddFunctionTask, new Object[]{task.getId(), ((Function) task).getAnswerType(), ((Function) task).getChoices().get(i),
-                            ((Function) task).isChecked1(), ((Function) task).isChecked2(), ((Function) task).getUrl()});
+                            ((Function) task).isChecked1(), ((Function) task).isChecked2(), ((Function) task).getUrl(), ((Function) task).getFunctionstring()});
 
 
                         if (j == 0) {
@@ -658,7 +662,7 @@ public class DatabaseRepository implements UserRepository {
                     }
                 } else {
                     int j = jdbcTemplate.update(sqlAddFunctionTask, new Object[]{task.getId(), ((Function) task).getAnswerType(), null,
-                        ((Function) task).isChecked1(), ((Function) task).isChecked2(), ((Function) task).getUrl()});
+                        ((Function) task).isChecked1(), ((Function) task).isChecked2(), ((Function) task).getUrl(), ((Function) task).getFunctionstring()});
 
                     if (j == 0) {
                         return false;
@@ -778,6 +782,10 @@ public class DatabaseRepository implements UserRepository {
                 srs = jdbcTemplate.queryForRowSet(sqlSelectFunctionUrl, new Object[]{id});
                 while (srs.next()) {
                     ((Function) task).setUrl(srs.getString("url"));
+                }
+                srs = jdbcTemplate.queryForRowSet(sqlSelectFunctionString, new Object[]{id});
+                while (srs.next()) {
+                    ((Function) task).setFunctionstring(srs.getString("function_string"));
                 }
             }
         } catch (Exception e) {

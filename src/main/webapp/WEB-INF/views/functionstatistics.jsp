@@ -14,6 +14,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width= device-witdh, initial-scale = 1">
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> 
+        <script type="text/javascript" src="https://www.geogebra.org/scripts/deployggb.js"></script>
         <title>Funksjonsoppgave</title>
         <style>
             .container {
@@ -34,7 +35,7 @@
                     Oversikt
                 </div>
                 <div class="panel-body">
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                         <div class="form-group">
                             <label><u>Svar</u></label>
                             <p><c:out value="${functionAnswer}"/></p> 
@@ -49,12 +50,9 @@
                             <p><c:out value="${answer.explenation}"/></p>
                         </div>
                     </div>
-                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                        <div id ="drawing">
-                            <canvas id="can" width="600" height="300" style="border:1px solid #aaaaaa; background-color: white;"></canvas>
-                            <img id="canvasimg" style="position:absolute;top:10%;left:52%;" style="display:none;">
-                        </div>
-                        <button type ="button" onclick="nextStroke()">Neste</button>
+                    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                        <input type="hidden" id="hidden5" value="${geoBase64}">
+                        <div id="applet_container"></div>
                         <input type="hidden" id="hidden1">
                         <input type="hidden" id="hidden2">
                     </div>
@@ -65,19 +63,43 @@
                 <input type="hidden" name="taskId" value="${answer.taskId}">
                 <button type="submit" class="btn btn-primary">Tilbake</button>
             </form:form>
-                <br>
+            <br>
         </div>
+        <script type="text/javascript">
+
+            var parameters = {"prerelease": false, "width": 800, "height": 600, "borderColor": null, "showToolBar": true, "showMenuBar": true, "showAlgebraInput": false,
+                "showResetIcon": false, "enableLabelDrags": false, "enableShiftDragZoom": true, "enableRightClick": false, "capturingThreshold": null, "showToolBarHelp": false,
+                "errorDialogsActive": true, "useBrowserForJS": true, "enableCAS": true};
+
+            var applet = new GGBApplet('5.0', parameters);
+
+            applet.setJavaCodebase('GeoGebra/Java/5.0');
+
+            window.onload = function () {
+                applet.inject('applet_container', 'preferHTML5');
+            };
+        </script>
+
+        <script>
+            var readyCheck = setInterval(function () {
+                if (document.getElementById('hidden5')) {
+                    var strInput = document.getElementById('hidden5').value;
+                    ggbApplet.setBase64(strInput);
+                    clearInterval(readyCheck);
+                }
+            }, 1);
+        </script> 
         <script type="text/javascript">
             var cords = ${cords};
             var canvas, ctx,
-                prevX = 0,
-                currX = cords[0],
-                prevY = 0,
-                currY = cords[1];
+                    prevX = 0,
+                    currX = cords[0],
+                    prevY = 0,
+                    currY = cords[1];
             var counter = 2;
             var cont = false;
             var x = "black",
-                y = 4;
+                    y = 4;
 
             function init() {
                 canvas = document.getElementById('can');
@@ -85,11 +107,11 @@
                 w = canvas.width;
                 h = canvas.height;
             }
-            function nextStroke(){
-                if((counter-2) < cords.length){
+            function nextStroke() {
+                if ((counter - 2) < cords.length) {
                     cont = true;
                     findxy();
-                }else{
+                } else {
                     return false;
                 }
             }
@@ -106,21 +128,21 @@
                 ctx.clearRect(0, 0, w, h);
             }
             function findxy() {
-                while(cont && (counter-2) < cords.length){
+                while (cont && (counter - 2) < cords.length) {
                     prevX = currX;
                     prevY = currY;
                     currX = cords[counter];
                     counter++;
                     currY = cords[counter];
                     counter++;
-                    
-                    
-                    if(currX == -1.0 && (counter-2) <cords.length){
+
+
+                    if (currX == -1.0 && (counter - 2) < cords.length) {
                         currX = cords[counter];
                         counter++;
                         currY = cords[counter];
                         counter++;
-                        if(currX == -2.0 && (counter-2) <cords.length){
+                        if (currX == -2.0 && (counter - 2) < cords.length) {
                             currX = cords[counter];
                             counter++;
                             currY = cords[counter];
@@ -128,19 +150,19 @@
                             erase();
                         }
                         cont = false;
-                    }else if(currX == -2.0 && (counter-2) <cords.length){
+                    } else if (currX == -2.0 && (counter - 2) < cords.length) {
                         currX = cords[counter];
                         counter++;
                         currY = cords[counter];
                         counter++;
                         erase();
                         cont = false;
-                    }else{
+                    } else {
                         draw();
                     }
                 }
             }
-    </script>
+        </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     </body>

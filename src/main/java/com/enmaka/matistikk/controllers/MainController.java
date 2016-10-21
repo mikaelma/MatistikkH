@@ -177,7 +177,9 @@ public class MainController {
         int testId = Integer.parseInt(t);
         Answer answer = userService.getAnswer(email, testId, taskId);
         String functionAnswer = ((AnswerFunction) answer).getValue();
+        String geoBase64 = ((AnswerFunction) answer).getGeoBase64();
         List<Double> cords = userService.getCoordinates(answer.getId());
+        model.addAttribute("geoBase64", geoBase64);
         model.addAttribute("functionAnswer", functionAnswer);
         model.addAttribute("answer", answer);
         model.addAttribute("testId", testId);
@@ -359,6 +361,8 @@ public class MainController {
         String s = request.getParameter("url");
         function.setUrl(s);
         
+        String f = request.getParameter("geogebraString");
+        function.setFunctionstring(f);        
 
         function.setUsername(((User) session.getAttribute("user")).getUsername());
         userService.addTask(function, type);

@@ -20,6 +20,7 @@ public class Function extends Task {
     public boolean explanation;
     public boolean drawing;
     private String url;
+    private String functionstring;
 
     public Function(int answer_type, boolean explanation, boolean drawing, String url) {
         this.answer_type = answer_type;
@@ -40,13 +41,13 @@ public class Function extends Task {
         super(id, text);
     }
 
-    public Function(int id, String text, int answer_type, boolean explanation, boolean drawing, String url) {
-
+    public Function(int id, String text, int answer_type, boolean explanation, boolean drawing, String url, String functionstring) {
         super(id, text);
         this.answer_type = answer_type;
         this.explanation = explanation;
         this.drawing = drawing;
         this.url = url;
+        this.functionstring = functionstring;
     }
 
     public Function(int id, String text, ArrayList<String> choices, String solution) {
@@ -73,6 +74,14 @@ public class Function extends Task {
 
     public void setSolution(String newSolution) {
         this.solution = newSolution;
+    }
+
+    public String getFunctionstring() {
+        return functionstring;
+    }
+
+    public void setFunctionstring(String functionstring) {
+        this.functionstring = functionstring;
     }
 
     public int getAnswerType() {
@@ -106,10 +115,11 @@ public class Function extends Task {
     public boolean isChecked2() {
         return drawing;
     }
+
     public String getUrl() {
         return url;
     }
- 
+
     public void setUrl(String url) {
         this.url = url;
     }

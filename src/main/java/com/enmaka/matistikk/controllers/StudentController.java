@@ -75,6 +75,7 @@ public class StudentController {
             Task task = test.getCurrentTask();
             int answertype = ((Function) task).getAnswerType();
             int amount = ((Function) task).getChoices().size();
+            String functionstring = ((Function) task).getFunctionstring();
             String url = ((Function) task).getUrl();
             String sendurl = "";
             if (!url.isEmpty()) {
@@ -94,6 +95,7 @@ public class StudentController {
             model.addAttribute("checkExplanation", checkExplanation);
             model.addAttribute("checkDrawing", checkDrawing);
             model.addAttribute("url", sendurl);
+            model.addAttribute("functionstring", functionstring);
 
             return "functiontask";
         } else {
@@ -146,7 +148,9 @@ public class StudentController {
         String s = request.getParameter("answer");
         String v = request.getParameter("optionAnswer");
         String d = request.getParameter("description");
-        System.out.println("*************" + v);
+        String g = request.getParameter("base64String");
+        String geosvar = "Dette er en geogebraoppgave";
+        
         if (button.equals("previous")) {
             test.previousTask();
         } else if (test.getCurrentTask() instanceof Arithmetic || test.getCurrentTask() instanceof SingleChoice || test.getCurrentTask() instanceof NumberLine) {
@@ -182,20 +186,24 @@ public class StudentController {
          * ******* GRUPPE 6 ***********
          */
         else if (test.getCurrentTask() instanceof Function) {
-
             if (s != null) {
                 Answer as = new AnswerFunction(d, ((Student) session.getAttribute("user")).getUsername(), (Integer) test.getCurrentTask().getId(), s);
                 as.setCoordinates(cords);
                 as.setTime(test.getCurrentTask().getTime());
                 test.setAnswer(as);
-            } else {
-                System.out.println("**** INNE I IF-TEST ****");
-
+            } else if(v != null){
                 Answer as = new AnswerFunction(d, ((Student) session.getAttribute("user")).getUsername(), (Integer) test.getCurrentTask().getId(), v);
                 as.setCoordinates(cords);
                 as.setTime(test.getCurrentTask().getTime());
                 test.setAnswer(as);
+            } else{
+                Answer as = new AnswerFunction(d, ((Student) session.getAttribute("user")).getUsername(), g, (Integer) test.getCurrentTask().getId());
+                System.out.println("********** Dette er g: "+g);
+                as.setCoordinates(cords);
+                as.setTime(test.getCurrentTask().getTime());
+                test.setAnswer(as);
             }
+            
 
         }
         if (button.equals("next")) {
@@ -226,6 +234,7 @@ public class StudentController {
             Task task = test.getCurrentTask();
             int answertype = ((Function) task).getAnswerType();
             int amount = ((Function) task).getChoices().size();
+            String functionstring = ((Function) task).getFunctionstring();
             String url = ((Function) task).getUrl();
             String sendurl = "";
             if (!url.isEmpty()) {
@@ -245,6 +254,7 @@ public class StudentController {
             model.addAttribute("checkExplanation", checkExplanation);
             model.addAttribute("checkDrawing", checkDrawing);
             model.addAttribute("url", sendurl);
+            model.addAttribute("functionstring", functionstring);
             return "functiontask";
         }
         return "tests";

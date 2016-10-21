@@ -14,6 +14,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width= device-witdh, initial-scale = 1">
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <script type="text/javascript" src="https://www.geogebra.org/scripts/deployggb.js"></script>
         <title>Oppgave <c:out value = "${test.counter + 1}"/></title>
         <style>
 
@@ -29,7 +30,6 @@
         </style>
     </head>
     <body onload="fillOptions(), init()">
-
         <jsp:include page="/WEB-INF/views/menu.jsp"/>
         <jsp:include page="/WEB-INF/views/styling.jsp"/>
         <div class="container">
@@ -39,33 +39,34 @@
                     <div class="panel-heading">Oppgave <c:out value = "${test.counter + 1} av ${test.length}"/></div>
                     <div class="panel-body">
 
+                        <label>Oppgavetekst:</label><br>
+                        <c:out value = "${test.currentTask}"/><br>
+                        <img id="bilde" src="${url}" alt=""/>
+                        <hr>
                         <c:if test = "${answertype == 1}">
-                            <label>Oppgavetekst:</label><br>
-                            <c:out value = "${test.currentTask}"/><br>
-                            <img id="bilde" src="${url}" alt=""/><br><br>
                             <label>Svar:</label> 
-                           <br>
+                            <br>
                             <textarea class="form-control" rows="4" name="answer" id="tt" autofocus required></textarea>
-
                         </c:if>
 
                         <c:if test = "${answertype == 2}">
-                            <label>Oppgavetekst:</label><br>
-                            <c:out value = "${test.currentTask}"/><br>
-                            <img id="bilde1" src="${url}" alt=""/><br><br>
                             <input type="hidden" id="hidden1" name="antall" value="${amount}">
+                            <label>Svar:</label>
                             <div id="options">
                                 <input type="radio" name="options" onClick="setText(this)" value="${option1}">${option1}<br> 
                                 <input type="radio" name="options" onClick="setText(this)" value="${option2}">${option2}<br>
                             </div>
                             <input type="hidden" id="hidden2" name="optionAnswer">
-
-
                         </c:if>
+
                         <c:if test = "${answertype == 3}">
-                            <p>GEOGEBRA</p>
+                            <c:if test = "${functionstring != null}">
+                                <div id="applet_container"></div>
+                                <input type="hidden" name="inputField" id="functionstring" value="${functionstring}">
+                                <input type="hidden" name="base64String" id="hidden3">
+                            </c:if>
                         </c:if>
-                        <br>
+
                         <hr>
 
                         <c:if test="${checkExplanation}">
@@ -80,28 +81,54 @@
                             <br>
                             <canvas id="can" width="600" height="300" style="border:1px solid #aaaaaa; background-color: white;"></canvas>
                             <br>
-                            <button type="button" class = "btn btn-primary" name = "clear" id="clr" size="23" onclick="erase()">Blankt</button>
+                            <button type="button" class = "btn btn-primary" name = "clear" id="clr" onclick="erase()">Blankt</button>
                         </c:if>
-
-
                     </div>
+                        
                     <div class="panel-footer">
                         <nav>
                             <ul class="pager">
-                                <c:if test = "${test.counter > 0}"><button type="submit" name="button" class="btn btn-default" id="prevTask" value="previous" onclick="previousTask()">Forrige</button></c:if>
-                                    <button type="submit" name="button" class="btn btn-success" onclick="setText()" id="submitAnswer" value="next">Neste</button>
-
-
+                                <c:if test = "${test.counter > 0}"><button type="submit" name="button" class="btn btn-default" id="prevTask" value="previous" onclick="previousTask();">Forrige</button></c:if>
+                                    <button type="submit" name="button" class="btn btn-success" onclick="putBase64()" id="submitAnswer" value="next">Neste</button>
                                     <input type="hidden" id="coordinates" name="drawCords">
                                 </ul>
                             </nav>
                         </div>
                     </div>
             </form:form>
-
         </div>
-        
-                <script type="text/javascript">
+
+        <script type="text/javascript">
+
+            var parameters = {"prerelease": false, "width": 800, "height": 600, "borderColor": null, "showToolBar": true, "showMenuBar": false, "showAlgebraInput": false,
+                "showResetIcon": false, "enableLabelDrags": false, "enableShiftDragZoom": true, "enableRightClick": false, "capturingThreshold": null, "showToolBarHelp": false,
+                "errorDialogsActive": true, "useBrowserForJS": true, "enableCAS": true};
+
+            var applet = new GGBApplet('5.0', parameters);
+
+            applet.setJavaCodebase('GeoGebra/Java/5.0');
+
+            window.onload = function () {
+                applet.inject('applet_container', 'preferHTML5');
+            };
+        </script>
+        <script>
+            var readyCheck = setInterval(function () {
+                if (document.getElementById('functionstring')) {
+                    var strInput = document.getElementById('functionstring').value;
+                    ggbApplet.setBase64(strInput);
+                    clearInterval(readyCheck);
+                }
+            }, 1);
+        </script> 
+        <script>
+            function putBase64() {
+                var geoString = ggbApplet.getBase64();
+                document.getElementById('hidden3').value = geoString;
+            }
+        </script>
+
+        <script type="text/javascript">
             function fillOptions() {
                 var amount = document.getElementById("hidden1").value;
 
@@ -149,7 +176,7 @@
                 }
             }
         </script>
-        
+
         <script type="text/javascript">
             var canvas, ctx, flag = false,
                     prevX = 0,
@@ -254,7 +281,7 @@
             }
         </script>
         <script>
-            function setText(obj){
+            function setText(obj) {
                 document.getElementById('hidden2').value = obj.value;
             }
         </script>

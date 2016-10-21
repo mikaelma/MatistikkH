@@ -68,20 +68,7 @@
                                 </div>                                                              
                             </div>
                         </div>
-                                                 
-                    <div class="panel panel-default">
-                        <div class =" panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" href="#collapse2">Legg til GeoGebra</a>
-                                <span class="glyphicon glyphicon-question-sign" style="color:blue; float:right"></span>
-                            </h4>
-                        </div>
-                        <div id="collapse2" class="panel-collapse collapse">
-                            <div class="panel-body" style='max-width: 100%'>
-                                <div id="applet_container"></div>
-                            </div>
-                        </div>
-                    </div>
+
                     </div>
                     <h3>Svar</h3>
                     <div id="accordion" class="panel-group" role="tablist">                
@@ -147,6 +134,7 @@
                                 <div class="panel-body">
                                     <div class="panel-body" style='max-width: 100%'>
                                         <div id="applet_container"></div>
+                                        <input type="hidden" id="hidden4" name="geogebraString">
                                     </div>
                                 </div>
                             </div>
@@ -163,7 +151,7 @@
 
                         <div class="btn-group"><a class="btn btn-primary" href="choosetypeview">Tilbake</a>
                             <button type="button" class="btn btn-warning" onclick="showforhand()"><span class="glyphicon glyphicon-eye-open"></span> Forhåndsvisning</button>
-                            <button type="submit" class="btn btn-success" onclick="setText()">Send inn oppgave</button>
+                            <button type="submit" class="btn btn-success" onclick="setText(); putBase64();">Send inn oppgave</button>
                         </div>
                     </form:form>
                 </div>
@@ -331,7 +319,7 @@
                         title: "Forhåndsvisning",
                         text: "Oppgaven du har laget vil se slik ut for en elev: <hr>"
                                 + "<label>Oppgavetekst:</label> <br>" + text
-                                + "<br><img id='myFilePreview' src=" +"'" +src+"' " +"alt='valgt bilde'/>"
+                                + "<br><img id='myFilePreview' src=" + "'" + src + "' " + "alt='valgt bilde'/>"
                                 + "<br><br><label>Svar:</label><br>" + answerfield
                                 + "",
                         icon: 'info'
@@ -385,9 +373,16 @@
             applet.setJavaCodebase('GeoGebra/Java/5.0');
             window.onload = function () {
                 applet.inject('applet_container', 'preferHTML5');
+            };
+
+
+        </script>
+
+        <script>
+            function putBase64() {
+                var geostring = ggbApplet.getBase64();
+                document.getElementById('hidden4').value = geostring;               
             }
-
-
         </script>
 
         <script>
