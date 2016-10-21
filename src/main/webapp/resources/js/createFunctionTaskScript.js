@@ -71,4 +71,4 @@ function readImage(input) {
 function putBase64() {
     var geostring = ggbApplet.getBase64();
     document.getElementById('hidden4').value = geostring;
-}
+    }

@@ -1,4 +1,9 @@
-
+/*
+ /* Javascript (jQuery) for bruk ved opplasting av bilder. 
+ *  Scriptet styrer kontakten, og de data som utveksles med UploadFile.java
+ *  Response, tillatte filtyper, og feilmeldinger styres via dette scriptet.
+ *  Hentet fra: https://github.com/jfeldstein/jQuery.AjaxFileUpload.js 
+ */
 (function ($) {
     $.fn.ajaxfileupload = function (options) {
         var settings = {
@@ -123,7 +128,7 @@
                 settings.onComplete.apply(element, [{
                         status: true,
                         message: 'Fil er blitt lastet opp!',
-                        pictureurl:response.replace("C:/", "http://158.38.54.187/"+"")                   
+                        pictureurl:response.replace("C:/", "http://10.20.198.107/"+"")                   
                     }, settings.params]);
             };
 
