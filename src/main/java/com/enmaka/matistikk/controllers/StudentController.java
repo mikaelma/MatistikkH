@@ -149,7 +149,7 @@ public class StudentController {
         String v = request.getParameter("optionAnswer");
         String d = request.getParameter("description");
         String g = request.getParameter("base64String");
-        String geosvar = "Dette er en geogebraoppgave";
+        String geolistener = request.getParameter("geolistener");
         
         if (button.equals("previous")) {
             test.previousTask();
@@ -197,8 +197,7 @@ public class StudentController {
                 as.setTime(test.getCurrentTask().getTime());
                 test.setAnswer(as);
             } else{
-                Answer as = new AnswerFunction(d, ((Student) session.getAttribute("user")).getUsername(), g, (Integer) test.getCurrentTask().getId());
-                System.out.println("********** Dette er g: "+g);
+                Answer as = new AnswerFunction(d, ((Student) session.getAttribute("user")).getUsername(), g, geolistener, (Integer) test.getCurrentTask().getId());
                 as.setCoordinates(cords);
                 as.setTime(test.getCurrentTask().getTime());
                 test.setAnswer(as);

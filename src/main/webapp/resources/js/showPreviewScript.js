@@ -3,7 +3,6 @@ var showforhand = function () {
         var text = $('textarea#questionText').val();
         var valg = $("input:radio[name ='answer_type']:checked").val();
         var src = $('#myFilePreview').attr('src');
-
         var answerfield = "";
         if (valg == 1) {
             answerfield = "<textarea style='min-width: 100%; resize:none'></textarea>";
@@ -52,8 +51,8 @@ var showforhand = function () {
             title: "Forhåndsvisning",
             text: "Oppgaven du har laget vil se slik ut for en elev: <hr>"
                     + "<label>Oppgavetekst:</label> <br>" + text
-                    + "<br><img id='myFilePreview' src=" + "'" + src + "' " + "alt='valgt bilde'/>"
-                    + "<br><br><label>Svar:</label><br>" + answerfield
+                    + "<br><img id='myFilePreview' src=" + "'" + src + "' " + "alt=''/>"
+                    + "<br><br><label>Svaregil:</label><br>" + answerfield
                     + "",
             icon: 'info'
         });

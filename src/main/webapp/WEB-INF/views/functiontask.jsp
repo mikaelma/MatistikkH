@@ -38,63 +38,105 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Oppgave <c:out value = "${test.counter + 1} av ${test.length}"/></div>
                     <div class="panel-body">
-
-                        <label>Oppgavetekst:</label><br>
-                        <c:out value = "${test.currentTask}"/><br>
-                        <img id="bilde" src="${url}" alt=""/>
-                        <hr>
-                        <c:if test = "${answertype == 1}">
-                            <label>Svar:</label> 
-                            <br>
-                            <textarea class="form-control" rows="4" name="answer" id="tt" autofocus required></textarea>
-                        </c:if>
-
-                        <c:if test = "${answertype == 2}">
-                            <input type="hidden" id="hidden1" name="antall" value="${amount}">
-                            <label>Svar:</label>
-                            <div id="options">
-                                <input type="radio" name="options" onClick="setText(this)" value="${option1}">${option1}<br> 
-                                <input type="radio" name="options" onClick="setText(this)" value="${option2}">${option2}<br>
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Oppgave</h3>
                             </div>
-                            <input type="hidden" id="hidden2" name="optionAnswer">
-                        </c:if>
+                            <div class="panel-body">
+                                <c:out value = "${test.currentTask}"/>
+                                <img id="bilde" src="${url}" alt=""/>
+                            </div>
+                        </div>
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Svar</h3>
+                            </div>
+                            <div class="panel-body">
+                                <c:if test = "${answertype == 1}">
+                                    <div class="panel panel-warning">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Tekstsvar</h3>
+                                        </div>
+                                        <div class="panel-body"> 
+                                            <textarea class="form-control" rows="4" name="answer" id="tt" autofocus required></textarea>
+                                        </div>
+                                    </div>
+                                </c:if>
 
-                        <c:if test = "${answertype == 3}">
-                            <c:if test = "${functionstring != null}">
-                                <div id="applet_container"></div>
-                                <input type="hidden" name="inputField" id="functionstring" value="${functionstring}">
-                                <input type="hidden" name="base64String" id="hidden3">
-                            </c:if>
-                        </c:if>
+                                <c:if test = "${answertype == 2}">
+                                    <input type="hidden" id="hidden1" name="antall" value="${amount}">
+                                    <div class="panel panel-warning">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Svaralternativer</h3>
+                                        </div>
+                                        <div class="panel-body"> 
+                                            <div id="options">
+                                                <input type="radio" name="options" onClick="setText(this)" value="${option1}">${option1}<br> 
+                                                <input type="radio" name="options" onClick="setText(this)" value="${option2}">${option2}<br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="hidden2" name="optionAnswer">
+                                </c:if>
 
-                        <hr>
+                                <c:if test = "${answertype == 3}">
+                                    <c:if test = "${functionstring != null}">
+                                        <div class="panel panel-warning">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">Geogebra</h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div id="applet_container"></div>
+                                                <textarea rows="8" id="geooutput" style="display: none"></textarea>
+                                                <textarea rows="8" id="updateoutput" style="display: none"></textarea>
+                                                <input type="hidden" id="updatetext" name="geolistener">
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="inputField" id="functionstring" value="${functionstring}">
+                                        <input type="hidden" name="base64String" id="hidden3">
+                                        <input type="hidden" id="hidden4">
+                                    </c:if>
+                                </c:if>
 
-                        <c:if test="${checkExplanation}">
-                            Begrunnelse: <br>
-                            <textarea class="form-control" rows="4" id="comment" name="description" required=""></textarea>
-                        </c:if>
+                                <c:if test="${checkExplanation}">
+                                    <div class="panel panel-warning">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Begrunnelse</h3>
+                                        </div>
+                                        <div class="panel-body">                                     
+                                            <textarea class="form-control" rows="4" id="comment" name="description" style="resize: none;" required=""></textarea>
+                                        </div>
+                                    </div>
+                                </c:if>
 
-                        <br>
-
-                        <c:if test="${checkDrawing}">
-                            Tegning: <br>
-                            <br>
-                            <canvas id="can" width="600" height="300" style="border:1px solid #aaaaaa; background-color: white;"></canvas>
-                            <br>
-                            <button type="button" class = "btn btn-primary" name = "clear" id="clr" onclick="erase()">Blankt</button>
-                        </c:if>
-                    </div>
-                        
-                    <div class="panel-footer">
-                        <nav>
-                            <ul class="pager">
-                                <c:if test = "${test.counter > 0}"><button type="submit" name="button" class="btn btn-default" id="prevTask" value="previous" onclick="previousTask();">Forrige</button></c:if>
-                                    <button type="submit" name="button" class="btn btn-success" onclick="putBase64()" id="submitAnswer" value="next">Neste</button>
-                                    <input type="hidden" id="coordinates" name="drawCords">
-                                </ul>
-                            </nav>
+                                <c:if test="${checkDrawing}">
+                                    <div class="panel panel-warning">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Tegning</h3>
+                                        </div>
+                                        <div class="panel-body"> 
+                                            <canvas id="can" width="600" height="300" style="border:1px solid #aaaaaa; background-color: white;"></canvas>
+                                            <br>
+                                            <button type="button" name = "clear" id="clr" onclick="erase()">Blankt</button>
+                                        </div>
+                                    </div>
+                                </c:if>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="panel-footer">
+                        <nav>
+                            <div class="pager">
+                                <c:if test = "${test.counter > 0}">
+                                    <button type="submit" name="button" class="btn btn-default" id="prevTask" value="previous" onclick="previousTask();">Forrige</button>
+                                </c:if>
+                                <button type="submit" name="button" class="btn btn-success" onclick="putBase64(); updateUpdate(); setGeoText();" id="submitAnswer" value="next">Neste</button>
+                                <input type="hidden" id="coordinates" name="drawCords">
+                            </div>
+                        </nav>
+                    </div>
+                </div>
             </form:form>
         </div>
 
@@ -111,6 +153,43 @@
             window.onload = function () {
                 applet.inject('applet_container', 'preferHTML5');
             };
+        </script>   
+        <script>
+            function ggbOnInit() {
+                // register add, remove, rename and update listeners
+                var d = new Date();
+                var n = d.getTime();
+                document.getElementById('hidden4').value = n;
+                var applet = document.ggbApplet;
+                applet.registerAddListener("addListener");
+                applet.registerRemoveListener("removeListener");
+                applet.registerRenameListener("renameListener");
+                applet.registerClearListener("clearListener");
+                applet.registerUpdateListener("updateListener");
+            }
+            function addListener(objName) {
+                var d = new Date();
+                var n = document.getElementById('hidden4').value;
+                var k = (d.getTime() - n) / 1000;
+                var strVal = document.ggbApplet.getValueString(objName);
+                document.getElementById('geooutput').value += "Add: " + strVal + " | " + k + "\n";
+            }
+            function removeListener(objName) {
+                var d = new Date();
+                var n = document.getElementById('hidden4').value;
+                var k = (d.getTime() - n) / 1000;
+                document.getElementById('geooutput').value += "Remove: " + objName + " | " + k + "\n";
+            }
+
+            function updateListener(objName) {
+                var d = new Date();
+                var n = document.getElementById('hidden4').value;
+                var k = (d.getTime() - n) / 1000;
+                var strVal = document.ggbApplet.getValueString(objName);
+
+                document.getElementById('updateoutput').value += "Update: " + strVal + " | " + k + "\n";
+            }
+
         </script>
         <script>
             var readyCheck = setInterval(function () {
@@ -122,6 +201,46 @@
             }, 1);
         </script> 
         <script>
+            function updateUpdate() {
+                var field = document.getElementById('updateoutput').value;
+                var updatefield = document.getElementById('geooutput');
+                var lines = field.split('\n');
+                var linje = [];
+
+                for (var i = 0; i < lines.length; i++) {
+                    var str = lines[i];
+                    var nystr = str.substring(str.indexOf("|") + 1);
+                    linje[i] = nystr;
+                }
+
+                for (var k = 0; k < linje.length; k++) {
+                    var h = parseFloat(linje[k]);
+                    var s = parseFloat(linje[k + 1]);
+                    if (h + 0.3 < s) {
+                        updatefield.value += lines[k] + "\n";
+                    }
+                    if (k == (linje.length - 1)) {
+                        updatefield.value += lines[k - 1];
+                    }
+                }
+            }
+        </script>
+        <script>
+            function setGeoText() {
+                var valuefield = document.getElementById('geooutput').value;
+                var lines = valuefield.split('\n');
+                var textfield = document.getElementById('updatetext');
+
+                for (var i = 0; i < lines.length; i++) {
+                    if (i == (lines.length - 1)) {
+                        textfield.value += lines[i];
+                    } else {
+                        textfield.value += lines[i] + "|||";
+                    }
+                }
+            }
+        </script>
+        <script>
             function putBase64() {
                 var geoString = ggbApplet.getBase64();
                 document.getElementById('hidden3').value = geoString;
@@ -129,52 +248,55 @@
         </script>
 
         <script type="text/javascript">
-            function fillOptions() {
-                var amount = document.getElementById("hidden1").value;
+            var readyCheck1 = setInterval(function () {
+                if (document.getElementById('options')) {
+                    var amount = document.getElementById("hidden1").value;
 
-                if (amount == 3) {
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
+                    if (amount == 3) {
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
+                    }
+                    if (amount == 4) {
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
+                    }
+                    if (amount == 5) {
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option5}">${option5}<br>';
+                    }
+                    if (amount == 6) {
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option5}">${option5}<br>';
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option6}">${option6}<br>';
+                    }
+                    if (amount == 7) {
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option5}">${option5}<br>';
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option6}">${option6}<br>';
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option7}">${option7}<br>';
+                    }
+                    if (amount == 8) {
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option5}">${option5}<br>';
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option6}">${option6}<br>';
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option7}">${option7}<br>';
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option8}">${option8}<br>';
+                    }
+                    if (amount == 9) {
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option5}">${option5}<br>';
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option6}">${option6}<br>';
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option7}">${option7}<br>';
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option8}">${option8}<br>';
+                        document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option9}">${option9}<br>';
+                    }
+                    clearInterval(readyCheck1);
                 }
-                if (amount == 4) {
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
-                }
-                if (amount == 5) {
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option5}">${option5}<br>';
-                }
-                if (amount == 6) {
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option5}">${option5}<br>';
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option6}">${option6}<br>';
-                }
-                if (amount == 7) {
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option5}">${option5}<br>';
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option6}">${option6}<br>';
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option7}">${option7}<br>';
-                }
-                if (amount == 8) {
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option5}">${option5}<br>';
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option6}">${option6}<br>';
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option7}">${option7}<br>';
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option8}">${option8}<br>';
-                }
-                if (amount == 9) {
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option5}">${option5}<br>';
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option6}">${option6}<br>';
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option7}">${option7}<br>';
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option8}">${option8}<br>';
-                    document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option9}">${option9}<br>';
-                }
-            }
+            }, 1);
         </script>
 
         <script type="text/javascript">

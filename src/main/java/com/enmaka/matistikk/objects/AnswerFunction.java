@@ -13,6 +13,7 @@ public class AnswerFunction extends Answer {
 
     private String answerText;
     private String geoBase64;
+    private String geoListener;
 
     public AnswerFunction() {
         super();
@@ -23,9 +24,10 @@ public class AnswerFunction extends Answer {
         this.answerText = answerText;
     }
 
-    public AnswerFunction(String explenation, String email, String geoBase64, int taskId) {
+    public AnswerFunction(String explenation, String email, String geoBase64, String geoListener, int taskId) {
         super(explenation, email, taskId);
         this.geoBase64 = geoBase64;
+        this.geoListener = geoListener;
     }
 
     public AnswerFunction(String explenation, String email) {
@@ -56,5 +58,13 @@ public class AnswerFunction extends Answer {
 
     public void setGeoBase64(String geoBase64) {
         this.geoBase64 = geoBase64;
+    }
+
+    public String getGeoListener() {
+        return geoListener;
+    }
+
+    public void setGeoListener(String geoListener) {
+        this.geoListener = geoListener;
     }
 }

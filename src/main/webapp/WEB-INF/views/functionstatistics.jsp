@@ -52,9 +52,20 @@
                     </div>
                     <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
                         <input type="hidden" id="hidden5" value="${geoBase64}">
+                        <input type="hidden" id="hidden6" value="${geoListener}">
                         <div id="applet_container"></div>
                         <input type="hidden" id="hidden1">
                         <input type="hidden" id="hidden2">
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Fremgangsmåte</h3>
+                            </div>
+                            <div class="panel-body"  id="geoListenerData">
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -77,7 +88,41 @@
 
             window.onload = function () {
                 applet.inject('applet_container', 'preferHTML5');
+                fremgang();
             };
+        </script>
+
+        <script>
+            function fremgang() {
+                var string = document.getElementById('hidden6').value;
+                var valuediv = document.getElementById('geoListenerData');
+                var tabell = string.split("|||");
+                var tider = [];
+                var sortert = [];
+                for (var i = 0; i < tabell.length; i++) {
+                    var str = tabell[i];
+                    var nystr = str.substring(str.indexOf("|") + 1);
+                    tider[i] = nystr;
+                }
+
+                tider.sort(function (a, b) {
+                    return a - b;
+                });
+
+                for (var k = 0; k < tider.length; k++) {
+                    for (var j = 0; j < tabell.length; j++) {
+                        var str = tabell[j];
+                        var nystr = str.substring(str.indexOf("|") + 1);
+                        if(nystr == tider[k]){
+                            sortert[k] = tabell[j];
+                        }
+                    }
+                }
+                
+                for (var g = 0; g<sortert.length; g++){
+                    valuediv.innerHTML += "<p>" + sortert[g] + " sek</p>";
+                }
+            }
         </script>
 
         <script>

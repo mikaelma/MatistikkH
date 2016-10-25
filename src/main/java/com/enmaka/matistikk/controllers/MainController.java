@@ -178,8 +178,10 @@ public class MainController {
         Answer answer = userService.getAnswer(email, testId, taskId);
         String functionAnswer = ((AnswerFunction) answer).getValue();
         String geoBase64 = ((AnswerFunction) answer).getGeoBase64();
+        String geoListener = ((AnswerFunction) answer).getGeoListener();
         List<Double> cords = userService.getCoordinates(answer.getId());
         model.addAttribute("geoBase64", geoBase64);
+        model.addAttribute("geoListener", geoListener);
         model.addAttribute("functionAnswer", functionAnswer);
         model.addAttribute("answer", answer);
         model.addAttribute("testId", testId);

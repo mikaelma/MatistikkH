@@ -178,9 +178,9 @@ public class DatabaseRepository implements UserRepository {
      * ******** GRUPPE 6**********
      */
     private final String sqlSelectFunctionAnswerType = "SELECT ANSWER_TYPE FROM FUNCTION_TASK WHERE TASK_ID = ?";
-    private final String sqlAddFunctionAnswer = "INSERT INTO FUNCTION_ANSWER(FUNCTION_ANSWER_ID, ANSWER_ID, ANSWER_TEXT, ANSWER_BASE64) VALUES (DEFAULT,?, ?, ?)";
+    private final String sqlAddFunctionAnswer = "INSERT INTO FUNCTION_ANSWER(FUNCTION_ANSWER_ID, ANSWER_ID, ANSWER_TEXT, ANSWER_BASE64, ANSWER_GEOLISTENER) VALUES (DEFAULT,?, ?, ?, ?)";
     private final String sqlUpdateFunctionAnswer = "UPDATE FUNCTION_ANSWER SET ANSWER_TEXT = ? WHERE ANSWER_ID = ?";
-    private final String sqlSelectFunctionAnswer = "SELECT ANSWER_TEXT, ANSWER_BASE64 FROM FUNCTION_ANSWER WHERE ANSWER_ID = ?";
+    private final String sqlSelectFunctionAnswer = "SELECT ANSWER_TEXT, ANSWER_BASE64, ANSWER_GEOLISTENER FROM FUNCTION_ANSWER WHERE ANSWER_ID = ?";
     private final String sqlAddFunctionSolution = "INSERT INTO FUNCTION_SOLUTION(FUNCTION_SOLUTION_ID, TASK_ID, SOLUTION) VALUES(DEFAULT, ?, ?)";
     private final String sqlAddFunctionTask = "INSERT INTO FUNCTION_TASK(FUNCTION_TASK_ID, TASK_ID, ANSWER_TYPE, FUNCTION_OPTIONS, CHECKBOX_EXPLANATION, CHECKBOX_DRAWING, URL, FUNCTION_STRING) VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?)";
     private final String sqlSelectFunctionOptions = "SELECT FUNCTION_OPTIONS FROM FUNCTION_TASK WHERE TASK_ID = ?";
@@ -438,7 +438,7 @@ public class DatabaseRepository implements UserRepository {
                         return false;
                     }
                 } else if (answer instanceof AnswerFunction) {
-                    int i = jdbcTemplate.update(sqlAddFunctionAnswer, new Object[]{answer.getId(), ((AnswerFunction) answer).getValue(), ((AnswerFunction) answer).getGeoBase64()});
+                    int i = jdbcTemplate.update(sqlAddFunctionAnswer, new Object[]{answer.getId(), ((AnswerFunction) answer).getValue(), ((AnswerFunction) answer).getGeoBase64(), ((AnswerFunction) answer).getGeoListener()});
                     if (i == 0) {
                         return false;
                     }
@@ -504,13 +504,16 @@ public class DatabaseRepository implements UserRepository {
             else if (answer instanceof AnswerFunction) {
                 String s = null;
                 String a = null;
+                String g = null;
                 srs = jdbcTemplate.queryForRowSet(sqlSelectFunctionAnswer, new Object[]{answer.getId()});
                 while (srs.next()) {
                     s = srs.getString("answer_text");
                     a = srs.getString("answer_base64");
+                    g = srs.getString("answer_geolistener");
                 }
                 ((AnswerFunction) answer).setValue(s);
                 ((AnswerFunction) answer).setGeoBase64(a);
+                ((AnswerFunction) answer).setGeoListener(g);
             }
 
         } catch (Exception e) {

@@ -68,23 +68,6 @@
                                 </div>                                                              
                             </div>
                         </div>
-
-<<<<<<< HEAD
-=======
-                        <div class="panel panel-default">
-                            <div class =" panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" href="#collapse2">Legg til GeoGebra</a>
-                                    <span class="glyphicon glyphicon-question-sign" style="color:blue; float:right"></span>
-                                </h4>
-                            </div>
-                            <div id="collapse2" class="panel-collapse collapse">
-                                <div class="panel-body" style='max-width: 100%'>
-                                    <div id="applet_container"></div>
-                                </div>
-                            </div>
-                        </div>
->>>>>>> ccd7d81e91e941b82ed9fa3a146c274a6e24ebd1
                     </div>
                     <h3>Svar</h3>
                     <div id="accordion" class="panel-group" role="tablist">                
@@ -166,11 +149,12 @@
                         </div>
 
                         <div class="btn-group"><a class="btn btn-primary" href="choosetypeview">Tilbake</a>
-                            <button type="button" class="btn btn-warning" onclick="showforhand()"><span class="glyphicon glyphicon-eye-open"></span> Forhåndsvisning</button>
+                            <button type="button" id="forhandsbutton" class="btn btn-warning" onclick="showforhand()"><span class="glyphicon glyphicon-eye-open"></span> Forhåndsvisning</button>
                             <button type="submit" class="btn btn-success" onclick="setText(); putBase64();">Send inn oppgave</button>
                         </div>
                     </form:form>
                 </div>                       
+                    
             </div>
         </div>
 <script type="text/javascript" src="resources/js/showPreviewScript.js"/></script>
