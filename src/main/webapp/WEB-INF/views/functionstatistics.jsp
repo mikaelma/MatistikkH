@@ -65,6 +65,10 @@
                             <div class="panel-body"  id="geoListenerData">
 
                             </div>
+                            <div id="test">
+                                <button onclick="back()">Forrige</button>
+                                <button onclick="next()">Neste</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -82,12 +86,17 @@
                 "showResetIcon": false, "enableLabelDrags": false, "enableShiftDragZoom": true, "enableRightClick": false, "capturingThreshold": null, "showToolBarHelp": false,
                 "errorDialogsActive": true, "useBrowserForJS": true, "enableCAS": true};
 
+            var parameters2 = {"prerelease": false, "id": "ggbApplet2", "width": 800, "height": 600, "borderColor": null, "showToolBar": true, "showMenuBar": true, "showAlgebraInput": false,
+                "showResetIcon": false, "enableLabelDrags": false, "enableShiftDragZoom": true, "enableRightClick": false, "capturingThreshold": null, "showToolBarHelp": false,
+                "errorDialogsActive": true, "useBrowserForJS": true, "enableCAS": true};
+
             var applet = new GGBApplet('5.0', parameters);
-
+            var applet2 = new GGBApplet('5.0', parameters2);
             applet.setJavaCodebase('GeoGebra/Java/5.0');
-
+            applet2.setJavaCodebase('GeoGebra/Java/5.0');
             window.onload = function () {
                 applet.inject('applet_container', 'preferHTML5');
+                applet2.inject('test', 'preferHTML5');
                 fremgang();
             };
         </script>
@@ -108,20 +117,87 @@
                 tider.sort(function (a, b) {
                     return a - b;
                 });
-
                 for (var k = 0; k < tider.length; k++) {
                     for (var j = 0; j < tabell.length; j++) {
                         var str = tabell[j];
                         var nystr = str.substring(str.indexOf("|") + 1);
-                        if(nystr == tider[k]){
+                        if (nystr == tider[k]) {
                             sortert[k] = tabell[j];
                         }
                     }
                 }
-                
-                for (var g = 0; g<sortert.length; g++){
+
+                for (var g = 0; g < sortert.length; g++) {
                     valuediv.innerHTML += "<p>" + sortert[g] + " sek</p>";
                 }
+            }
+        </script>
+        <script>
+            String.prototype.replaceAll = function (search, replacement) {
+                var target = this;
+                return target.split(search).join(replacement);
+            };
+            var x = 0;
+            var base64 = "";
+            function next() {
+                var el = document.getElementById('geoListenerData');
+                var content = el.innerHTML.replace(/  |^\s+|\s+$/g, "");
+                var lines = content.split("</p>");
+                var tabell = [];
+                var string = "";
+                for (var i = 0; i < lines.length - 1; i++) {
+                    var tabell = lines[i].split("<p>");
+                    for (var j = 1; j < 2; j++) {
+                        string += tabell[j] + "|";
+                    }
+                }
+                var newString = string.toString();
+                var newString2 = newString.replaceAll("Add: ", "");
+                var newString3 = newString2.replaceAll("Update: ", "");
+                var newString4 = newString3.replace(/ /g, '');
+                var newString5 = newString4.replaceAll("sek", "");
+                newString5 = newString5.replace(/\\/g, '');
+                newString5 = newString5.replaceAll(",", "");
+                newString5 = newString5.replaceAll(";", "");
+                var commandtabell = newString5.split("|");
+
+                if (x > commandtabell.length-2) {
+                    alert("Det ble ikke gjort flere endringer.");
+                } else {
+                    base64 = ggbApplet2.getBase64();
+                    alert(commandtabell[x]);
+                    ggbApplet2.evalCommand(commandtabell[x]);
+                    x += 2;
+                    
+                }
+            }
+
+            function back() {
+                var el = document.getElementById('geoListenerData');
+                var content = el.innerHTML.replace(/  |^\s+|\s+$/g, "");
+                var lines = content.split("</p>");
+                var tabell = [];
+                var string = "";
+                for (var i = 0; i < lines.length - 1; i++) {
+                    var tabell = lines[i].split("<p>");
+                    for (var j = 1; j < 2; j++) {
+                        string += tabell[j] + "|";
+                    }
+                }
+                var newString = string.toString();
+                var newString2 = newString.replaceAll("Add: ", "");
+                var newString3 = newString2.replaceAll("Update: ", "");
+                var newString4 = newString3.replace(/ /g, '');
+                var newString5 = newString4.replaceAll("sek", "");
+                var commandtabell = newString5.split("|");
+                
+                if (base64 != null && base64 != "") {
+                    x -= 2;
+                    ggbApplet2.evalCommand(commandtabell[x-2]);
+                } else {
+                    alert("Forrige endring eksisterer ikke.");
+                }
+                
             }
         </script>
 
@@ -145,7 +221,6 @@
             var cont = false;
             var x = "black",
                     y = 4;
-
             function init() {
                 canvas = document.getElementById('can');
                 ctx = canvas.getContext("2d");
@@ -180,8 +255,6 @@
                     counter++;
                     currY = cords[counter];
                     counter++;
-
-
                     if (currX == -1.0 && (counter - 2) < cords.length) {
                         currX = cords[counter];
                         counter++;

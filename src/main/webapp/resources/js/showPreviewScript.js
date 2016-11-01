@@ -1,6 +1,6 @@
 var showforhand = function () {
     jQuery(function ($) {
-        var text = $('textarea#questionText').val();
+        var text = $('input[type=hidden]#hidden7').val();
         var valg = $("input:radio[name ='answer_type']:checked").val();
         var src = $('#myFilePreview').attr('src');
         var answerfield = "";
@@ -52,7 +52,7 @@ var showforhand = function () {
             text: "Oppgaven du har laget vil se slik ut for en elev: <hr>"
                     + "<label>Oppgavetekst:</label> <br>" + text
                     + "<br><img id='myFilePreview' src=" + "'" + src + "' " + "alt=''/>"
-                    + "<br><br><label>Svaregil:</label><br>" + answerfield
+                    + "<br><br><label>Svar:</label><br>" + answerfield
                     + "",
             icon: 'info'
         });

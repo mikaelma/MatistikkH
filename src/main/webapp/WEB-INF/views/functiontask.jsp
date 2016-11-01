@@ -15,6 +15,9 @@
         <meta name="viewport" content="width= device-witdh, initial-scale = 1">
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <script type="text/javascript" src="https://www.geogebra.org/scripts/deployggb.js"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});</script>
+        <script type="text/javascript" async  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+        
         <title>Oppgave <c:out value = "${test.counter + 1}"/></title>
         <style>
 
@@ -43,7 +46,7 @@
                                 <h3 class="panel-title">Oppgave</h3>
                             </div>
                             <div class="panel-body">
-                                <c:out value = "${test.currentTask}"/>
+                                ${test.currentTask}
                                 <img id="bilde" src="${url}" alt=""/>
                             </div>
                         </div>
