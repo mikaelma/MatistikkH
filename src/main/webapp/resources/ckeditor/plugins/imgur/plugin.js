@@ -4,8 +4,9 @@
             lang: ['zh', 'en'],
             init: function( editor )
             {
-                var ClientId = editor.config.imgurClientId;
-                if(!ClientId)
+                var ClientId ='5b81c5d51bac4f6';
+               // ClientId = editor.config.imgurClientId;
+                if(!ClientId)                    
                     alert(editor.lang.imgur.clientIdMissing);
 
                 var count = 0;
