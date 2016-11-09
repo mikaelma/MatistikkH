@@ -56,7 +56,7 @@
 
                                     <form id ="questionForm">
                                         <textarea id="questionText" class ='form-control' style='min-width: 100%' name="text"></textarea>
-                                        <script>CKEDITOR.replace('questionText');</script>
+                                        <script>CKEDITOR.replace('questionText',{toolbar:'teacher'});</script>
                                         <input type="hidden" id="hidden7">
                                     </form>
 
