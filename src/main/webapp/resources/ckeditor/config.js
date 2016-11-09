@@ -49,5 +49,6 @@ CKEDITOR.editorConfig = function (config) {
     // Mathjax
     config.extraPlugins += (config.extraPlugins.length == 0 ? '' : ',') +'mathjax';
     config.mathJaxLib = '//cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS_HTML';
+
 };
 

@@ -24,8 +24,9 @@ public class AnswerFunction extends Answer {
         this.answerText = answerText;
     }
 
-    public AnswerFunction(String explenation, String email, String geoBase64, String geoListener, int taskId) {
+    public AnswerFunction(String explenation, String email, String geoBase64, String geoListener, int taskId, String answerText) {
         super(explenation, email, taskId);
+        this.answerText = answerText;
         this.geoBase64 = geoBase64;
         this.geoListener = geoListener;
     }

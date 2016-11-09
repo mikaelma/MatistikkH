@@ -53,22 +53,3 @@ function setText() {
 
     document.getElementById("hidden1").value = document.getElementById("dropdown").value;
 }
-
-// Metoden gjør det mulig å vise en preview av bildet man laster opp i createfunctiontask
-function readImage(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            $('#myFilePreview')
-                    .attr('src', e.target.result)
-                    .width(150)
-                    .height(200);
-        };
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-
-function putBase64() {
-    var geostring = ggbApplet.getBase64();
-    document.getElementById('hidden4').value = geostring;
-    }
