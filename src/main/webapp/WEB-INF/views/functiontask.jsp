@@ -12,12 +12,12 @@
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width= device-witdh, initial-scale = 1">
+        <meta name="viewport" content="width= device-width, initial-scale = 1">
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <script type="text/javascript" src="https://www.geogebra.org/scripts/deployggb.js"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});</script>
         <script type="text/javascript" async  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-        
+
         <title>Oppgave <c:out value = "${test.counter + 1}"/></title>
         <style>
 
@@ -47,7 +47,6 @@
                             </div>
                             <div class="panel-body">
                                 ${test.currentTask}
-                                <img id="bilde" src="${url}" alt=""/>
                             </div>
                         </div>
                         <div class="panel panel-success">
@@ -56,6 +55,18 @@
                             </div>
                             <div class="panel-body">
                                 <c:if test = "${answertype == 1}">
+                                    <c:if test = "${functionstring != 'tom'}">
+                                        <div class="panel panel-warning">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">Geogebra</h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div id="applet_container"></div>
+                                            </div>
+                                        </div>
+
+                                    </c:if>
+
                                     <div class="panel panel-warning">
                                         <div class="panel-heading">
                                             <h3 class="panel-title">Tekstsvar</h3>
@@ -68,6 +79,17 @@
 
                                 <c:if test = "${answertype == 2}">
                                     <input type="hidden" id="hidden1" name="antall" value="${amount}">
+                                    <c:if test = "${functionstring != 'tom'}">
+                                        <div class="panel panel-warning">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">Geogebra</h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div id="applet_container"></div>
+                                            </div>
+                                        </div>
+                                    </c:if>
+
                                     <div class="panel panel-warning">
                                         <div class="panel-heading">
                                             <h3 class="panel-title">Svaralternativer</h3>
@@ -83,21 +105,15 @@
                                 </c:if>
 
                                 <c:if test = "${answertype == 3}">
-                                    <c:if test = "${functionstring != null}">
+                                    <c:if test = "${functionstring != 'tom'}">
                                         <div class="panel panel-warning">
                                             <div class="panel-heading">
                                                 <h3 class="panel-title">Geogebra</h3>
                                             </div>
                                             <div class="panel-body">
                                                 <div id="applet_container"></div>
-                                                <textarea rows="8" id="geooutput" style="display: none"></textarea>
-                                                <textarea rows="8" id="updateoutput" style="display: none"></textarea>
-                                                <input type="hidden" id="updatetext" name="geolistener">
                                             </div>
                                         </div>
-                                        <input type="hidden" name="inputField" id="functionstring" value="${functionstring}">
-                                        <input type="hidden" name="base64String" id="hidden3">
-                                        <input type="hidden" id="hidden4">
                                     </c:if>
                                 </c:if>
 
@@ -136,6 +152,12 @@
                                 </c:if>
                                 <button type="submit" name="button" class="btn btn-success" onclick="putBase64(); updateUpdate(); setGeoText();" id="submitAnswer" value="next">Neste</button>
                                 <input type="hidden" id="coordinates" name="drawCords">
+                                <input type="hidden" name="inputField" id="functionstring" value="${functionstring}">
+                                <input type="hidden" name="base64String" id="hidden3">
+                                <input type="hidden" id="hidden4">
+                                <textarea rows="8" id="geooutput" style="display: none"></textarea>
+                                <textarea rows="8" id="updateoutput" style="display: none"></textarea>
+                                <input type="hidden" id="updatetext" name="geolistener">
                             </div>
                         </nav>
                     </div>
@@ -144,7 +166,6 @@
         </div>
 
         <script type="text/javascript">
-
             var parameters = {"prerelease": false, "width": 800, "height": 600, "borderColor": null, "showToolBar": true, "showMenuBar": false, "showAlgebraInput": false,
                 "showResetIcon": false, "enableLabelDrags": false, "enableShiftDragZoom": true, "enableRightClick": false, "capturingThreshold": null, "showToolBarHelp": false,
                 "errorDialogsActive": true, "useBrowserForJS": true, "enableCAS": true};
@@ -193,7 +214,7 @@
                 document.getElementById('updateoutput').value += "Update: " + strVal + " | " + k + "\n";
             }
 
-        </script>
+        </script>      
         <script>
             var readyCheck = setInterval(function () {
                 if (document.getElementById('functionstring')) {
@@ -202,7 +223,7 @@
                     clearInterval(readyCheck);
                 }
             }, 1);
-        </script> 
+        </script>
         <script>
             function updateUpdate() {
                 var field = document.getElementById('updateoutput').value;

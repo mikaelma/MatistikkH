@@ -20,7 +20,7 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.js"></script>
         <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="https://www.geogebra.org/scripts/deployggb.js"></script>
-        
+
         <script type="text/javascript" src="resources/js/ggbAppletScript.js"></script>
         <script type="text/javascript" src="resources/js/infoboxScript.js"></script> 
         <script type="text/javascript" src="resources/js/createFunctionTaskScript.js"></script>
@@ -57,38 +57,34 @@
                                     <form id ="questionForm">
                                         <textarea id="questionText" class ='form-control' style='min-width: 100%' name="text"></textarea>
                                         <script>CKEDITOR.replace('questionText');</script>
-                                        <input type="hidden" id="hidden7">
                                     </form>
+                                    <input type="hidden" id="hidden7">
+                                    <input type="hidden" id="hidden8">
 
                                 </div>
                             </div>
                         </div>
-                        <div class="panel panel-default">
+                        <div class="panel panel-default" id="geogebrapanel">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
-                                    <a data-toggle="collapse" href="#collapsePicUpload">Legg til bilde</a>
+                                    <label><input type="checkbox" id="geocheck" data-toggle="collapse" data-target="#collapseGeogebra" onclick="geogebraClick()"> Legg til Geogebra</label>
                                     <span class="glyphicon glyphicon-question-sign" style="color:blue; float:right"></span>
                                 </h4>
                             </div>
-                            <div id="collapsePicUpload" class="panel-collapse collapse">
+                            <div id="collapseGeogebra" class="panel-collapse collapse">
                                 <div class="panel-body">              
-                                    <label class="inline">
-                                        <input type="file" id="myFile" name="file" onchange="readImage(this);" accept="image/*"/>                                          
-                                        <img id="myFilePreview" src="#" alt="valgt bilde"/><br>
-                                    </label>
-                                    <div id="upload" style="display: none;">Laster opp..</div>
-                                    <div id="message"></div>
-                                    <input type="hidden" id="url" name="url">                                
+                                    <div id="applet_container"></div>
+                                    <input type="hidden" id="hidden4" name="geogebraString">                               
                                 </div>                                                              
                             </div>
                         </div>
                     </div>
                     <h3>Svar</h3>
                     <div id="accordion" class="panel-group" role="tablist">                
-                        <div class="panel panel-default">
+                        <div class="panel panel-default" id="tekstRadio">
                             <div class =" panel-heading" role="tab">
                                 <h4 class="panel-title">
-                                    <label><input type="radio" name="answer_type" value ="1" data-toggle="collapse" data-parent="#accordion" data-target="#collapse5" required>Tekstsvar</label>
+                                    <label><input type="radio" name="answer_type" value ="1" data-toggle="collapse" data-parent="#accordion" data-target="#collapse5" onclick="radioClick(this)" required>Tekstsvar</label>
                                     <span class="glyphicon glyphicon-question-sign" onclick="showtekstsvar()" style="color:blue; float:right; cursor: pointer"></span>
                                 </h4>
                             </div>
@@ -101,10 +97,10 @@
                             </div>
                         </div>                
 
-                        <div class="panel panel-default">
+                        <div class="panel panel-default" id="flervalgRadio">
                             <div class="panel-heading" role="tab">
                                 <h4 class="panel-title">
-                                    <label><input type="radio" name="answer_type" value ="2" data-toggle="collapse" data-parent="#accordion" data-target="#collapse6">Flervalgstest</label>
+                                    <label><input type="radio" name="answer_type" value ="2" data-toggle="collapse" data-parent="#accordion" data-target="#collapse6" onclick="radioClick(this)">Flervalgstest</label>
                                     <span class="glyphicon glyphicon-question-sign" onclick="showflervalg()" style="color:blue; float:right; cursor: pointer"></span>
                                 </h4>
 
@@ -135,18 +131,17 @@
                             </div>
                         </div>
 
-                        <div class="panel panel-default">
+                        <div class="panel panel-default" id="geoRadio">
                             <div class =" panel-heading" role="tab">
                                 <h4 class="panel-title">
-                                    <label><input type="radio" name="answer_type" value ="3" data-toggle="collapse" data-parent="#accordion" data-target="#collapse7">Geogebra</label>
+                                    <label><input type="radio" name="answer_type" value ="3" data-toggle="collapse" data-parent="#accordion" data-target="#collapse7" onclick="radioClick(this)">Geogebra</label>
                                     <span class="glyphicon glyphicon-question-sign" onclick="showgeo()" style="color:blue; float:right; cursor: pointer"></span>
 
                                 </h4>
                             </div>
                             <div id="collapse7" class="panel-collapse collapse">
                                 <div class="panel-body">
-                                    <div id="applet_container"></div>
-                                    <input type="hidden" id="hidden4" name="geogebraString">
+                                    Hvis dette alternativet velges, vil eleven kunne svare kun med Geogebra. 
                                 </div>
                             </div>
                         </div>
@@ -171,11 +166,62 @@
         </div>
 
         <script>
+            var putBase64 = function () {
+                jQuery(function ($) {
+                    if ($('#geocheck').is(":checked")) {
+                        var geostring = ggbApplet.getBase64();
+                        document.getElementById('hidden4').value = geostring;
+                    }
+                });
+            };
+        </script>
+
+        <script>
+            function radioClick(myRadio) {
+                var valg = myRadio.value;
+                if (valg == 1) {
+                    document.getElementById('tekstRadio').className = "panel panel-success";
+                    document.getElementById('flervalgRadio').className = "panel panel-default";
+                    document.getElementById('geoRadio').className = "panel panel-default";
+                } else if (valg == 2) {
+                    document.getElementById('tekstRadio').className = "panel panel-default";
+                    document.getElementById('flervalgRadio').className = "panel panel-success";
+                    document.getElementById('geoRadio').className = "panel panel-default";
+                } else {
+                    document.getElementById('tekstRadio').className = "panel panel-default";
+                    document.getElementById('flervalgRadio').className = "panel panel-default";
+                    document.getElementById('geoRadio').className = "panel panel-success";
+                }
+            }
+        </script>
+
+        <script>
+            function geogebraClick() {
+                var panel = document.getElementById('geogebrapanel');
+                var checkbox = document.getElementById('geocheck');
+                if (checkbox.checked) {
+                    panel.className = "panel panel-success";
+                } else {
+                    panel.className = "panel panel-default";
+                }
+            }
+        </script>
+
+        <script>
             function setTekst() {
                 var text = CKEDITOR.instances.questionText.getData();
                 var felt = document.getElementById('hidden7');
-
                 felt.value = text;
+                var geofelt = document.getElementById('hidden8');
+
+                var geocheck = document.getElementById('geocheck');
+                if (geocheck.checked) {
+                    var geobilde = ggbApplet.getPNGBase64(0.8, true);
+                    geofelt.value = geobilde;
+                }
+                else{
+                    geofelt.value = "";
+                }
             }
         </script>
         <script>
@@ -183,10 +229,17 @@
                 jQuery(function ($) {
                     var text = $('input[type=hidden]#hidden7').val();
                     var valg = $("input:radio[name ='answer_type']:checked").val();
-                    var src = $('#myFilePreview').attr('src');
+                    var geobildet = $('input[type=hidden]#hidden8').val();
                     var answerfield = "";
+                    
+                    if (geobildet == ""){
+                        answerfield = "";
+                    }
+                    else{
+                        answerfield = "<div class='panel panel-warning'><div class='panel-heading'><h3 class='panel-title'>Geogebra</h3></div><div class='panel-body'><img id='geobilde' src='data:image/png;base64, " + geobildet + "' " + "alt=''/></div></div>";
+                    }
                     if (valg == 1) {
-                        answerfield = "<textarea style='min-width: 100%; resize:none'></textarea>";
+                        answerfield += "<div class='panel panel-warning'><div class='panel-heading'><h3 class='panel-title'>Tekstsvar</h3></div><div class='panel-body'><textarea style='min-width: 100%; resize:none'></textarea></div></div>";
                     }
                     if (valg == 2) {
                         var alternativ1 = $('#alternativ1').val();
@@ -198,9 +251,7 @@
                         var alternativ7 = $('#alternativ7').val();
                         var alternativ8 = $('#alternativ8').val();
                         var alternativ9 = $('#alternativ9').val();
-
-                        answerfield = "<input type='radio' name='options'>" + alternativ1 + "<br><input type='radio' name='options'>" + alternativ2;
-
+                        answerfield += "<label>Velg riktig alternativ: </label><br><input type='radio' name='options'>" + alternativ1 + "<br><input type='radio' name='options'>" + alternativ2;
                         for (var i = 3; i < counter; i++) {
                             if (i == 3) {
                                 answerfield += "<br><input type='radio' name='options'>" + alternativ3;
@@ -221,27 +272,19 @@
                     }
 
                     if ($('#explanation').is(":checked")) {
-                        answerfield += "<br><br><label>Forklaring</label><br><textarea style='min-width: 100%; resize:none'></textarea>";
-                    }
-
-                    if ($('#drawing').is(":checked")) {
-                        answerfield += "<br><br><label>Tegning</label><br><canvas heigth='100' style='resize:none; border:1px solid #000000;'></canvas>";
+                        answerfield += "<div class='panel panel-warning'><div class='panel-heading'><h3 class='panel-title'>Forklaring</h3></div><div class='panel-body'><textarea style='min-width: 100%; resize:none'></textarea></div></div>";
                     }
 
                     $('body').bsMsgBox({
                         title: "Forhåndsvisning",
                         text: "Oppgaven du har laget vil se slik ut for en elev: <hr>"
-                                + "<label>Oppgavetekst:</label> <br>" + text
-                                + "<br><img id='myFilePreview' src=" + "'" + src + "' " + "alt=''/>"
-                                + "<br><br><label>Svar:</label><br>" + answerfield
+                                + "<div class='panel panel-info'><div class='panel-heading'><h3 class='panel-title'>Oppgave</h3></div><div class='panel-body'>" + text + "</div></div>"
+                                + "<div class='panel panel-success'><div class='panel-heading'><h3 class='panel-title'>Svar</h3></div><div class='panel-body'>" + answerfield + "</div></div>"
                                 + "",
                         icon: 'info'
                     });
                 });
             };
-
-
-
         </script>
     </body>
 </html>

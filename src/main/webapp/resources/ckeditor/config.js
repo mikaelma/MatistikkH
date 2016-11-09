@@ -9,6 +9,8 @@ CKEDITOR.editorConfig = function( config ) {
 	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
 
 	// The toolbar groups arrangement, optimized for two toolbar rows.
+        
+        
 	config.toolbarGroups = [
 		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
 		{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
@@ -24,7 +26,7 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'styles' },
 		{ name: 'colors' },
 		{ name: 'about' },
-                { name:'wiris', items:['ckeditor_wiris_formulaEditor', 'ckeditor_wiris_formulaEditorChemistry'] }
+                //{ name:'wiris', groups:['ckeditor_wiris_formulaEditor'] }
 	];
 
 	// Remove some buttons provided by the standard plugins, which are
@@ -32,14 +34,14 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removeButtons = 'Underline';
         // For Imgur
         config.extraPlugins = 'imgur';
-        config.imgurClientID = '55d8ba08326ec75';
+        config.imgurClientID = '5b81c5d51bac4f6';
+        
         // For MathJax
         config.mathJaxLib = '//cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS_HTML';
         // For wiris
         config.extraPlugins += (config.extraPlugins.length == 0 ? '' : ',') + 'ckeditor_wiris';
-        //config.toolbar_Full.push({name:'wiris', items:['ckeditor_wiris_formulaEditor', 'ckeditor_wiris_formulaEditorChemistry']});
+        config.toolbarGroups.push({name:'wiris', groups:['ckeditor_wiris_formulaEditor', 'ckeditor_wiris_formulaEditorChemistry']});
 	config.allowedContent = true;
-
 	// Set the most common block elements.
 	config.format_tags = 'p;h1;h2;h3;pre';
 

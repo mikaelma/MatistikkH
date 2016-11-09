@@ -76,11 +76,11 @@ public class StudentController {
             int answertype = ((Function) task).getAnswerType();
             int amount = ((Function) task).getChoices().size();
             String functionstring = ((Function) task).getFunctionstring();
-            String url = ((Function) task).getUrl();
-            String sendurl = "";
-            if (!url.isEmpty()) {
+            //String url = ((Function) task).getUrl();
+            //String sendurl = "";
+            /*if (!url.isEmpty()) {
                 sendurl = url.substring(1, url.length() - 1);
-            }
+            }*/
 
             boolean checkExplanation = ((Function) task).isChecked1();
             boolean checkDrawing = ((Function) task).isChecked2();
@@ -94,8 +94,13 @@ public class StudentController {
             model.addAttribute("amount", amount);
             model.addAttribute("checkExplanation", checkExplanation);
             model.addAttribute("checkDrawing", checkDrawing);
-            model.addAttribute("url", sendurl);
-            model.addAttribute("functionstring", functionstring);
+            //model.addAttribute("url", sendurl);
+            if(functionstring == null || functionstring.equals("")){
+                model.addAttribute("functionstring", "tom");
+            }
+            else{
+                model.addAttribute("functionstring", functionstring);
+            }
 
             return "functiontask";
         } else {
@@ -150,6 +155,7 @@ public class StudentController {
         String d = request.getParameter("description");
         String g = request.getParameter("base64String");
         String geolistener = request.getParameter("geolistener");
+        String geosvar = "Oppgaven er besvart i Geogebra.";
         
         if (button.equals("previous")) {
             test.previousTask();
@@ -187,17 +193,17 @@ public class StudentController {
          */
         else if (test.getCurrentTask() instanceof Function) {
             if (s != null) {
-                Answer as = new AnswerFunction(d, ((Student) session.getAttribute("user")).getUsername(), (Integer) test.getCurrentTask().getId(), s);
+                Answer as = new AnswerFunction(d, ((Student) session.getAttribute("user")).getUsername(), g, geolistener, (Integer) test.getCurrentTask().getId(), s);
                 as.setCoordinates(cords);
                 as.setTime(test.getCurrentTask().getTime());
                 test.setAnswer(as);
             } else if(v != null){
-                Answer as = new AnswerFunction(d, ((Student) session.getAttribute("user")).getUsername(), (Integer) test.getCurrentTask().getId(), v);
+                Answer as = new AnswerFunction(d, ((Student) session.getAttribute("user")).getUsername(), g, geolistener, (Integer) test.getCurrentTask().getId(), v);
                 as.setCoordinates(cords);
                 as.setTime(test.getCurrentTask().getTime());
                 test.setAnswer(as);
             } else{
-                Answer as = new AnswerFunction(d, ((Student) session.getAttribute("user")).getUsername(), g, geolistener, (Integer) test.getCurrentTask().getId());
+                Answer as = new AnswerFunction(d, ((Student) session.getAttribute("user")).getUsername(), g, geolistener, (Integer) test.getCurrentTask().getId(), geosvar);
                 as.setCoordinates(cords);
                 as.setTime(test.getCurrentTask().getTime());
                 test.setAnswer(as);
@@ -234,11 +240,11 @@ public class StudentController {
             int answertype = ((Function) task).getAnswerType();
             int amount = ((Function) task).getChoices().size();
             String functionstring = ((Function) task).getFunctionstring();
-            String url = ((Function) task).getUrl();
+            /*String url = ((Function) task).getUrl();
             String sendurl = "";
             if (!url.isEmpty()) {
                 sendurl = url.substring(1, url.length() - 1);
-            }
+            }*/
 
             boolean checkExplanation = ((Function) task).isChecked1();
             boolean checkDrawing = ((Function) task).isChecked2();
@@ -252,8 +258,13 @@ public class StudentController {
             model.addAttribute("amount", amount);
             model.addAttribute("checkExplanation", checkExplanation);
             model.addAttribute("checkDrawing", checkDrawing);
-            model.addAttribute("url", sendurl);
-            model.addAttribute("functionstring", functionstring);
+            //model.addAttribute("url", sendurl);
+            if(functionstring == null || functionstring.equals("")){
+                model.addAttribute("functionstring", "tom");
+            }
+            else{
+                model.addAttribute("functionstring", functionstring);
+            }
             return "functiontask";
         }
         return "tests";
