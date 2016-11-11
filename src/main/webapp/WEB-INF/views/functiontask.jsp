@@ -17,6 +17,7 @@
         <script type="text/javascript" src="https://www.geogebra.org/scripts/deployggb.js"></script>
         <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});</script>
         <script type="text/javascript" async  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+        <script type="text/javascript" src="resources/ckeditor/ckeditor.js"></script>
 
         <title>Oppgave <c:out value = "${test.counter + 1}"/></title>
         <style>
@@ -73,6 +74,7 @@
                                         </div>
                                         <div class="panel-body"> 
                                             <textarea class="form-control" rows="4" name="answer" id="tt" autofocus required></textarea>
+                                            <script>CKEDITOR.replace('tt',{toolbar:'student'});</script>
                                         </div>
                                     </div>
                                 </c:if>
@@ -124,6 +126,7 @@
                                         </div>
                                         <div class="panel-body">                                     
                                             <textarea class="form-control" rows="4" id="comment" name="description" style="resize: none;" required=""></textarea>
+                                            <script>CKEDITOR.replace('comment',{toolbar:'student'});</script>
                                         </div>
                                     </div>
                                 </c:if>

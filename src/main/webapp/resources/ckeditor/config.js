@@ -22,7 +22,7 @@ CKEDITOR.editorConfig = function (config) {
     ];
 
     // Toolbar used by students when answering a question    
-    config.studentToolbar = [
+    config.toolbar_student = [
         {name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']}
     ];
 
