@@ -30,6 +30,7 @@
         <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});</script>
         <script type="text/javascript" async  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
         <script type="text/javascript" src="resources/ckeditor/ckeditor.js"></script>
+        <script>UPLOADCARE_PUBLIC_KEY = '255bcffadf120c92a388'; </script>
 
     </head>
     <body>
@@ -56,7 +57,7 @@
 
                                     <form id ="questionForm">
                                         <textarea id="questionText" class ='form-control' style='min-width: 100%' name="text"></textarea>
-                                        <script>CKEDITOR.replace('questionText',{toolbar:'teacher'});</script>
+                                        <script>CKEDITOR.replace('questionText', {toolbar: 'teacher'});</script>
                                         <input type="hidden" id="hidden7">
                                     </form>
                                     <input type="hidden" id="hidden7">
@@ -219,8 +220,7 @@
                 if (geocheck.checked) {
                     var geobilde = ggbApplet.getPNGBase64(0.8, true);
                     geofelt.value = geobilde;
-                }
-                else{
+                } else {
                     geofelt.value = "";
                 }
             }
@@ -232,11 +232,10 @@
                     var valg = $("input:radio[name ='answer_type']:checked").val();
                     var geobildet = $('input[type=hidden]#hidden8').val();
                     var answerfield = "";
-                    
-                    if (geobildet == ""){
+
+                    if (geobildet == "") {
                         answerfield = "";
-                    }
-                    else{
+                    } else {
                         answerfield = "<div class='panel panel-warning'><div class='panel-heading'><h3 class='panel-title'>Geogebra</h3></div><div class='panel-body'><img id='geobilde' src='data:image/png;base64, " + geobildet + "' " + "alt=''/></div></div>";
                     }
                     if (valg == 1) {

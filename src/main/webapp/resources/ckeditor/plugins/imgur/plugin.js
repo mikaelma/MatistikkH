@@ -6,8 +6,9 @@
             {
                 ClientId = editor.config.imgurClientId;
                 if(!ClientId)
-                    alert(editor.lang.imgur.clientIdMissing);
 
+                    alert(editor.lang.imgur.clientIdMissing);
+            
                 var count = 0;
                 var $placeholder = $("<div></div>").css({
                     position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: "rgba(20, 20, 20, .6)", padding: 5, color: "#fff"
