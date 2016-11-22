@@ -50,101 +50,94 @@
                                 ${test.currentTask}
                             </div>
                         </div>
-                        <div class="panel panel-success">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Svar</h3>
+                        <c:if test = "${answertype == 1}">
+                            <c:if test = "${functionstring != 'tom'}">
+                                <div class="panel panel-warning">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Geogebra</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="applet_container"></div>
+                                    </div>
+                                </div>
+
+                            </c:if>
+
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Tekstsvar</h3>
+                                </div>
+                                <div class="panel-body"> 
+                                    <textarea class="form-control" rows="4" name="answer" id="tt" autofocus required></textarea>
+                                    <script>CKEDITOR.replace('tt', {toolbar: 'student'});</script>
+                                </div>
                             </div>
-                            <div class="panel-body">
-                                <c:if test = "${answertype == 1}">
-                                    <c:if test = "${functionstring != 'tom'}">
-                                        <div class="panel panel-warning">
-                                            <div class="panel-heading">
-                                                <h3 class="panel-title">Geogebra</h3>
-                                            </div>
-                                            <div class="panel-body">
-                                                <div id="applet_container"></div>
-                                            </div>
-                                        </div>
+                        </c:if>
 
-                                    </c:if>
-
-                                    <div class="panel panel-warning">
-                                        <div class="panel-heading">
-                                            <h3 class="panel-title">Tekstsvar</h3>
-                                        </div>
-                                        <div class="panel-body"> 
-                                            <textarea class="form-control" rows="4" name="answer" id="tt" autofocus required></textarea>
-                                            <script>CKEDITOR.replace('tt',{toolbar:'student'});</script>
-                                        </div>
+                        <c:if test = "${answertype == 2}">
+                            <input type="hidden" id="hidden1" name="antall" value="${amount}">
+                            <c:if test = "${functionstring != 'tom'}">
+                                <div class="panel panel-warning">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Geogebra</h3>
                                     </div>
-                                </c:if>
-
-                                <c:if test = "${answertype == 2}">
-                                    <input type="hidden" id="hidden1" name="antall" value="${amount}">
-                                    <c:if test = "${functionstring != 'tom'}">
-                                        <div class="panel panel-warning">
-                                            <div class="panel-heading">
-                                                <h3 class="panel-title">Geogebra</h3>
-                                            </div>
-                                            <div class="panel-body">
-                                                <div id="applet_container"></div>
-                                            </div>
-                                        </div>
-                                    </c:if>
-
-                                    <div class="panel panel-warning">
-                                        <div class="panel-heading">
-                                            <h3 class="panel-title">Svaralternativer</h3>
-                                        </div>
-                                        <div class="panel-body"> 
-                                            <div id="options">
-                                                <input type="radio" name="options" onClick="setText(this)" value="${option1}">${option1}<br> 
-                                                <input type="radio" name="options" onClick="setText(this)" value="${option2}">${option2}<br>
-                                            </div>
-                                        </div>
+                                    <div class="panel-body">
+                                        <div id="applet_container"></div>
                                     </div>
-                                    <input type="hidden" id="hidden2" name="optionAnswer">
-                                </c:if>
+                                </div>
+                            </c:if>
 
-                                <c:if test = "${answertype == 3}">
-                                    <c:if test = "${functionstring != 'tom'}">
-                                        <div class="panel panel-warning">
-                                            <div class="panel-heading">
-                                                <h3 class="panel-title">Geogebra</h3>
-                                            </div>
-                                            <div class="panel-body">
-                                                <div id="applet_container"></div>
-                                            </div>
-                                        </div>
-                                    </c:if>
-                                </c:if>
-
-                                <c:if test="${checkExplanation}">
-                                    <div class="panel panel-warning">
-                                        <div class="panel-heading">
-                                            <h3 class="panel-title">Begrunnelse</h3>
-                                        </div>
-                                        <div class="panel-body">                                     
-                                            <textarea class="form-control" rows="4" id="comment" name="description" style="resize: none;" required=""></textarea>
-                                            <script>CKEDITOR.replace('comment',{toolbar:'student'});</script>
-                                        </div>
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Svaralternativer</h3>
+                                </div>
+                                <div class="panel-body"> 
+                                    <div id="options">
+                                        <input type="radio" name="options" onClick="setText(this)" value="${option1}">${option1}<br> 
+                                        <input type="radio" name="options" onClick="setText(this)" value="${option2}">${option2}<br>
                                     </div>
-                                </c:if>
-
-                                <c:if test="${checkDrawing}">
-                                    <div class="panel panel-warning">
-                                        <div class="panel-heading">
-                                            <h3 class="panel-title">Tegning</h3>
-                                        </div>
-                                        <div class="panel-body"> 
-                                            <canvas id="can" width="600" height="300" style="border:1px solid #aaaaaa; background-color: white;"></canvas>
-                                            <br>
-                                            <button type="button" name = "clear" id="clr" onclick="erase()">Blankt</button>
-                                        </div>
-                                    </div>
-                                </c:if>
+                                </div>
                             </div>
-                        </div>
+                            <input type="hidden" id="hidden2" name="optionAnswer">
+                        </c:if>
+
+                        <c:if test = "${answertype == 3}">
+                            <c:if test = "${functionstring != 'tom'}">
+                                <div class="panel panel-warning">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Geogebra</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="applet_container"></div>
+                                    </div>
+                                </div>
+                            </c:if>
+                        </c:if>
+
+                        <c:if test="${checkExplanation}">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Begrunnelse</h3>
+                                </div>
+                                <div class="panel-body">                                     
+                                    <textarea class="form-control" rows="4" id="comment" name="description" style="resize: none;" required=""></textarea>
+                                    <script>CKEDITOR.replace('comment', {toolbar: 'student'});</script>
+                                </div>
+                            </div>
+                        </c:if>
+
+                        <c:if test="${checkDrawing}">
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Tegning</h3>
+                                </div>
+                                <div class="panel-body"> 
+                                    <canvas id="can" width="600" height="300" style="border:1px solid #aaaaaa; background-color: white;"></canvas>
+                                    <br>
+                                    <button type="button" name = "clear" id="clr" onclick="erase()">Blankt</button>
+                                </div>
+                            </div>
+                        </c:if>
                     </div>
 
                     <div class="panel-footer">

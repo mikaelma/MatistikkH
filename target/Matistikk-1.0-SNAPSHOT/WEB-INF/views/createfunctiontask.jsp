@@ -20,8 +20,6 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.js"></script>
         <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="https://www.geogebra.org/scripts/deployggb.js"></script>
-
-        <script type="text/javascript" src="resources/js/ggbAppletScript.js"></script>
         <script type="text/javascript" src="resources/js/infoboxScript.js"></script> 
         <script type="text/javascript" src="resources/js/createFunctionTaskScript.js"></script>
         <script type="text/javascript" src="resources/js/modalScript.js"></script> 
@@ -30,7 +28,7 @@
         <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});</script>
         <script type="text/javascript" async  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
         <script type="text/javascript" src="resources/ckeditor/ckeditor.js"></script>
-        <script>UPLOADCARE_PUBLIC_KEY = '255bcffadf120c92a388'; </script>
+        <script>UPLOADCARE_PUBLIC_KEY = '255bcffadf120c92a388';</script>
 
     </head>
     <body>
@@ -69,15 +67,15 @@
                         <div class="panel panel-default" id="geogebrapanel">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
-                                    <label><input type="checkbox" id="geocheck" data-toggle="collapse" data-target="#collapseGeogebra" onclick="geogebraClick()"> Legg til Geogebra</label>
+                                    <label><input type="checkbox" id="geocheck" data-toggle="collapse" data-target="#collapseGeogebra" onclick="geogebraClick()" checked> Legg til Geogebra</label>
                                     <span class="glyphicon glyphicon-question-sign" style="color:blue; float:right"></span>
                                 </h4>
                             </div>
-                            <div id="collapseGeogebra" class="panel-collapse collapse">
+                            <div id="collapseGeogebra" class="panel-collapse collapse in">
                                 <div class="panel-body">              
-                                    <div id="applet_container"></div>
-                                    <input type="hidden" id="hidden4" name="geogebraString">                               
-                                </div>                                                              
+                                    <div id="applet_container"></div>                            
+                                </div>    
+                                <input type="hidden" id="hidden4" name="geogebraString">  
                             </div>
                         </div>
                     </div>
@@ -166,6 +164,37 @@
 
             </div>
         </div>
+
+        <script type="text/javascript">
+
+            var parameters = {
+                "id": "ggbApplet",
+                "width": 800,
+                "height": 600,
+                "showToolBar": true,
+                "borderColor": null,
+                "showMenuBar": true,
+                "allowStyleBar": true,
+                "showAlgebraInput": true,
+                "enableLabelDrags": false,
+                "enableShiftDragZoom": true,
+                "capturingThreshold": null,
+                "showToolBarHelp": false,
+                "errorDialogsActive": true,
+                "showTutorialLink": false,
+                "showLogging": false,
+                "useBrowserForJS": false
+            };
+
+            var applet = new GGBApplet(parameters, '5.0', 'applet_container');
+            //  when used with Math Apps Bundle, uncomment this:
+            //  applet.setHTML5Codebase('GeoGebra/HTML5/5.0/web3d/');
+
+            window.onload = function () {
+                applet.inject('applet_container', 'preferhtml5');
+            };
+
+        </script>
 
         <script>
             var putBase64 = function () {
