@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.enmaka.matistikk.users.Student;
 import com.enmaka.matistikk.users.User;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -29,7 +31,7 @@ public class LoginController {
     private UserService userService;
     
     @RequestMapping(value="login", method = RequestMethod.POST)
-    public String loginMainPage(UserLogin ul, BindingResult error, HttpSession session) {
+    public String loginMainPage(UserLogin ul, BindingResult error, HttpSession session)throws NoSuchAlgorithmException,InvalidKeySpecException {
         if(error.hasErrors()) {
             return "login";
         }
@@ -45,7 +47,7 @@ public class LoginController {
     }
     
     @RequestMapping(value="newuser", method=RequestMethod.POST)
-    public String newUser(@ModelAttribute("student") Student student, Model model, BindingResult error) {
+    public String newUser(@ModelAttribute("student") Student student, Model model, BindingResult error) throws NoSuchAlgorithmException, InvalidKeySpecException {
         if(error.hasErrors()){
             return "login";
         }
@@ -60,7 +62,7 @@ public class LoginController {
     }
     
     @RequestMapping(value="forgotpassword", method = RequestMethod.POST)
-    public String sendPassword(@ModelAttribute("student") Student student, BindingResult error){
+    public String sendPassword(@ModelAttribute("student") Student student, BindingResult error)throws NoSuchAlgorithmException, InvalidKeySpecException{
         if(error.hasErrors()){
             return "redirect:/";
         }

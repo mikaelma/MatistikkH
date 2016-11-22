@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -54,7 +56,7 @@ public class AdminController {
     }
     
     @RequestMapping(value = "newteacher", method = RequestMethod.POST)
-    public String newTeacher(@ModelAttribute("teacher") Teacher teacher, @ModelAttribute UserFormBackingBean backingBean, Model model, BindingResult error, HttpSession session) {
+    public String newTeacher(@ModelAttribute("teacher") Teacher teacher, @ModelAttribute UserFormBackingBean backingBean, Model model, BindingResult error, HttpSession session) throws NoSuchAlgorithmException, InvalidKeySpecException {
         if(!LoginController.validate(session, "Admin")) {
             return "redirect:/";
         }

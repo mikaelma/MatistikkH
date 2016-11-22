@@ -22,6 +22,9 @@ import com.enmaka.matistikk.mappers.AnswerStatisticsMapper;
 import com.enmaka.matistikk.mappers.TestStatisticsMapper;
 import com.enmaka.matistikk.email.Mail;
 import com.enmaka.matistikk.objects.*;
+import com.enmaka.matistikk.security.PasswordHash;
+import static com.enmaka.matistikk.security.PasswordHash.fromHex;
+import static com.enmaka.matistikk.security.PasswordHash.validatePassword;
 import com.enmaka.matistikk.service.*;
 import com.enmaka.matistikk.users.*;
 import java.io.BufferedReader;
@@ -37,6 +40,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import static java.lang.System.console;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -188,7 +193,6 @@ public class DatabaseRepository implements UserRepository {
     private final String sqlSelectFunctionUrl = "SELECT URL FROM FUNCTION_TASK WHERE TASK_ID = ?";
     private final String sqlSelectFunctionString = "SELECT FUNCTION_STRING FROM FUNCTION_TASK WHERE TASK_ID = ?";
 
-
     JdbcTemplate jdbcTemplate;
     public String url = "jdbc:derby://localhost:1527/Matistikk"; //[1]: Her skriver man inn adressen til databasen.
     public String username = "matistikk"; //[2]: Databasens brukernavn
@@ -225,45 +229,60 @@ public class DatabaseRepository implements UserRepository {
 
     //Denne metoden legger til en student
     @Override
-    public boolean addStudent(Student student) {
-        String password = Mail.generate(); //Genererer et passord for studenten
-        String description = "Student";
-        Integer classId = null;
-        int i = jdbcTemplate.update(sqlAddUser,
-                new Object[]{student.getUsername(),
-                    password,
-                    description,
-                    true});
-        int j = jdbcTemplate.update(sqlAddStudentInfo,
-                new Object[]{student.getUsername(),
-                    student.age,
-                    student.sex,
-                    classId});
-        if (i > 0 && j > 0) {
-            Mail.sendEmail(student.getUsername(), password); //Sender passord via e-post til studentens e-postadresse
-            return true;
+    public boolean addStudent(Student student) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        try {
+            String password = Mail.generate(); //Genererer et passord for studenten
+            String hash = PasswordHash.createHash(password); // Hasher det autogenererte passordet
+
+            // Test slutt
+            String description = "Student";
+            Integer classId = null;
+            int i = jdbcTemplate.update(sqlAddUser,
+                    new Object[]{student.getUsername(),
+                        description,
+                        true,
+                        hash});
+            int j = jdbcTemplate.update(sqlAddStudentInfo,
+                    new Object[]{student.getUsername(),
+                        student.age,
+                        student.sex,
+                        classId});
+            if (i > 0 && j > 0) {
+                Mail.sendEmail(student.getUsername(), password); //Sender passord via e-post til studentens e-postadresse
+                return true;
+            }
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+            System.out.println("ERROR: " + ex);
         }
         return false;
     }
 
     //Denne metoden legger til en lærer
     @Override
-    public boolean addTeacher(Teacher teacher) {
-        String password = Mail.generate(); //Genererer et passord for læreren
-        String description = "Teacher";
-        int i = jdbcTemplate.update(sqlAddUser,
-                new Object[]{teacher.getUsername(),
-                    password,
-                    description,
-                    true});
-        int j = jdbcTemplate.update(sqlAddTeacherInfo,
-                new Object[]{teacher.getUsername(),
-                    teacher.getFirstName(),
-                    teacher.getLastName(),
-                    teacher.getSchoolId()});
-        if (i > 0 && j > 0) {
-            Mail.sendEmail(teacher.getUsername(), password); //Sender passord via e-post til studentens e-postadresse
-            return true;
+    public boolean addTeacher(Teacher teacher) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        try {
+            String password = Mail.generate(); //Genererer et passord for læreren          
+            String hash = PasswordHash.createHash(password); // Hasher passordet som lagres i databasen
+
+            //
+            String description = "Teacher";
+            int i = jdbcTemplate.update(sqlAddUser,
+                    new Object[]{teacher.getUsername(),
+                        description,
+                        true,
+                        hash});
+            int j = jdbcTemplate.update(sqlAddTeacherInfo,
+                    new Object[]{teacher.getUsername(),
+                        teacher.getFirstName(),
+                        teacher.getLastName(),
+                        teacher.getSchoolId()});
+            if (i > 0 && j > 0) {
+                Mail.sendEmail(teacher.getUsername(), password); //Sender passord via e-post til studentens e-postadresse
+                return true;
+            }
+
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+            System.out.println("ERROR: " + ex);
         }
         return false;
     }
@@ -271,19 +290,41 @@ public class DatabaseRepository implements UserRepository {
     //Denne metoden tar seg av innloggingen til en bruker
     @Override
     public User login(String username, String password) {
-        User u;
-        try {
-            u = jdbcTemplate.queryForObject(sqlFindUser, new Object[]{username, password}, new UserMapper()); //Sjekker om brukeren med oppgitt brukernavn og passord finnes
-            if (u instanceof Student) {
-                u = (Student) jdbcTemplate.queryForObject(sqlSelectStudentInfo, new Object[]{u.getUsername()}, new StudentMapper());
+
+        final Integer checkLoops = 10;
+        System.out.println("Encryption Test\n");
+        User u = null;
+        for (int i = 0; i <= checkLoops; i++) {
+
+            try {
+                // Create hash in the form of (salt:hash)
+                String hash = getPassword(username);
+                hash.trim();                
+                String[] params = hash.split(":");              
+                byte[] salt = fromHex(params[0]);               
+                byte[] hash5 = fromHex(params[1]);       
+
+                // Compare our generated bytes to the orignal
+                if (validatePassword(password, hash5, salt)) {                  
+                    try {                       
+                        u = jdbcTemplate.queryForObject(sqlFindUser, new Object[]{username, hash}, new UserMapper()); //Sjekker om brukeren med oppgitt brukernavn og passord finnes
+                        if (u instanceof Student) {
+                            u = (Student) jdbcTemplate.queryForObject(sqlSelectStudentInfo, new Object[]{u.getUsername()}, new StudentMapper());
+                        }
+                        if (u instanceof Teacher) {
+                            u = (Teacher) jdbcTemplate.queryForObject(sqlSelectTeacherInfo, new Object[]{u.getUsername()}, new TeacherMapper());
+                        }
+                    } catch (Exception e) {
+                       System.out.println("ERROR: " + e);
+                    }
+                }
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+                System.out.println("ERROR: " + ex);
             }
-            if (u instanceof Teacher) {
-                u = (Teacher) jdbcTemplate.queryForObject(sqlSelectTeacherInfo, new Object[]{u.getUsername()}, new TeacherMapper());
-            }
-        } catch (Exception e) {
-            u = null;
         }
+
         return u;
+
     }
 
     //Denne metoden henter ut alle studentene i databasen
@@ -306,9 +347,11 @@ public class DatabaseRepository implements UserRepository {
 
     //Denne metoden genererer et nytt passord for brukeren med innsendt e-postadresse
     @Override
-    public boolean forgotPassword(String username) {
+    public boolean forgotPassword(String username) throws NoSuchAlgorithmException, InvalidKeySpecException {
         String password = Mail.generate(); //Genererer et passord for brukeren
-        int i = jdbcTemplate.update(sqlChangePassword, new Object[]{password, username});
+        String hash = PasswordHash.createHash(password);
+        hash.trim();
+        int i = jdbcTemplate.update(sqlChangePassword, new Object[]{hash, username});
         if (i > 0) {
             Mail.sendEmail(username, password); //Sender e-posten til brukeren
             return true;
@@ -329,8 +372,10 @@ public class DatabaseRepository implements UserRepository {
 
     //Denne metoden endrer passord for innsendt bruker
     @Override
-    public boolean changePassword(String newPassword, User user) {
-        int i = jdbcTemplate.update(sqlChangePassword, new Object[]{newPassword, user.getUsername()});
+    public boolean changePassword(String newPassword, User user) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        String hash = PasswordHash.createHash(newPassword);        
+        String pw = hash.trim();
+        int i = jdbcTemplate.update(sqlChangePassword, new Object[]{pw, user.getUsername()});
         return i == 1;
     }
 
@@ -658,7 +703,6 @@ public class DatabaseRepository implements UserRepository {
                         int j = jdbcTemplate.update(sqlAddFunctionTask, new Object[]{task.getId(), ((Function) task).getAnswerType(), ((Function) task).getChoices().get(i),
                             ((Function) task).isChecked1(), ((Function) task).isChecked2(), ((Function) task).getUrl(), ((Function) task).getFunctionstring()});
 
-
                         if (j == 0) {
                             return false;
                         }
@@ -759,18 +803,16 @@ public class DatabaseRepository implements UserRepository {
                 srs = jdbcTemplate.queryForRowSet(sqlSelectFunctionCheckboxes, new Object[]{id});
                 while (srs.next()) {
                     boolean b = srs.getBoolean("checkbox_explanation");
-                    if (b){
+                    if (b) {
                         ((Function) task).setExplanationChecked();
-                    }
-                    else{
+                    } else {
                         ((Function) task).setExplanationUnchecked();
                     }
-                    
+
                     boolean b1 = srs.getBoolean("checkbox_drawing");
-                    if (b1){
+                    if (b1) {
                         ((Function) task).setDrawingChecked();
-                    }
-                    else{
+                    } else {
                         ((Function) task).setDrawingUnchecked();
                     }
                 }
@@ -781,7 +823,7 @@ public class DatabaseRepository implements UserRepository {
                     list.add(srs.getString("function_options"));
                 }
                 ((Function) task).setChoices(list);
-                
+
                 srs = jdbcTemplate.queryForRowSet(sqlSelectFunctionUrl, new Object[]{id});
                 while (srs.next()) {
                     ((Function) task).setUrl(srs.getString("url"));
@@ -1350,4 +1392,3 @@ public class DatabaseRepository implements UserRepository {
         return jdbcTemplate.query(sqlSelectStudentsClass, new Object[]{classId}, new StudentInfoMapper());
     }
 }
- 

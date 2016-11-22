@@ -18,6 +18,8 @@ import com.enmaka.matistikk.users.Teacher;
 import com.enmaka.matistikk.users.User;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -34,13 +36,13 @@ import java.util.List;
 public interface UserRepository {
     
     //Denne metoden legger til en student
-    public boolean addStudent(Student s);
+    public boolean addStudent(Student s)throws NoSuchAlgorithmException, InvalidKeySpecException;
     
     //Denne metoden legger til en lærer
-    public boolean addTeacher(Teacher t);
+    public boolean addTeacher(Teacher t)throws NoSuchAlgorithmException, InvalidKeySpecException;
     
     //Denne metoden tar seg av innloggingen til en bruker
-    public User login(String username, String password);
+    public User login(String username, String password)throws NoSuchAlgorithmException,InvalidKeySpecException;
     
     //Denne metoden henter ut alle studentene i databasen
     public List<StudentInfo> getAllStudents();
@@ -55,7 +57,7 @@ public interface UserRepository {
     public List<TaskInfo> getAllTasks(boolean type);
     
     //Denne metoden genererer et nytt passord for brukeren med innsendt e-postadresse
-    public boolean forgotPassword(String username);
+    public boolean forgotPassword(String username) throws NoSuchAlgorithmException, InvalidKeySpecException;
     
     //Denne metoden sjekker om det finnes en bruker med innsendt e-postadresse
     public boolean findEmail(String username);
@@ -94,7 +96,7 @@ public interface UserRepository {
     public int addTest(Test test, List<Integer> taskIds, boolean type);
     
     //Denne metoden endrer passord for innsendt bruker
-    public boolean changePassword(String newPassword, User user);
+    public boolean changePassword(String newPassword, User user) throws NoSuchAlgorithmException, InvalidKeySpecException;
     
     //Denne metoden henter ut passordet til en bruker med innsendt e-postadresse
     public String getPassword(String username);

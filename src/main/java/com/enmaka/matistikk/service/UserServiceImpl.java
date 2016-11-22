@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.enmaka.matistikk.repository.UserRepository;
 import com.enmaka.matistikk.users.Teacher;
 import com.enmaka.matistikk.users.User;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 /**
  *
@@ -39,20 +41,28 @@ public class UserServiceImpl implements UserService {
     }
     
     //Denne metoden legger til en student
+
+    /**
+     *
+     * @param s
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException
+     */
     @Override
-    public boolean addStudent(Student s) {
+    public boolean addStudent(Student s) throws NoSuchAlgorithmException,InvalidKeySpecException {
         return repo.addStudent(s);
     }
     
     //Denne metoden legger til en lærer
     @Override
-    public boolean addTeacher(Teacher t) {
+    public boolean addTeacher(Teacher t) throws NoSuchAlgorithmException, InvalidKeySpecException {
         return repo.addTeacher(t);
     }
     
     //Denne metoden tar seg av innloggingen til en bruker
     @Override
-    public User login(String username, String password) {
+    public User login(String username, String password)throws NoSuchAlgorithmException,InvalidKeySpecException {
         return repo.login(username, password);
     }
     
@@ -82,7 +92,7 @@ public class UserServiceImpl implements UserService {
     
     //Denne metoden genererer et nytt passord for brukeren med innsendt e-postadresse
     @Override
-    public boolean forgotPassword(String username) {
+    public boolean forgotPassword(String username) throws NoSuchAlgorithmException, InvalidKeySpecException {
         return repo.forgotPassword(username);
     }
     
@@ -148,7 +158,7 @@ public class UserServiceImpl implements UserService {
     
     //Denne metoden endrer passord for innsendt bruker
     @Override
-    public boolean changePassword(String newPassword, User user) {
+    public boolean changePassword(String newPassword, User user) throws NoSuchAlgorithmException, InvalidKeySpecException {
         return repo.changePassword(newPassword, user);
     }
     

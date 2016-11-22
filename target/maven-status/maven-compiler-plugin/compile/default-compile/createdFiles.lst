@@ -29,6 +29,7 @@ com\enmaka\matistikk\service\UserService.class
 com\enmaka\matistikk\objects\Test.class
 com\enmaka\matistikk\objects\SchoolInfo.class
 com\enmaka\matistikk\mappers\StudentMapper.class
+com\enmaka\matistikk\security\PasswordHash.class
 com\enmaka\matistikk\mappers\TestMapper.class
 com\enmaka\matistikk\mappers\FractionMapper.class
 com\enmaka\matistikk\objects\Sort.class

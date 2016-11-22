@@ -15,13 +15,13 @@
         <meta name="viewport" content="width= device-witdh, initial-scale = 1">
         
         <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/formvalidation/0.6.1/css/formValidation.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.44/theme-default.css">
 
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script type="text/javascript" src="resources/bootstrap/js/bootstrap.min.js"></script>
         
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/formvalidation/0.6.1/js/formValidation.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/formvalidation/0.6.1/js/framework/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/jquery.formvalidation/0.6.1/js/formValidation.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/jquery.formvalidation/0.6.1/js/framework/bootstrap.min.js"></script>
         
         <script type="text/javascript" src="resources/formvalidation/dist/js/no_NO.js"></script> 
         <title>Min Side</title>
@@ -135,27 +135,28 @@
                         newPassword1: {
                             validators: {
                                 notEmpty: {
-                                },
-                                stringLength: {
-                                    min: 6,
-                                    max: 30
-                                },
-                                regexp: {
-                                    regexp: /^[a-zA-Z0-9_]+$/
                                 }
-                            }
-                        },
+                            //    stringLength: {
+                            //        min: 6,
+                            //        max: 30
+                           //     },
+                           //     regexp: {
+                           //         regexp: /^[a-zA-Z0-9_]+$/
+                           //     }
+                          //  }
+                        }
+                    },
                         newPassword2: {
                             validators: {
                                 notEmpty: {
-                                },
-                                stringLength: {
-                                    min: 6,
-                                    max: 30
-                                },
-                                regexp: {
-                                    regexp: /^[a-zA-Z0-9_]+$/
                                 }
+                             //   stringLength: {
+                             //       min: 6,
+                             //       max: 30
+                             //   },
+                        //        regexp: {
+                        //            regexp: /^[a-zA-Z0-9_]+$/
+                         //       }
                             }
                         }
                     }
