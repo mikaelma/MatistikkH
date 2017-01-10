@@ -9,11 +9,14 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
 /**
- * A simple class demonstrating HMAC SHA1 encryption
+ * En enkel klasse for krypering av passord med HMAC SHA1 
  * 
- * @author sixthpoint
+ * @author Team 6
  * 
+ * Koden for klassen er hentet fra følgende side:
  * https://github.com/sixthpoint/java-algorithms/blob/master/src/com/sixthpoint/security/HmacSHA1.java
+ * 
+ * og er brukt gjennomgående i systemet for alt som har med passord å gjøre
  */
 public class PasswordHash {
 
@@ -25,29 +28,29 @@ public class PasswordHash {
     /**
      * Validates a password using a hash.
      *
-     * @param password the password to check
+     * @param password passordet som sjekkes
      * @param hash
      * @param salt
-     * @return true if the password is correct, false if not
+     * @return true om passord er korrekt, false hvis ikke
      * @throws java.security.NoSuchAlgorithmException
      * @throws java.security.spec.InvalidKeySpecException
      */
     public static boolean validatePassword(char[] password, byte[] hash, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
 
-        // Compute the hash of the provided password, using the same salt, iteration count, and hash length
+        // Beregner hash av det innsendte passordet, bruker samme salt, iterasjons teller og hashlengde
         byte[] testHash = pbkdf2(password, salt, PBKDF2_ITERATIONS, hash.length);
 
-        // Compare the hashes in constant time. The password is correct if both hashes match.
+        // Sammenligner hasher i konstant tid. Passordet er riktig om begge hashene matcher.
         return slowEquals(hash, testHash);
     }
 
     /**
-     * Validates a password using a hash.
+     * Validerer et passord ved bruk av en hash.
      *
-     * @param password the password to check
+     * @param password passordet som sjekkes
      * @param hash
      * @param salt
-     * @return true if the password is correct, false if not
+     * @return true om passordet er korrekt, false hvis ikke
      * @throws java.security.NoSuchAlgorithmException
      * @throws java.security.spec.InvalidKeySpecException
      */
@@ -57,13 +60,13 @@ public class PasswordHash {
     }
 
     /**
-     * Computes the PBKDF2 hash of a password.
+     * Beregner PBKDF2 hash av et passord.
      *
-     * @param password the password to hash.
-     * @param salt the salt
-     * @param iterations the iteration count (slowness factor)
-     * @param bytes the length of the hash to compute in bytes
-     * @return the PBDKF2 hash of the password
+     * @param password passordet som skal hashes.
+     * @param salt salten som benyttes
+     * @param iterations iterasjons telleren (treghets faktor)
+     * @param bytes lengden av hashen som beregnes til bytes
+     * @return  PBDKF2 hash av passordet
      */
     private static byte[] pbkdf2(final char[] password, final byte[] salt, final int iterationCount, final int keyLength) {
 
@@ -75,10 +78,10 @@ public class PasswordHash {
     }
 
     /**
-     * Returns a salted PBKDF2 hash of the password.
+     * Returnerer en saltet PBKDF2 hash av passordet.
      *
-     * @param password the password to hash
-     * @return a salted PBKDF2 hash of the password
+     * @param password passordet som hashes
+     * @return en saltet PBKDF2 hash av passordet
      * @throws java.security.NoSuchAlgorithmException
      * @throws java.security.spec.InvalidKeySpecException
      */
@@ -87,22 +90,22 @@ public class PasswordHash {
     }
 
     /**
-     * Returns a salted PBKDF2 hash of the password.
+     * Returnerer en saltet PBKDF2 hash av passordet.
      *
-     * @param password the password to hash
-     * @return a salted PBKDF2 hash of the password in the form of SALT:HASH
+     * @param password passordet som hashes
+     * @return en saltet PBKDF2 hash av passordet på form SALT:HASH
      * @throws java.security.NoSuchAlgorithmException
      * @throws java.security.spec.InvalidKeySpecException
      */
     public static String createHash(char[] password) throws NoSuchAlgorithmException, InvalidKeySpecException {
 
-        // Generate a random salt
+        // Genererer en tilfeldig salt
         byte[] salt = getSalt().getBytes();
 
-        // Hash the password
+        // Hasher passordet
         byte[] hash = pbkdf2(password, salt, PBKDF2_ITERATIONS, 24);
 
-        // Format salt:hash
+        // Formaterer til salt:hash
         return toHex(salt) + ":" + toHex(hash);
     }
 
@@ -119,10 +122,10 @@ public class PasswordHash {
     }
 
     /**
-     * Converts a byte array into a hexadecimal string.
+     * Konverterer en byte array til en heksadesimal string.
      *
-     * @param array the byte array to convert
-     * @return a length*2 character string encoding the byte array
+     * @param array byte array som skal konverteres
+     * @return en lengde*2 tegnstreng som koder for byte array
      */
     private static String toHex(byte[] array) {
 
@@ -137,10 +140,10 @@ public class PasswordHash {
     }
 
     /**
-     * Converts a string of hexadecimal characters into a byte array.
+     * Konverterer en streng med heksadesimale tegn til et byte array.
      *
-     * @param hex the hex string
-     * @return the hex string decoded into a byte array
+     * @param hex hex stringen
+     * @return hex string dekodet til et byte array
      */
     public static byte[] fromHex(String hex) {        
         byte[] binary = new byte[hex.length() / 2];        
@@ -152,13 +155,13 @@ public class PasswordHash {
     }
 
     /**
-     * Compares two byte arrays in length-constant time. This comparison method
-     * is used so that password hashes cannot be extracted from an on-line
-     * system using a timing attack and then attacked off-line.
+     * Sammenligner to byte arrays i lengde-konstant tid. Denne sammenlignings metoden
+     * er brukt slik at passord hasher ikke kan bli hentet fra et online system
+     * som bruker et timing angrep og deretter angriper offline    
      *
-     * @param a the first byte array
-     * @param b the second byte array
-     * @return true if both byte arrays are the same, false if not
+     * @param a første byte array
+     * @param b andre byte array
+     * @return true  om begge byte arrayene er det samme, false hvis ikke
      */
     private static boolean slowEquals(byte[] a, byte[] b) {
 

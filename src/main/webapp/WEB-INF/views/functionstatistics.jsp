@@ -47,7 +47,7 @@
                             <p><c:out value="${answer.time}"/></p>
                             <hr>
                             <label><u>Forklaring/begrunnelse</u></label>
-                            <p><c:out value="${answer.explenation}"/></p>
+                            <p>${answer.explenation}</p>
                         </div>
                     </div>
                     <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
@@ -65,10 +65,6 @@
                             <div class="panel-body"  id="geoListenerData">
 
                             </div>
-                            <div id="test">
-                                <button onclick="back()">Forrige</button>
-                                <button onclick="next()">Neste</button>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -81,27 +77,24 @@
             <br>
         </div>
         <script type="text/javascript">
+            // Scriptet som har ansvar for konfigurering og innlasting av Geogebra
 
             var parameters = {"prerelease": false, "width": 800, "height": 600, "borderColor": null, "showToolBar": true, "showMenuBar": true, "showAlgebraInput": false,
                 "showResetIcon": false, "enableLabelDrags": false, "enableShiftDragZoom": true, "enableRightClick": false, "capturingThreshold": null, "showToolBarHelp": false,
                 "errorDialogsActive": true, "useBrowserForJS": true, "enableCAS": true};
 
-            var parameters2 = {"prerelease": false, "id": "ggbApplet2", "width": 800, "height": 600, "borderColor": null, "showToolBar": true, "showMenuBar": true, "showAlgebraInput": false,
-                "showResetIcon": false, "enableLabelDrags": false, "enableShiftDragZoom": true, "enableRightClick": false, "capturingThreshold": null, "showToolBarHelp": false,
-                "errorDialogsActive": true, "useBrowserForJS": true, "enableCAS": true};
 
             var applet = new GGBApplet('5.0', parameters);
-            var applet2 = new GGBApplet('5.0', parameters2);
             applet.setJavaCodebase('GeoGebra/Java/5.0');
-            applet2.setJavaCodebase('GeoGebra/Java/5.0');
             window.onload = function () {
                 applet.inject('applet_container', 'preferHTML5');
-                applet2.inject('test', 'preferHTML5');
                 fremgang();
             };
         </script>
 
         <script>
+            // Denne metoden henter ut en lang string med data om fremgangsmåten fra databasen. 
+            // Metoden behandler stringen og skriver den ut i en liste med data i riktig rekkefølge. 
             function fremgang() {
                 var string = document.getElementById('hidden6').value;
                 var valuediv = document.getElementById('geoListenerData');
@@ -133,6 +126,10 @@
             }
         </script>
         <script>
+            // Metodene next() og back() er påstartet som et forsøk på å lage en avspiller av fremgangsmåten
+            // og prøver å bruke fremgangsmåte-listen som GeoGebra-kall. 
+            // Metodene er ikke i bruk i systemet pr nå, men anbefales å videreutvikles i fremtidige prosjekter. 
+            
             String.prototype.replaceAll = function (search, replacement) {
                 var target = this;
                 return target.split(search).join(replacement);

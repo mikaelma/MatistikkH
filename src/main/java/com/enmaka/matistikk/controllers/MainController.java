@@ -328,6 +328,18 @@ public class MainController {
     }
 
     //*************************************//
+     /**
+     * Legger til en funksjonsoppgave.
+     *
+     * Metoden addFunctiontask tar inn data fra viewet createfunctiontask.jsp via en modell.
+     * Metoden oppretter og fyller et Function-objekt og
+     * sender det videre til userService.java for å legge til en funksjons-oppgave i databasen.
+     * 
+     * 
+     * @param function funksjons-objektet
+     * @return createtestview
+     * 
+     */
     @RequestMapping(value = "addfunctiontask", method = RequestMethod.POST)
     public String addFunction(@ModelAttribute("function") Function function, HttpSession session, BindingResult error, HttpServletRequest request, HttpServletResponse response) {
         if (LoginController.validate(session, "Student")) {
@@ -341,8 +353,8 @@ public class MainController {
         if (a.equals("Admin")) {
             type = true;
         }
-        //SJEKKER VALGALTERATIV FOR SVAR
-        String rb = request.getParameter("answer_type");     //Her er jeg usikker. 
+        //SJEKKER VALGALTERNATIV FOR SVAR
+        String rb = request.getParameter("answer_type");      
         switch (rb) {
             case "1":
                 function.setAnswerType(1);

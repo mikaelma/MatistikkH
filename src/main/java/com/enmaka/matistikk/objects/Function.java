@@ -1,16 +1,15 @@
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.enmaka.matistikk.objects;
 
 import java.util.ArrayList;
 
 /**
  *
- * @author Mikael
+ * @author Team 6
+ * 
+ * Klassen representerer en funksjon
+ * 
+ * For mer informasjon om klassen, se designdokumentet kapittel 5.4.2
  */
 public class Function extends Task {
 

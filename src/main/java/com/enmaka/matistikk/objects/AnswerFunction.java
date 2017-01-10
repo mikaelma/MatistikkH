@@ -7,7 +7,11 @@ package com.enmaka.matistikk.objects;
 
 /**
  *
- * @author Mikael
+ * @author Team 6
+ * 
+ * Klassen representerer et svar for en funksjonsoppgave
+ * 
+ * For mer informasjon om klassen, se designdokumentet kapittel 5.4.1
  */
 public class AnswerFunction extends Answer {
 
