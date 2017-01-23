@@ -98,54 +98,5 @@ function putBase64() {
     var geoString = ggbApplet.getBase64();
     document.getElementById('hidden3').value = geoString;
 }
-// Metoden sjekker hvor mange svaralternativer det er i en flervalgstest, og oppretter og fyller radiobuttons for svaralternativer
-var readyCheck1 = setInterval(function () {
-    if (document.getElementById('options')) {
-        var amount = document.getElementById("hidden1").value;
 
-        if (amount == 3) {
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
-        }
-        if (amount == 4) {
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
-        }
-        if (amount == 5) {
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option5}">${option5}<br>';
-        }
-        if (amount == 6) {
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option5}">${option5}<br>';
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option6}">${option6}<br>';
-        }
-        if (amount == 7) {
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option5}">${option5}<br>';
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option6}">${option6}<br>';
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option7}">${option7}<br>';
-        }
-        if (amount == 8) {
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option5}">${option5}<br>';
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option6}">${option6}<br>';
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option7}">${option7}<br>';
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option8}">${option8}<br>';
-        }
-        if (amount == 9) {
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option3}">${option3}<br>';
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option4}">${option4}<br>';
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option5}">${option5}<br>';
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option6}">${option6}<br>';
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option7}">${option7}<br>';
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option8}">${option8}<br>';
-            document.getElementById("options").innerHTML += '<input type="radio" name="options" onClick="setText(this)" value="${option9}">${option9}<br>';
-        }
-        clearInterval(readyCheck1);
-    }
-}, 1);
 

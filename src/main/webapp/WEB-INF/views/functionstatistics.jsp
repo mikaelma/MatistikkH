@@ -38,7 +38,7 @@
                     <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                         <div class="form-group">
                             <label><u>Svar</u></label>
-                            <p><c:out value="${functionAnswer}"/></p> 
+                            <p>${functionAnswer}</p> 
                             <hr>
                             <label><u>Riktig/Galt</u></label>
                             <p><c:out value="${answer.correct ? 'Riktig' : 'Galt'}"/></p>
